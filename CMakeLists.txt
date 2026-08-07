@@ -46,6 +46,7 @@ target_link_libraries(khz-worlds PRIVATE te-engine nlohmann_json::nlohmann_json)
 # Background music player (SDL_mixer) with creator credits manifest
 add_library(khz-audio STATIC
     src/audio/audio.cpp
+    src/audio/music_director.cpp
 )
 target_include_directories(khz-audio PUBLIC src)
 target_link_libraries(khz-audio PRIVATE PkgConfig::SDL2_mixer nlohmann_json::nlohmann_json)

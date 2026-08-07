@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cmath>
 #include <cstring>
+#include <ctime>
 
 namespace khz {
 
@@ -13,6 +14,7 @@ const float VIOLET[4] = {0.6f, 0.4f, 1.0f, 1.0f};
 const float WHITE[4] = {0.92f, 0.94f, 1.0f, 1.0f};
 const float DIM[4] = {0.5f, 0.55f, 0.65f, 1.0f};
 const float GREEN[4] = {0.4f, 1.0f, 0.7f, 1.0f};
+const float RED[4] = {1.0f, 0.25f, 0.3f, 1.0f};
 
 std::vector<std::string> wrap(const std::string& s, size_t width) {
     std::vector<std::string> out;
@@ -41,7 +43,9 @@ bool TronShell::init(const char* title) {
     m_saves.initialize();
     m_saves.load(SaveSystem::default_path());
     m_audio.init("assets/audio");
-    m_audio.play("hub");
+    m_music.attach(m_audio);
+    m_music.load("data/audio/music.json");
+    m_music.play_now("hub");
     return true;
 }
 
@@ -82,7 +86,11 @@ void TronShell::draw_select(const FrameInput& in) {
         m_state = State::ADVENTURE;
         m_beat = 0;
         m_beat_count = worlds[m_selected].beats.size() + 1;
-        m_audio.play_world(worlds[m_selected].id);
+        const WorldDef& w = worlds[m_selected];
+        if (const WorldThemeMusic* t = m_music.theme_for(w.id))
+            m_music.play_now(t->combat);
+        else
+            m_audio.play_world(w.id);
     }
 
     m_yaw += 0.008f;
@@ -139,7 +147,7 @@ void TronShell::draw_adventure(const FrameInput& in) {
     const WorldDef& w = worlds[m_selected];
     const float* accent = accent_for(w);
 
-    if (in.esc) { m_state = State::SELECT; m_audio.play("hub"); return; }
+    if (in.esc) { m_state = State::SELECT; m_music.play_now("hub"); return; }
     if (in.enter) {
         m_beat = std::min(m_beat + 1, m_beat_count);
         SaveRecord& rec = m_saves.record();
@@ -192,6 +200,14 @@ void TronShell::run() {
         if (m_state == State::SELECT) draw_select(in);
         else draw_adventure(in);
         m_renderer.end_frame();
+
+        // MusicDirector / AFK watchdog: feed input + world + boss state.
+        const bool any_input = in.enter || in.esc || in.left || in.right ||
+                               in.up || in.down || in.vol_up || in.vol_down;
+        const bool boss = (m_state == State::BATTLE);
+        m_music.tick(m_state == State::SELECT ? "hub"
+                                              : m_db.worlds()[m_selected].id,
+                     boss, "", SDL_GetTicks64(), any_input);
 
         uint64_t now = SDL_GetTicks64();
         if (now - last < 16) SDL_Delay(16 - (now - last));

@@ -1,0 +1,35 @@
+{
+  "comment": "Per-world music mapping for the AI music director / AFK watchdog. idle = plays when player is AFK (watchdog); combat = world adventure/battle theme; boss = default shambler boss theme (overridden per-boss by the 'music' field in data/combat/enemies.json)",
+  "hub": {
+    "idle": "hub",
+    "combat": "hub"
+  },
+  "worlds": {
+    "traverse_town":        { "idle": "traverse_town_drift",   "combat": "first_key_first_door" },
+    "destiny_islands":      { "idle": "traverse_town_drift",   "combat": "first_key_first_door" },
+    "wonderland":           { "idle": "traverse_town_drift",   "combat": "first_key_first_door" },
+    "olympus_coliseum":     { "idle": "underworld_idle",       "combat": "ashen_arena",         "boss": "ashen_arena_boss" },
+    "olympus":              { "idle": "underworld_idle",       "combat": "ashen_arena",         "boss": "ashen_arena_boss" },
+    "deep_jungle":          { "idle": "traverse_town_drift",   "combat": "first_key_first_door" },
+    "agrabah":              { "idle": "golden_sand_loop",      "combat": "agrabah_duel_run",    "boss": "agrabah_duel_run_boss" },
+    "agrabah2":             { "idle": "golden_sand_loop",      "combat": "agrabah_duel_run",    "boss": "agrabah_duel_run_boss" },
+    "monstro":              { "idle": "traverse_town_drift",   "combat": "first_key_first_door" },
+    "atlantica":            { "idle": "atlantis_drift",        "combat": "tidebreaker_clash",   "boss": "tidebreaker_clash_boss" },
+    "halloween_town":       { "idle": "pumpkin_keyblade",      "combat": "pumpkin_key_clash",   "boss": "pumpkin_key_clash_boss" },
+    "halloween_town2":      { "idle": "pumpkin_keyblade",      "combat": "pumpkin_key_clash",   "boss": "pumpkin_key_clash_boss" },
+    "neverland":            { "idle": "atlantis_drift",        "combat": "tidebreaker_clash" },
+    "hundred_acre_wood":    { "idle": "traverse_town_drift",   "combat": "first_key_first_door" },
+    "hundred_acre_wood2":   { "idle": "traverse_town_drift",   "combat": "first_key_first_door" },
+    "hollow_bastion":       { "idle": "bastion_moon",          "combat": "bastion_rift",        "boss": "bastion_rift_boss" },
+    "end_of_the_world":     { "idle": "shamblers_drift",       "combat": "shamblers_drift_boss", "boss": "heart_zero_clash" },
+    "twilight_town":        { "idle": "traverse_town_drift",   "combat": "first_key_first_door" },
+    "beast_castle":         { "idle": "bastion_moon",          "combat": "bastion_rift" },
+    "timeless_river":       { "idle": "clockwork_district",    "combat": "clockwork_district" },
+    "space_paranoids":      { "idle": "digital_heart",         "combat": "shattergate_pursuit", "boss": "shattergate_pursuit_boss" },
+    "pride_lands":          { "idle": "golden_sand_loop",      "combat": "agrabah_duel_run" },
+    "land_of_dragons":      { "idle": "golden_sand_loop",      "combat": "agrabah_duel_run" },
+    "port_royal":           { "idle": "atlantis_drift",        "combat": "tidebreaker_clash" },
+    "disney_castle":        { "idle": "pumpkin_keyblade",      "combat": "first_key_first_door" },
+    "wnwas":                { "idle": "shamblers_drift",       "combat": "shamblers_drift_boss", "boss": "symphonic_apex" }
+  }
+}
