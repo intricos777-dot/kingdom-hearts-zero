@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <cstdio>
 #include <cmath>
+#include <cstring>
 
 namespace khz {
 
@@ -37,6 +38,8 @@ bool TronShell::init(const char* title) {
     if (!m_db.load("data/worlds/kh1.json", "data/worlds/kh2.json")) return false;
     m_db.layout_circle(11.0f);
     m_beat_count = m_db.worlds().empty() ? 0 : m_db.worlds()[0].beats.size() + 1;
+    m_saves.initialize();
+    m_saves.load(SaveSystem::default_path());
     m_audio.init("assets/audio");
     m_audio.play("hub");
     return true;
@@ -47,10 +50,14 @@ const float* TronShell::accent_for(const WorldDef& w) const {
 }
 
 std::vector<std::string> TronShell::deck_lines(const WorldDef& w) const {
-    // world-themed command deck slots
+    // world-themed command deck slots, fed by the persistent save state
     bool dark = (w.game == "kh2");
+    const auto& rec = m_saves.record();
     std::vector<std::string> out;
     out.push_back("  " + w.name + " DECK   resonance 88%");
+    out.push_back("");
+    out.push_back("  HP " + std::to_string(rec.hp) + "/" + std::to_string(rec.max_hp) +
+                  "   MP " + std::to_string(rec.mp) + "/" + std::to_string(rec.max_mp));
     out.push_back("");
     out.push_back("   ▶ Slash       [slash]    0MP");
     out.push_back("     " + std::string(dark ? "Firaga" : "Fira") + "        [fire]     8MP");
@@ -135,6 +142,10 @@ void TronShell::draw_adventure(const FrameInput& in) {
     if (in.esc) { m_state = State::SELECT; m_audio.play("hub"); return; }
     if (in.enter) {
         m_beat = std::min(m_beat + 1, m_beat_count);
+        SaveRecord& rec = m_saves.record();
+        std::snprintf(rec.world, sizeof(rec.world), "%s", w.id.c_str());
+        rec.memories_held = std::min(m_beat, w.beats.size());
+        m_saves.save(SaveSystem::default_path());
     }
 
     m_renderer.draw_text(20, 16, "KINGDOM HEARTS 0: DOOR TO DARKNESS", true, 22, accent);

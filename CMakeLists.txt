@@ -20,7 +20,7 @@ add_library(khz-ui STATIC
     src/ui/command_deck.cpp
 )
 target_include_directories(khz-ui PUBLIC src)
-target_link_libraries(khz-ui PRIVATE te-engine)
+target_link_libraries(khz-ui PRIVATE te-engine khz-save)
 
 # Story / Ansem-narrated prologue + scene graph
 add_library(khz-story STATIC
@@ -56,7 +56,7 @@ add_library(khz-render STATIC
     src/ui/tron_shell.cpp
 )
 target_include_directories(khz-render PUBLIC src)
-target_link_libraries(khz-render PRIVATE te-engine khz-worlds khz-audio
+target_link_libraries(khz-render PRIVATE te-engine khz-worlds khz-save khz-audio
     SDL2::SDL2 PkgConfig::SDL2_ttf PkgConfig::GLEW OpenGL::GL)
 
 # Main executable

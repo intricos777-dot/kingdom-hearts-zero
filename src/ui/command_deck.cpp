@@ -1,5 +1,7 @@
 #include "ui/command_deck.h"
+#include "save/save_system.h"
 #include <cstdio>
+#include <algorithm>
 
 namespace khz {
 
@@ -210,6 +212,26 @@ void CommandDeck::render() const {
     std::printf("%s\n", frame.br.c_str());
 
     std::printf("%s", paint::reset().c_str());
+}
+
+std::string CommandDeck::resolve(const Command& cmd, SaveSystem& saves) {
+    auto& rec = saves.record();
+    std::string note;
+    if (cmd.element == "slash") {
+        note = cmd.name + " strikes the dark.";
+    } else if (cmd.element == "fire") {
+        note = cmd.name + " scorches " + std::to_string(cmd.power) + " fire damage.";
+    } else if (cmd.element == "cure") {
+        uint32_t healed = std::min(m_max_hp - std::min(m_hp, m_max_hp), cmd.power > 0 ? cmd.power : 50);
+        m_hp = std::min(m_max_hp, m_hp + healed);
+        rec.hp = m_hp;
+        note = cmd.name + " heals " + std::to_string(healed) + " HP (now " + std::to_string(m_hp) + ").";
+    } else {
+        note = cmd.name + " resolves with no effect.";
+    }
+    if (rec.hp > 0 && rec.max_hp == 0) rec.max_hp = m_max_hp;
+    std::printf("  [command] \x1b[1m%s\x1b[0m -> %s\n", cmd.name.c_str(), note.c_str());
+    return note;
 }
 
 } // namespace khz

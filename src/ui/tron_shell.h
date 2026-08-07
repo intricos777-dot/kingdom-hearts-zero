@@ -2,6 +2,7 @@
 #include "render/renderer.h"
 #include "render/worlds.h"
 #include "audio/audio.h"
+#include "save/save_system.h"
 
 namespace khz {
 
@@ -15,6 +16,7 @@ private:
     Renderer m_renderer;
     WorldDB m_db;
     AudioPlayer m_audio;
+    SaveSystem m_saves;
     size_t m_selected = 0;
     float m_yaw = 0.0f;
     float m_pulse = 0.0f;

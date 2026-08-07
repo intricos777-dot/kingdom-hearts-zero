@@ -6,6 +6,8 @@
 
 namespace khz {
 
+class SaveSystem;
+
 // A single command card in the deck.
 struct Command {
     std::string name;      // e.g. "Slash", "Fira", "Cura"
@@ -70,6 +72,10 @@ public:
 
     // Renders just the HP/MP meter strip.
     void render_meter() const;
+
+    // Resolve a command's action against a save: prints the effect and
+    // writes persistent state (e.g. healed HP) back to the SaveSystem.
+    std::string resolve(const Command& cmd, SaveSystem& saves);
 
 private:
     WorldTheme m_theme;

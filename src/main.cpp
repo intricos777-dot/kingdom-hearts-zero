@@ -8,6 +8,8 @@
 #include "ui/command_deck.h"
 #include "save/save_system.h"
 #include "ui/tron_shell.h"
+#include "render/worlds.h"
+#include <algorithm>
 
 namespace {
 
@@ -80,6 +82,59 @@ void deck_demo() {
     }
 }
 
+std::vector<std::string> wrap_text(const std::string& s, size_t width) {
+    std::vector<std::string> out;
+    size_t pos = 0;
+    while (pos < s.size()) {
+        size_t take = std::min(width, s.size() - pos);
+        size_t cut = take;
+        if (pos + take < s.size()) {
+            size_t sp = s.rfind(' ', pos + take);
+            if (sp != std::string::npos && sp > pos) cut = sp - pos;
+        }
+        out.push_back(s.substr(pos, cut));
+        pos += cut;
+        while (pos < s.size() && s[pos] == ' ') ++pos;
+    }
+    return out;
+}
+
+int act_one(khz::SaveSystem& saves) {
+    khz::WorldDB db;
+    if (!db.load("data/worlds/kh1.json", "data/worlds/kh2.json")) {
+        std::printf("  \x1b[2m[act one] the world manifest is missing - the door stays shut\x1b[0m\n");
+        return 1;
+    }
+
+    const auto& worlds = db.worlds();
+    auto it = std::find_if(worlds.begin(), worlds.end(),
+                           [](const khz::WorldDef& w) { return w.id == "traverse_town"; });
+    if (it == worlds.end()) {
+        std::printf("  \x1b[2m[act one] traverse town is lost in the dark\x1b[0m\n");
+        return 1;
+    }
+    const khz::WorldDef& w = *it;
+
+    std::snprintf(saves.record().world, sizeof(saves.record().world), "%s", w.id.c_str());
+    saves.record().act = 1;
+
+    khz::Scene scene;
+    scene.title = "ACT ONE // " + w.name;
+    scene.world_id = w.id;
+    for (const auto& l : wrap_text(w.story, 72)) scene.lines.push_back(l);
+    if (!w.beats.empty()) {
+        scene.lines.push_back("");
+        scene.lines.push_back("  \x1b[1mbeat one:\x1b[0m " + w.beats[0]);
+    }
+
+    khz::SceneGraph graph;
+    graph.add_scene(std::move(scene));
+    graph.play();
+
+    std::printf("\n  \x1b[2m[act one] the first keyhole is marked - committing the memory\x1b[0m\n");
+    return saves.save(khz::SaveSystem::default_path()) ? 0 : 1;
+}
+
 int menu_loop() {
     khz::SaveSystem saves;
     saves.initialize();
@@ -95,8 +150,7 @@ int menu_loop() {
         if (!std::fgets(buf, sizeof(buf), stdin)) break;
         switch (buf[0]) {
             case '1':
-                std::printf("  \x1b[2m[act one not yet written - the door waits]\x1b[0m\n");
-                break;
+                return act_one(saves);
             case '2':
                 saves.save(khz::SaveSystem::default_path());
                 break;
