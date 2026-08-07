@@ -2,3 +2,4 @@ build/
 *.o
 *.a
 save.dat
+assets/audio/
