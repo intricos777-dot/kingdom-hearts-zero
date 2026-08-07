@@ -23,6 +23,7 @@ struct M4 {
 struct FrameInput {
     bool up = false, down = false, left = false, right = false;
     bool enter = false, esc = false;
+    bool vol_up = false, vol_down = false;
     bool tab = false, back = false;
     int key = 0;            // typed ascii char, or 0
     bool quit = false;

@@ -1,6 +1,7 @@
 #pragma once
 #include "render/renderer.h"
 #include "render/worlds.h"
+#include "audio/audio.h"
 
 namespace khz {
 
@@ -13,6 +14,7 @@ public:
 private:
     Renderer m_renderer;
     WorldDB m_db;
+    AudioPlayer m_audio;
     size_t m_selected = 0;
     float m_yaw = 0.0f;
     float m_pulse = 0.0f;

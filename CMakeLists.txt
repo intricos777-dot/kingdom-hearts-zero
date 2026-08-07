@@ -9,6 +9,7 @@ find_package(SDL2 REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL2_ttf REQUIRED IMPORTED_TARGET SDL2_ttf)
 pkg_check_modules(GLEW REQUIRED IMPORTED_TARGET glew)
+pkg_check_modules(SDL2_mixer REQUIRED IMPORTED_TARGET SDL2_mixer)
 find_package(OpenGL REQUIRED)
 
 # Built entirely off the Twilight Elysium engine
@@ -42,18 +43,25 @@ add_library(khz-worlds STATIC
 target_include_directories(khz-worlds PUBLIC src)
 target_link_libraries(khz-worlds PRIVATE te-engine nlohmann_json::nlohmann_json)
 
+# Background music player (SDL_mixer) with creator credits manifest
+add_library(khz-audio STATIC
+    src/audio/audio.cpp
+)
+target_include_directories(khz-audio PUBLIC src)
+target_link_libraries(khz-audio PRIVATE PkgConfig::SDL2_mixer nlohmann_json::nlohmann_json)
+
 # Visual shell: SDL2/GL renderer + Tron selection hub
 add_library(khz-render STATIC
     src/render/renderer.cpp
     src/ui/tron_shell.cpp
 )
 target_include_directories(khz-render PUBLIC src)
-target_link_libraries(khz-render PRIVATE te-engine khz-worlds
+target_link_libraries(khz-render PRIVATE te-engine khz-worlds khz-audio
     SDL2::SDL2 PkgConfig::SDL2_ttf PkgConfig::GLEW OpenGL::GL)
 
 # Main executable
 enable_testing()
 add_executable(kh-door src/main.cpp)
 target_include_directories(kh-door PRIVATE src)
-target_link_libraries(kh-door PRIVATE te-engine khz-ui khz-story khz-save khz-worlds khz-render nlohmann_json::nlohmann_json)
+target_link_libraries(kh-door PRIVATE te-engine khz-ui khz-story khz-save khz-worlds khz-render khz-audio nlohmann_json::nlohmann_json)
 add_test(NAME khz-core COMMAND kh-door --terminal)

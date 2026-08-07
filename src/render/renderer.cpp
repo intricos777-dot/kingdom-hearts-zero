@@ -296,6 +296,8 @@ FrameInput Renderer::poll_events() {
                 case SDLK_RIGHT: in.right = true; break;
                 case SDLK_RETURN: in.enter = true; break;
                 case SDLK_ESCAPE: in.esc = true; break;
+                case SDLK_LEFTBRACKET: in.vol_down = true; break;
+                case SDLK_RIGHTBRACKET: in.vol_up = true; break;
                 case SDLK_TAB: in.tab = true; break;
                 case SDLK_BACKSPACE: in.back = true; break;
                 default:

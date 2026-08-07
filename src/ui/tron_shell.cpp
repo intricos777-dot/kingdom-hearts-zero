@@ -37,6 +37,8 @@ bool TronShell::init(const char* title) {
     if (!m_db.load("data/worlds/kh1.json", "data/worlds/kh2.json")) return false;
     m_db.layout_circle(11.0f);
     m_beat_count = m_db.worlds().empty() ? 0 : m_db.worlds()[0].beats.size() + 1;
+    m_audio.init("assets/audio");
+    m_audio.play("hub");
     return true;
 }
 
@@ -67,10 +69,13 @@ void TronShell::draw_select(const FrameInput& in) {
     auto& worlds = m_db.worlds();
     if (in.left || in.up) m_selected = (m_selected + worlds.size() - 1) % worlds.size();
     if (in.right || in.down) m_selected = (m_selected + 1) % worlds.size();
+    if (in.vol_down) m_audio.set_volume(m_audio.volume() - 0.1f);
+    if (in.vol_up) m_audio.set_volume(m_audio.volume() + 0.1f);
     if (in.enter) {
         m_state = State::ADVENTURE;
         m_beat = 0;
         m_beat_count = worlds[m_selected].beats.size() + 1;
+        m_audio.play_world(worlds[m_selected].id);
     }
 
     m_yaw += 0.008f;
@@ -113,7 +118,12 @@ void TronShell::draw_select(const FrameInput& in) {
     lines.push_back("WHEN    " + w.why);
     lines.push_back("WHY     " + w.story);
     lines.push_back("");
-    lines.push_back("[enter] journey to " + w.name + "   [esc] return to the dark");
+    if (const MusicCredit* c = m_audio.credit_for(m_audio.current_clip())) {
+        lines.push_back("MUSIC   " + c->title + " - " + c->creator);
+        lines.push_back("        " + c->youtube_url);
+        lines.push_back("");
+    }
+    lines.push_back("[enter] journey to " + w.name + "   [esc] return to the dark   [ [ ]/[ ] ] volume");
     m_renderer.draw_terminal(60, 500, 1160, 200, "TRON // GUIDE", lines, accent, WHITE);
 }
 
@@ -122,7 +132,7 @@ void TronShell::draw_adventure(const FrameInput& in) {
     const WorldDef& w = worlds[m_selected];
     const float* accent = accent_for(w);
 
-    if (in.esc) { m_state = State::SELECT; return; }
+    if (in.esc) { m_state = State::SELECT; m_audio.play("hub"); return; }
     if (in.enter) {
         m_beat = std::min(m_beat + 1, m_beat_count);
     }
@@ -130,12 +140,17 @@ void TronShell::draw_adventure(const FrameInput& in) {
     m_renderer.draw_text(20, 16, "KINGDOM HEARTS 0: DOOR TO DARKNESS", true, 22, accent);
     m_renderer.draw_text(22, 44, "ANSEM NARRATES // " + w.name, false, 15, DIM);
 
-    // header terminal: where/when/why
+    // header terminal: where/when/why + the music playing (with creator credit)
     std::vector<std::string> header = {
         "WORLD: " + w.name,
         "WHEN : " + w.timeline,
         "WHY  : " + w.why,
     };
+    if (const MusicCredit* c = m_audio.credit_for(m_audio.current_clip())) {
+        header.push_back("");
+        header.push_back("TRACK: " + c->title + "  -  " + c->creator);
+        header.push_back("       " + c->youtube_url);
+    }
     m_renderer.draw_terminal(60, 80, 1160, 150, w.name, header, accent, WHITE);
 
     // story terminal: Ansem narration, advancing through beats
