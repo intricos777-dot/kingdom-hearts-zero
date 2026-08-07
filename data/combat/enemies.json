@@ -138,7 +138,8 @@
       ],
       "loot_keyblade": "kingdom_key",
       "loot_desc": "A splinter of the first Keyblade's light, pried from its cloak.",
-      "desc": "The first Shambler Zero meets. It wears the coat of a Nobody but no face beneath the hood - only a wound where a face should be. It feeds on the names of commands, erasing them from Zero's deck mid-fight."
+      "desc": "The first Shambler Zero meets. It wears the coat of a Nobody but no face beneath the hood - only a wound where a face should be. It feeds on the names of commands, erasing them from Zero's deck mid-fight.",
+      "music": "first_key_first_door"
     },
     {
       "id": "throx_the_echo",
@@ -170,7 +171,8 @@
       ],
       "loot_keyblade": "way_to_the_dawn",
       "loot_desc": "Soul Eater's dark successor, torn from the Echo's own memory of Riku.",
-      "desc": "It walks the drowned isle wearing a memory of Riku's coat. Every strike Zero lands, it answers with the same strike, perfected. The world's first wound taught it how."
+      "desc": "It walks the drowned isle wearing a memory of Riku's coat. Every strike Zero lands, it answers with the same strike, perfected. The world's first wound taught it how.",
+      "music": "first_key_first_door"
     },
     {
       "id": "qilra_the_trial",
@@ -202,7 +204,8 @@
       ],
       "loot_keyblade": "oathkeeper",
       "loot_desc": "A promise kept in Wonderland's forgetting-room: the light half of the Twilight Keyblade.",
-      "desc": "A court of one. It stands on the Queen's dais and passes judgment on memory itself, erasing whole journal pages with a gavel of stolen bone. Zero must win before his own story is struck from the record."
+      "desc": "A court of one. It stands on the Queen's dais and passes judgment on memory itself, erasing whole journal pages with a gavel of stolen bone. Zero must win before his own story is struck from the record.",
+      "music": "clockwork_district"
     },
     {
       "id": "herrak_the_phantom",
@@ -234,7 +237,8 @@
       ],
       "loot_keyblade": "wayward_wind",
       "loot_desc": "Ventus's blade, torn from the phantom bracket before Hades could spend it.",
-      "desc": "It fights in the phantom bracket, seeding the tournament with ghosts of Cloud's old duels. Hades whispers its name between rounds. It steals the drive gauge because it knows Zero will one day need it."
+      "desc": "It fights in the phantom bracket, seeding the tournament with ghosts of Cloud's old duels. Hades whispers its name between rounds. It steals the drive gauge because it knows Zero will one day need it.",
+      "music": "ashen_arena"
     },
     {
       "id": "zankor_the_vine",
@@ -266,7 +270,8 @@
       ],
       "loot_keyblade": "two_become_one",
       "loot_desc": "Roxas's blade, grown in the canopy - left for the only other unremembered.",
-      "desc": "It hides in the temple vines, stealing the jungle's voice so the Keyhole stays open. It wears a cloak of green rot and speaks in Tarzan's discarded words - the only speech it remembers."
+      "desc": "It hides in the temple vines, stealing the jungle's voice so the Keyhole stays open. It wears a cloak of green rot and speaks in Tarzan's discarded words - the only speech it remembers.",
+      "music": "first_key_first_door"
     },
     {
       "id": "mallos_the_hoard",
@@ -298,7 +303,8 @@
       ],
       "loot_keyblade": "oblivion",
       "loot_desc": "The dark half of the Twilight Keyblade, dragged into the Cave of Wonders by greed.",
-      "desc": "It wears a coat crusted with gold and gem-dust, hoarding not treasure but the weight of it. The Cave of Wonders' Keyhole hums with its hoarded memories of every thief who ever died inside."
+      "desc": "It wears a coat crusted with gold and gem-dust, hoarding not treasure but the weight of it. The Cave of Wonders' Keyhole hums with its hoarded memories of every thief who ever died inside.",
+      "music": "agrabah_duel_run"
     },
     {
       "id": "vurok_the_belly",
@@ -330,7 +336,8 @@
       ],
       "loot_keyblade": "keyblade_of_peoples_hearts",
       "loot_desc": "A heart-shaped wound that chose a new purpose, coughed up from the whale's memory.",
-      "desc": "It lives in Monstro's stomach lining like a leech, growing fat on the memories of swallowed sailors. It cannot be reasoned with - it can only be emptied."
+      "desc": "It lives in Monstro's stomach lining like a leech, growing fat on the memories of swallowed sailors. It cannot be reasoned with - it can only be emptied.",
+      "music": "shattergate_pursuit"
     },
     {
       "id": "yssora_the_tide",
@@ -362,7 +369,8 @@
       ],
       "loot_keyblade": "destinys_embrace",
       "loot_desc": "A princess's gift, thrown into the deep by the one who hates singing.",
-      "desc": "It hates music - because music is memory made sweet. It steals Ariel's voice and wears it under the sea, where no song can reach."
+      "desc": "It hates music - because music is memory made sweet. It steals Ariel's voice and wears it under the sea, where no song can reach.",
+      "music": "tidebreaker_clash"
     },
     {
       "id": "grinx_the_grin",
@@ -394,7 +402,8 @@
       ],
       "loot_keyblade": "ultima_weapon",
       "loot_desc": "The Forge of Worlds' blade, half-forged in the second grin's cauldron.",
-      "desc": "It is a grin without a face, stitched over the town's jack-o-lanterns. Every scare it pulls from the children is a year stolen from Zero's clock."
+      "desc": "It is a grin without a face, stitched over the town's jack-o-lanterns. Every scare it pulls from the children is a year stolen from Zero's clock.",
+      "music": "pumpkin_key_clash"
     },
     {
       "id": "nox_the_hook",
@@ -426,7 +435,8 @@
       ],
       "loot_keyblade": "kingdom_key_d",
       "loot_desc": "The King's own blade, fished from the clockwork sea by the Hook's hand.",
-      "desc": "It wears Hook's hook but no other part of him, stalking the clock tower where the Keyhole rests. It steals the memory of flight so that everyone - even Zero - must walk its plank."
+      "desc": "It wears Hook's hook but no other part of him, stalking the clock tower where the Keyhole rests. It steals the memory of flight so that everyone - even Zero - must walk its plank.",
+      "music": "tidebreaker_clash"
     },
     {
       "id": "poohs_shadow",
@@ -458,7 +468,8 @@
       ],
       "loot_keyblade": "rainfell",
       "loot_desc": "Aqua's blade, dried ink-stained, recovered from the eaten chapter.",
-      "desc": "It is what happens when a Shambler tries to eat a world made of pages: it becomes a smudge that eats more pages. The Hundred Acre Wood is the one world that fights back by being kind."
+      "desc": "It is what happens when a Shambler tries to eat a world made of pages: it becomes a smudge that eats more pages. The Hundred Acre Wood is the one world that fights back by being kind.",
+      "music": "clockwork_district"
     },
     {
       "id": "the_machine_heart",
@@ -490,7 +501,8 @@
       ],
       "loot_keyblade": "no_name",
       "loot_desc": "Xehanort's blade, pulled from the machine's core - an old name, finally given.",
-      "desc": "The fortress's own heart given a cloak. It wears Ansem's memories like armor and speaks in his voice - the same voice that narrates Zero's story. Beating it is beating the narrator."
+      "desc": "The fortress's own heart given a cloak. It wears Ansem's memories like armor and speaks in his voice - the same voice that narrates Zero's story. Beating it is beating the narrator.",
+      "music": "bastion_rift"
     },
     {
       "id": "the_hinge_that_opens",
@@ -522,7 +534,8 @@
       ],
       "loot_keyblade": "earthshaker",
       "loot_desc": "The heaviest blade in the game, wedged in the Hinge's jaws mid-slam.",
-      "desc": "A door with a cloak draped over it, or a cloak shaped like a door - no one can decide, least of all the Pride Lands' animals it terrifies. It exists only to open what should stay shut, and it creaks the old name of the door it serves."
+      "desc": "A door with a cloak draped over it, or a cloak shaped like a door - no one can decide, least of all the Pride Lands' animals it terrifies. It exists only to open what should stay shut, and it creaks the old name of the door it serves.",
+      "music": "ashen_arena"
     },
     {
       "id": "the_organizations_eye",
@@ -554,7 +567,8 @@
       ],
       "loot_keyblade": "bond_of_flame",
       "loot_desc": "A blade of fire and fury, plucked from the Eye's thousand-mile stare.",
-      "desc": "A single unblinking eye floating in a cloak, it watches every battle in the Land of Dragons and sells the knowledge to whoever pays in memory. It sees Zero's every move - unless Zero makes a move even he doesn't expect."
+      "desc": "A single unblinking eye floating in a cloak, it watches every battle in the Land of Dragons and sells the knowledge to whoever pays in memory. It sees Zero's every move - unless Zero makes a move even he doesn't expect.",
+      "music": "clockwork_district"
     },
     {
       "id": "saix_the_berserker",
@@ -586,7 +600,8 @@
       ],
       "loot_keyblade": "kingdom_key_xi",
       "loot_desc": "The copy that refused to be erased, drawn from the berserk moon's light.",
-      "desc": "It wears Saix's face like a mask, but the berserk moon behind it is pure Shambler. The longer the fight, the stronger it becomes - and the less of itself it remembers being."
+      "desc": "It wears Saix's face like a mask, but the berserk moon behind it is pure Shambler. The longer the fight, the stronger it becomes - and the less of itself it remembers being.",
+      "music": "shattergate_pursuit"
     },
     {
       "id": "luxord_the_gambler",
@@ -618,7 +633,47 @@
       ],
       "loot_keyblade": "luxords_die",
       "loot_desc": "A die of pure chance - not a keyblade, but luck is a weapon of its own.",
-      "desc": "A gambler's coat with a die for a head. Every encounter is a wager: it deals cards from Zero's memories and calls the game on his most precious ones."
+      "desc": "A gambler's coat with a die for a head. Every encounter is a wager: it deals cards from Zero's memories and calls the game on his most precious ones.",
+      "music": "shattergate_pursuit"
+    },
+    {
+      "id": "vexan_the_unwritten",
+      "name": "Vexan, the Unwritten",
+      "act": 5,
+      "world": "wnwas",
+      "hp": 380,
+      "str": 18,
+      "mag": 14,
+      "def": 11,
+      "spd": 8,
+      "crt": 5,
+      "exp": 160,
+      "element": "void",
+      "memory_steal": "steals the memory of your victories",
+      "attacks": [
+        {
+          "name": "Unwritten Strike",
+          "element": "dark",
+          "power": 20,
+          "effect": "debuff"
+        },
+        {
+          "name": "Page Burn",
+          "element": "void",
+          "power": 26,
+          "effect": "steal"
+        },
+        {
+          "name": "Erase",
+          "element": "void",
+          "power": 24,
+          "effect": "debuff"
+        }
+      ],
+      "loot_keyblade": "",
+      "loot_desc": "A blank page that never had a story - the Unwritten's only possession.",
+      "desc": "The 17th Shambler, and the Archon's own shadow-cloak. It stands before the final door, erasing every victory Zero has ever claimed so the Archon can enter the fight without a name to fear. Heart Zero Clash - the one memory it cannot take.",
+      "music": "heart_zero_clash"
     },
     {
       "id": "the_archon",
@@ -662,7 +717,8 @@
       ],
       "loot_keyblade": "ultima_keyseal",
       "loot_desc": "The Ultima Keyseal - the final keyblade of the final door.",
-      "desc": "The first Shambler. The one that stole the Door to Darkness itself, and has worn its weight ever since. It is multi-planar - it stands in every world Zero ever visited at once, and only the Twilight Form's five keyblades can reach all of it. Its memory-steal is absolute: it forgets allies' names so Zero must fight for them alone."
+      "desc": "The first Shambler. The one that stole the Door to Darkness itself, and has worn its weight ever since. It is multi-planar - it stands in every world Zero ever visited at once, and only the Twilight Form's five keyblades can reach all of it. Its memory-steal is absolute: it forgets allies' names so Zero must fight for them alone.",
+      "music": "symphonic_apex"
     }
   ],
   "acts": [

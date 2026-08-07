@@ -3,13 +3,15 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <fstream>
+#include <algorithm>
+#include <nlohmann/json.hpp>
 
 #include "story/scene.h"
 #include "ui/command_deck.h"
 #include "save/save_system.h"
 #include "ui/tron_shell.h"
 #include "render/worlds.h"
-#include <algorithm>
 
 namespace {
 
@@ -118,18 +120,128 @@ int act_one(khz::SaveSystem& saves) {
     std::snprintf(saves.record().world, sizeof(saves.record().world), "%s", w.id.c_str());
     saves.record().act = 1;
 
-    khz::Scene scene;
-    scene.title = "ACT ONE // " + w.name;
-    scene.world_id = w.id;
-    for (const auto& l : wrap_text(w.story, 72)) scene.lines.push_back(l);
-    if (!w.beats.empty()) {
-        scene.lines.push_back("");
-        scene.lines.push_back("  \x1b[1mbeat one:\x1b[0m " + w.beats[0]);
+    std::vector<std::string> map;
+    std::map<char, std::string> legend;
+    {
+        std::ifstream f("data/worlds/traverse_town.json");
+        if (!f) {
+            std::printf("  \x1b[2m[act one] the district map is missing\x1b[0m\n");
+            return 1;
+        }
+        nlohmann::json j;
+        try { f >> j; } catch (...) { return 1; }
+        for (const auto& row : j.value("map", nlohmann::json::array()))
+            map.push_back(row.get<std::string>());
+    }
+    if (map.empty()) map = {"###", "#S#", "###"};
+    for (const auto& row : map) {
+        bool has_start = false;
+        for (char c : row) if (c == 'S') { has_start = true; break; }
+        if (!has_start) {
+            std::printf("  \x1b[2m[act one] the map has no start point\x1b[0m\n");
+            return 1;
+        }
     }
 
-    khz::SceneGraph graph;
-    graph.add_scene(std::move(scene));
-    graph.play();
+    int px = 1, py = 1;
+    for (size_t r = 0; r < map.size(); ++r)
+        for (size_t c = 0; c < map[r].size(); ++c)
+            if (map[r][c] == 'S') { py = (int)r; px = (int)c; }
+
+    bool sealed = false;
+    bool visited_keyhole = false;
+
+    auto draw = [&]() {
+        std::printf("\n  \x1b[1m\x1b[38;5;141mACT ONE // %s\x1b[0m\n", w.name.c_str());
+        for (size_t r = 0; r < map.size(); ++r) {
+            for (size_t c = 0; c < map[r].size(); ++c) {
+                if ((int)r == py && (int)c == px) {
+                    std::printf("\x1b[1m@\x1b[0m");
+                    continue;
+                }
+                char ch = map[r][c];
+                if (ch == 'S') std::printf(".");
+                else if (ch == 'K') std::printf("\x1b[38;5;220mK\x1b[0m");
+                else if (ch == 'E') std::printf("\x1b[38;5;46mE\x1b[0m");
+                else if (ch == '#') std::printf("\x1b[38;5;236m#\x1b[0m");
+                else std::printf("%c", ch);
+            }
+            std::printf("\n");
+        }
+        std::printf("  \x1b[2mwasd=move | j=slash | f=fire | c=cure | t=thunder | g=guard | ?=help\x1b[0m\n");
+    };
+
+    std::printf("\n  \x1b[1m[Ansem]\x1b[0m \x1b[2mFind the keyhole in the district. Do not let the dark take your memory.\x1b[0m\n");
+    draw();
+
+    while (!sealed) {
+        std::printf("  \x1b[2m[command]\x1b[0m ");
+        char buf[32];
+        if (!std::fgets(buf, sizeof(buf), stdin)) break;
+        std::string cmd;
+        for (char* p = buf; *p; ++p) {
+            if (*p != '\n' && *p != '\r') cmd += (char)std::tolower((unsigned char)*p);
+        }
+        if (cmd == "quit" || cmd == "q") break;
+        if (cmd == "help" || cmd == "?") {
+            std::printf("  \x1b[2mwasd/jfctg + ? | sealed=%d keyhole=%d\x1b[0m\n", (int)sealed, (int)visited_keyhole);
+            continue;
+        }
+
+        int nx = px, ny = py;
+        for (char ch : cmd) {
+            if (ch == 'w' || ch == 'north') ny -= 1;
+            else if (ch == 's' || ch == 'south') ny += 1;
+            else if (ch == 'a' || ch == 'west') nx -= 1;
+            else if (ch == 'd' || ch == 'east') nx += 1;
+            else if (ch == 'j') {
+                std::printf("  \x1b[1mZero\x1b[0m slashes the dark air.\n");
+                continue;
+            }
+            else if (ch == 'f') {
+                std::printf("  \x1b[1mZero\x1b[0m throws fire into the dark.\n");
+                continue;
+            }
+            else if (ch == 'c') {
+                std::printf("  \x1b[1mZero\x1b[0m heals from the memory fragments.\n");
+                saves.record().hp = std::min(saves.record().max_hp, saves.record().hp + 30);
+                continue;
+            }
+            else if (ch == 't') {
+                std::printf("  \x1b[1mZero\x1b[0m calls thunder across the district.\n");
+                continue;
+            }
+            else if (ch == 'g') {
+                std::printf("  \x1b[1mZero\x1b[0m raises the guard.\n");
+                continue;
+            }
+            else continue;
+
+            if (ny < 0 || ny >= (int)map.size() || nx < 0 || nx >= (int)map[ny].size())
+                continue;
+            if (map[ny][nx] != '#') {
+                px = nx; py = ny;
+            }
+        }
+
+        char tile = map[py][px];
+        if (tile == 'K' && !visited_keyhole) {
+            visited_keyhole = true;
+            std::printf("\n  \x1b[38;5;220m\x1b[1mYou found the district's keyhole.\x1b[0m\n");
+            std::printf("  \x1b[2mZero places the blade into the dark, and the dark closes around it.\x1b[0m\n");
+            map[py][px] = '.';
+            sealed = true;
+        } else if (tile == 'E' && visited_keyhole) {
+            sealed = true;
+        } else if (tile == 'K' && visited_keyhole) {
+            std::printf("  \x1b[2mThe keyhole is already sealed here.\x1b[0m\n");
+        }
+
+        if ((std::rand() % 100) < 18) {
+            std::printf("\n  \x1b[38;5;196mA Heartless rises from the shadows!\x1b[0m\n");
+        }
+        draw();
+    }
 
     std::printf("\n  \x1b[2m[act one] the first keyhole is marked - committing the memory\x1b[0m\n");
     return saves.save(khz::SaveSystem::default_path()) ? 0 : 1;

@@ -1,0 +1,20 @@
+{
+  "id": "traverse_town",
+  "name": "Traverse Town",
+  "map": [
+    "#######",
+    "#S....#",
+    "#.##..#",
+    "#..#.K#",
+    "#.###.#",
+    "#....E#",
+    "#######"
+  ],
+  "legend": {
+    "S": "start",
+    "E": "exit",
+    "K": "keyhole",
+    "#": "wall",
+    ".": "floor"
+  }
+}

@@ -54,9 +54,9 @@ bool EnemyDB::load(const std::string& path) {
     m_shamblers.clear();
     m_acts.clear();
     for (const auto& e : j.value("heartless", nlohmann::json::array()))
-        m_heartless.push_back(load_enemy(e, "heartless"));
+        m_heartless.push_back(parse_enemy(e, "heartless"));
     for (const auto& e : j.value("shamblers", nlohmann::json::array()))
-        m_shamblers.push_back(load_enemy(e, "shambler"));
+        m_shamblers.push_back(parse_enemy(e, "shambler"));
     for (const auto& a : j.value("acts", nlohmann::json::array())) {
         ActDef d;
         d.act = a.value("act", 1);

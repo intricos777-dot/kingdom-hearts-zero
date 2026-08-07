@@ -189,12 +189,8 @@ uint32_t CombatEngine::resolve_attack(const Command& cmd, const EnemyDef& e, uin
 
 uint32_t CombatEngine::enemy_attack_damage(const EnemyAttack& atk, uint32_t& memories) {
     auto& rec = m_saves.record();
-    uint32_t stat = (atk.element == "dark" || atk.element == "void")
-                        ? (atk.power + 6) * 1 : atk.power;
-    int32_t dmg = (int32_t)atk.power + (int32_t)(rec.hp > 0 ? 0 : 0);
-    dmg = (int32_t)((uint32_t)atk.power + (atk.element == "void" ? 12 : 4));
-    dmg = std::max<int32_t>(0, (int32_t)((uint32_t)dmg * element_multiplier(atk.element, "none") / 100) -
-                                  (int32_t)player_def(0) / 2);
+    int32_t dmg = (int32_t)atk.power - (int32_t)player_def(0) / 2;
+    dmg = (int32_t)((uint32_t)dmg * element_multiplier(atk.element, "none") / 100);
     if (dmg < 1) dmg = 1;
 
     if (atk.effect == "steal" && rec.memories_held > 0) {
