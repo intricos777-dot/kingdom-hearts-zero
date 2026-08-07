@@ -35,7 +35,7 @@ bool SceneGraph::play() {
 
 Scene prologue_scene() {
     Scene s;
-    s.title = "THE DOOR BETWEEN";
+    s.title = "DOOR TO DARKNESS";
     s.world_id = "traverse_town";
     s.lines = {
         "Listen. And listen well, for what I am about to tell you was never",

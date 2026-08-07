@@ -7,6 +7,7 @@
 #include "story/scene.h"
 #include "ui/command_deck.h"
 #include "save/save_system.h"
+#include "ui/tron_shell.h"
 
 namespace {
 
@@ -14,8 +15,8 @@ const char* INTRO_VIDEO = "assets/intro/intro.mp4";
 
 void title_screen() {
     std::printf("\x1b[38;5;141m\x1b[1m");
-    std::printf("  KINGDOM HEARTS: THE DOOR BETWEEN\n");
-    std::printf("  =================================\n");
+    std::printf("  KINGDOM HEARTS 0: DOOR TO DARKNESS\n");
+    std::printf("  ==================================\n");
     std::printf("\x1b[0m");
     std::printf("  \x1b[2mAn Ansem-narrated terminal adventure built on Twilight Elysium\x1b[0m\n\n");
 }
@@ -84,7 +85,7 @@ int menu_loop() {
     saves.initialize();
 
     while (true) {
-        std::printf("\n  \x1b[1m--- THE DOOR BETWEEN ---\x1b[0m\n");
+        std::printf("\n  \x1b[1m--- DOOR TO DARKNESS ---\x1b[0m\n");
         std::printf("  1) begin act one - traverse town\n");
         std::printf("  2) save the dark's memory\n");
         std::printf("  3) load the dark's memory\n");
@@ -114,14 +115,27 @@ int menu_loop() {
 
 } // namespace
 
-int main() {
-    title_screen();
-    play_intro();
+int main(int argc, char** argv) {
+    const bool terminal_mode = (argc > 1 && std::strcmp(argv[1], "--terminal") == 0);
 
-    khz::SceneGraph graph;
-    graph.add_scene(khz::prologue_scene());
-    graph.play();
+    if (terminal_mode) {
+        title_screen();
+        play_intro();
 
-    deck_demo();
-    return menu_loop();
+        khz::SceneGraph graph;
+        graph.add_scene(khz::prologue_scene());
+        graph.play();
+
+        deck_demo();
+        return menu_loop();
+    }
+
+    // Visual game: Tron-style world selection hub + terminal adventures.
+    khz::TronShell shell;
+    if (!shell.init("Kingdom Hearts 0: Door to Darkness - Twilight Elysium")) {
+        std::fprintf(stderr, "visual shell failed to open; try '--terminal'\n");
+        return 1;
+    }
+    shell.run();
+    return 0;
 }

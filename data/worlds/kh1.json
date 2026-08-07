@@ -1,0 +1,190 @@
+{
+  "game": "Kingdom Hearts (PS2)",
+  "engine_era": "ps2_kh1",
+  "guide": "Tron",
+  "intro": "Zero, the unknown keyblade wielder, walks the edges of every story. These are the worlds of the first game, each one a doorway into his own lore.",
+  "worlds": [
+    {
+      "id": "traverse_town",
+      "name": "Traverse Town",
+      "timeline": "KH1 Act 1 - after Destiny Islands falls to the Heartless",
+      "why": "Zero's first foothold in this worldline. The door between has dropped him here to learn the shape of the enemy.",
+      "story": "Three districts, one lamp-lit hub. Zero arrives wearing the cloak of a Nobody, twin red blades drawn. The bell-hop urchins mistake him for a Heartless; the shopkeepers for a Nobody. But Ansem's first report is found here - the machine's earliest confession. Zero closes the district's hidden Keyhole and earns his first resonance.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "arrival in district one",
+        "find Ansem's report page",
+        "close the traverse town keyhole",
+        "the urchins name him Zero"
+      ]
+    },
+    {
+      "id": "destiny_islands",
+      "name": "Destiny Islands",
+      "timeline": "KH1 Prologue - the world that fell first",
+      "why": "Zero must witness the door's first wound. Where Sora lost the light, Zero finds the shape of his own duty.",
+      "story": "A world already sunk into the dark by the time Zero arrives. He walks the tide-washed streets, finds the hidden cave where children drew their dreams, and pulls a shard of the Keyblade's light from the sand. This is where he understands: the Door to Darkness took this world, and it must be sealed - for all of them.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "walk the drowned isle",
+        "the drawing of the Keyblade in the cave",
+        "take the shard of first light",
+        "Ansem's voice: the door remembers"
+      ]
+    },
+    {
+      "id": "wonderland",
+      "name": "Wonderland",
+      "timeline": "KH1 Act 1 - Alice's trial",
+      "why": "A world where memory is a crime. Zero's own memory is fraying - the Shamblers steal it - and Wonderland teaches him to hold what he keeps.",
+      "story": "The Queen's court runs on accusations and forgetting. Zero trails Alice's trial, using his shadow to slip the card soldiers. The Bizarre Room's keyhole hides behind a door that is also a mind. Zero closes it, and for a moment, remembers something that is not his own.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "slip past the card soldiers",
+        "the bizarre room's hidden keyhole",
+        "off with her head - not today",
+        "a memory that is not yours"
+      ]
+    },
+    {
+      "id": "olympus_coliseum",
+      "name": "Olympus Coliseum",
+      "timeline": "KH1 Act 1 - the games of the gods",
+      "why": "The arena where heroes are measured. Zero fights from the shadows so that Hercules can stand in the light.",
+      "story": "Under the eyes of the gods, Zero fights the phantom bracket - Cloud's echo, Hades' schemes - never taking the credit. He wins a fragment of the god-games' valor and uses it to seal the coliseum's Keyhole. Hercules never sees his shadow-hero. Zero prefers it that way.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "the phantom bracket",
+        "against Cloud's echo",
+        "Hades knows your name, Zero",
+        "seal the arena keyhole"
+      ]
+    },
+    {
+      "id": "deep_jungle",
+      "name": "Deep Jungle",
+      "timeline": "KH1 Act 1 - the heart of the wild",
+      "why": "Here Zero learns the language of hearts - the one thing no cloak can hide.",
+      "story": "Tarzan speaks to the world, not in words. Zero follows the vine-walker to the temple where the Keyhole waits, and for the first time speaks as himself, not the shadow. The jungle's heart accepts the unknown wielder. The Keyhole closes with a kindness, not a blade.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "the temple in the canopy",
+        "speak without the mask",
+        "the jungle heart accepts you",
+        "seal the temple keyhole"
+      ]
+    },
+    {
+      "id": "agrabah",
+      "name": "Agrabah",
+      "timeline": "KH1 Act 2 - the cave of wonders",
+      "why": "A diamond in the rough glitters only in the dark. Zero's own worth was only ever seen in shadow.",
+      "story": "The Cave of Wonders holds a Keyhole that eats light. Zero moves as the cave's own shadow, past the treasure golems, and finds the lamp's true secret: a heart that chose freedom. He seals the Keyhole and leaves a single coin behind - the only treasure he has ever owned.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "the cave of wonders",
+        "shadow through the treasure",
+        "the lamp's chosen heart",
+        "seal the cave keyhole"
+      ]
+    },
+    {
+      "id": "monstro",
+      "name": "Monstro",
+      "timeline": "KH1 Act 2 - inside the whale",
+      "why": "A world inside a belly is a prison made of hunger. Zero knows that cage from the inside of his own cloak.",
+      "story": "Pinocchio's heart is being carved into a puppet again. Zero navigates Monstro's dark ribs, finds the wooden boy, and closes a Keyhole that is also a stomach. The whale sneezes them free. Zero holds the fragment of the puppet's heart - real, despite being made.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "the ribs of the whale",
+        "find the wooden boy",
+        "a made heart is still a heart",
+        "the great sneeze"
+      ]
+    },
+    {
+      "id": "atlantica",
+      "name": "Atlantica",
+      "timeline": "KH1 Act 2 - the world under the wave",
+      "why": "The Keyhole under the sea. Zero, who cannot breathe in most stories, learns to hold his breath in this one.",
+      "story": "Ursula's cauldron is a Keyhole's cradle. Zero moves through the coral halls silent as pressure, frees Ariel's voice when it is swallowed, and turns the trident's light against the sea-witch. The Keyhole closes underwater, and Zero surfaces with salt he never knew he could taste.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "the cauldron keyhole",
+        "free the stolen voice",
+        "turn the tide against ursula",
+        "seal the sea keyhole"
+      ]
+    },
+    {
+      "id": "halloween_town",
+      "name": "Halloween Town",
+      "timeline": "KH1 Act 2 - the night before the fright",
+      "why": "A town where everyone wears a mask. Zero's cloak finally fits in. But even here, the Heartless wear masks too.",
+      "story": "Oogie Boogie's dice are loaded against the holiday. Zero slips between the jack-o-lanterns, undoes the Heartless trap under the hill, and lets Jack take his bow. The Keyhole is a doorway shaped like a grin. Zero closes it before it can laugh.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "under the hill",
+        "unload the dice",
+        "let jack have his bow",
+        "close the grinning keyhole"
+      ]
+    },
+    {
+      "id": "neverland",
+      "name": "Neverland",
+      "timeline": "KH1 Act 2 - the clock that never moves",
+      "why": "Here Zero catches the first real trace of Sora - the boy the whole story turns on.",
+      "story": "The clock tower holds a Keyhole in its hands. Zero follows the trail of a boy with a Keyblade who passed through this world moments ahead of him - the first proof Sora is alive. He frees the lost children, lets the shadows carry him over the sea, and seals the Keyhole with the smell of salt and stardust.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "the frozen clock",
+        "first trace of sora",
+        "free the lost children",
+        "seal the tower keyhole"
+      ]
+    },
+    {
+      "id": "hundred_acre_wood",
+      "name": "100 Acre Wood",
+      "timeline": "KH1 Secret world - the heart's quiet room",
+      "why": "The one world that holds no Keyhole. Zero goes there to keep what little home he remembers.",
+      "story": "Pooh's pages are a storybook, and the book is a heart. Zero helps the friends find their pages, and for one chapter he is not the unknown - he is just someone who walked in from the dark to play. It is the only world he visits for himself.",
+      "shader": "ps2_kh1",
+      "beats": [
+        "find the lost pages",
+        "a chapter without shadows",
+        "the book's heart remembers you"
+      ]
+    },
+    {
+      "id": "hollow_bastion",
+      "name": "Hollow Bastion",
+      "timeline": "KH1 Final Act - the heart of the machine",
+      "why": "The lynchpin of Zero's lore. Here, inside Ansem's own fortress, the machine's memory reaches out - and a voice older than the door speaks from inside Zero's heart.",
+      "story": "This world is a lie built on Ansem's guilt. Zero climbs the machine-heart and finds the study where the reports were written - the same voice that narrates his journey. And there, in the reflection of the Keyhole, he sees a face that is not his own: old eyes, a seeker's eyes. The twin red blades hum with a name he has never spoken. He seals the Keyhole, and for a moment the dark whispers: 'You were never alone in there, were you, Terra?'",
+      "shader": "ps2_kh1",
+      "beats": [
+        "the machine heart",
+        "Ansem's study and the reports",
+        "the reflection that is not your own",
+        "the whisper of an old name",
+        "seal the bastion keyhole"
+      ]
+    },
+    {
+      "id": "end_of_the_world",
+      "name": "End of the World",
+      "timeline": "KH1 Final Act - the door to darkness",
+      "why": "Where the first Door opens. Zero does not walk the light-path with the heroes - he walks the dark-path beside it, so the Door can be closed from both sides at once.",
+      "story": "Fragments of worlds orbit a door. Zero crosses with Sora's party unseen, closing the last keyholes in the rubble. When Sora faces Ansem at the Door to Darkness, Zero is the shadow at the hinge, holding the dark side shut so the light can seal it. When the Door closes, Zero is left on the dark side of it - alone, as he has always been. Somewhere, Ansem's voice begins again: 'There is more. You have always been more.'",
+      "shader": "ps2_kh1",
+      "beats": [
+        "the rubble of worlds",
+        "close the last keyholes",
+        "hold the hinge while sora seals the door",
+        "left on the dark side of the door"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "game": "Kingdom Hearts II (PS2)",
+  "engine_era": "ps2_kh2",
+  "guide": "Tron",
+  "intro": "The second game's worlds are where Zero stops being a rumor. Here the Organization learns his name, Tron offers him a map, and the Nobody who wore a coat starts to wonder who wore him.",
+  "worlds": [
+    {
+      "id": "twilight_town",
+      "name": "Twilight Town",
+      "timeline": "KH2 Prologue - the town where the sun never decides",
+      "why": "Zero sees himself in the boy who had no memories. Roxas - a Nobody who grew a heart - is the only mirror Zero ever had.",
+      "story": "Zero watches the town from the clock tower, and watches Roxas from the shadows. A Nobody who laughs, who eats ice cream, who bleeds when he is cut - impossible. Zero leaves a single red feather where Roxas will find it, a gift from one unremembered to another, and slips out of town before dusk decides his shape.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the clock tower",
+        "watch roxas and the sunset",
+        "a red feather left behind",
+        "the town never decides"
+      ]
+    },
+    {
+      "id": "olympus",
+      "name": "Olympus Coliseum",
+      "timeline": "KH2 Act 1 - the underworld games",
+      "why": "The gods' arena returns, and with it Hades, who remembers Zero's name from the first game's shadows.",
+      "story": "The Underworld is holding its own games, and the dead are being drafted. Zero enters the tournament in Auron's shadow, unmasks Hades' rigged bracket, and feels a warmth he does not understand when the fallen warrior nods to him before fading. The arena Keyhole never opens here - it was never sealed by anyone but him.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the underworld games",
+        "auron's last nod",
+        "unmask the rigged bracket",
+        "the arena that still remembers you"
+      ]
+    },
+    {
+      "id": "beast_castle",
+      "name": "Beast's Castle",
+      "timeline": "KH2 Act 1 - Xaldin and the rose",
+      "why": "The Nobodies of the Organization have a name for Zero: the one who wears their coat without belonging. Xaldin tests him here.",
+      "story": "Xaldin wants the Beast's heart of rage, and the rose is the lock. Zero stands between the spears and the rose, fighting a Nobody as a Nobody-that-is-not. When the Beast chooses love over fury, Zero realizes he has been fighting for the wrong reason all along - and maybe his own heart was never what he thought.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the rose and the spears",
+        "xaldin names you traitor",
+        "the beast chooses love",
+        "a Nobody can be more"
+      ]
+    },
+    {
+      "id": "timeless_river",
+      "name": "Timeless River",
+      "timeline": "KH2 Act 1 - the world before the worlds",
+      "why": "Zero crosses into the past of Disney Castle itself - where the Door's shadow was already falling, long before any of them were born.",
+      "story": "The river of ink is a road into the past. Zero walks the flat, hand-drawn streets and finds a Keyhole that should not exist yet - an early wound the Heartless were sewing before the Keyblade War even ended. He closes it in silence, and the river forgets he was ever there. But he does not forget the old wound.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the river of ink",
+        "a keyhole that should not exist",
+        "an old wound before the war",
+        "the river forgets, you do not"
+      ]
+    },
+    {
+      "id": "space_paranoids",
+      "name": "Space Paranoids",
+      "timeline": "KH2 Act 1 - inside the computer",
+      "why": "The world inside the machine. This is where Tron enters Zero's story - and where Zero learns that a world can be a grid, and a friend can be made of light.",
+      "story": "Zero is digitized into Space Paranoids, and for the first time his shadow-cloak is made of code. Tron, the program who believes in the User, meets him on the light-cycle grid. Together they override the MCP and free the data-world. Tron gives Zero a gift: a map of the worlds, rendered as a glowing grid, with every world Zero has touched marked in red light. 'Pick a door,' Tron says. 'I will tell you where it leads, when it was, and why it matters.' It is the first time anyone ever offered Zero a map.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "digitized into the grid",
+        "meet tron at the light-cycles",
+        "override the MCP",
+        "tron's gift: the map of worlds",
+        "the first friend made of light"
+      ]
+    },
+    {
+      "id": "pride_lands",
+      "name": "Pride Lands",
+      "timeline": "KH2 Act 1 - the shadow of the scar",
+      "why": "A king who fell to his own shadow. Zero sees the path he himself walks - power that whispers.",
+      "story": "Zero arrives as a shadow that stalks a shadow. Scar's pride is a Keyhole in the shape of a wound. Zero lets Simba be the one to reclaim the light, and closes the Keyhole behind him, so the pride never has to know the unknown wielder was ever there.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the outlands",
+        "let simba take the light",
+        "a keyhole shaped like a wound",
+        "leave before they see you"
+      ]
+    },
+    {
+      "id": "land_of_dragons",
+      "name": "Land of Dragons",
+      "timeline": "KH2 Act 2 - the mountain of the ghost",
+      "why": "A girl who hides her strength to save her family. Zero knows exactly what it costs to hide what you are.",
+      "story": "Mulan fights as Ping and pretends to be nothing. Zero fights beside her as the unknown and pretends to be no one. In the mountain, the Keyhole waits under the captain's armor. When Mulan chooses to be seen, Zero realizes his own mask has worn thinner than he thought.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the hidden girl and the hidden one",
+        "the mountain keyhole",
+        "she chooses to be seen",
+        "your mask is thinning"
+      ]
+    },
+    {
+      "id": "port_royal",
+      "name": "Port Royal",
+      "timeline": "KH2 Act 2 - the curse of the dead gold",
+      "why": "A Keyhole made of cursed gold. Zero's red blades drink in the moonlight here - and for a moment, the dead see a face under his hood.",
+      "story": "The undead crew marches under the moon, and the chest holds a Keyhole that pays in souls. Zero cuts the curse, frees the captain from his bargain, and when moonlight hits the water he sees the dead staring at him - not at his cloak. At him. He closes the Keyhole and does not look at the sea again.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the moonlit curse",
+        "the keyhole that pays in souls",
+        "the dead see your face",
+        "seal the chest"
+      ]
+    },
+    {
+      "id": "disney_castle",
+      "name": "Disney Castle",
+      "timeline": "KH2 Act 2 - the cornerstone",
+      "why": "The Castle holds the Cornerstone of Light, and Zero, whose heart runs with both light and dark, is the one being in all the worlds who must not touch it.",
+      "story": "Pete is clawing at the Cornerstone. Zero keeps his distance from the stone - it would burn him, or worse, it would recognize him. He fights the intruders in the corridors instead, guarding a light he may never hold, while Queen Minnie seals the castle. He leaves before the cornerstone can ask his name.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the cornerstone of light",
+        "guard a light you cannot hold",
+        "pete's clawing",
+        "leave before it asks your name"
+      ]
+    },
+    {
+      "id": "agrabah2",
+      "name": "Agrabah (Return)",
+      "timeline": "KH2 Act 2 - the treasure beneath the treasure",
+      "why": "The first visit's Keyhole was only the outer lock. Zero returns to close the deeper one - and to repay a debt to the lamp's chosen heart.",
+      "story": "The Cave of Wonders has a deeper floor this time, and the Keyhole glows in the dark heart of the treasure. Zero navigates the shifting sands he remembers, spares the golem who remembers him, and seals the second Keyhole. In the treasure room he leaves a second coin beside the first. The cave now holds two pieces of him.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the deeper cave",
+        "the second coin beside the first",
+        "the golem remembers you",
+        "seal the second keyhole"
+      ]
+    },
+    {
+      "id": "halloween_town2",
+      "name": "Halloween Town (Return)",
+      "timeline": "KH2 Act 2 - the missing holiday",
+      "why": "Zero returns to the town that once accepted his mask, only to find the Heartless wearing the mask of Christmas.",
+      "story": "The pumpkins are learning to fly, and Christmas is missing. Zero uncovers the Heartless stealing the holiday and hands it back to Sandy Claws. The grinning Keyhole is still sealed from his first visit - but something new grows behind it, and Zero closes that too, twice in one world, a thing he has never done before.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the missing holiday",
+        "a world sealed twice",
+        "hand christmas back",
+        "the second grin"
+      ]
+    },
+    {
+      "id": "hundred_acre_wood2",
+      "name": "100 Acre Wood (Return)",
+      "timeline": "KH2 Secret world - the heart remembers",
+      "why": "The storybook calls Zero back. The only place he is ever called by anything but his name.",
+      "story": "The pages are scattering again, and this time the book remembers the shadow who helped before. Zero finds every page, lets Pooh call him 'friend' without a mask, and closes the book knowing the Wood is the only place that will never close a door on him.",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the scattering pages",
+        "pooh calls you friend",
+        "a world that never closes its door"
+      ]
+    },
+    {
+      "id": "wnwas",
+      "name": "The World That Never Was",
+      "timeline": "KH2 Final Act - the castle between",
+      "why": "The final world. Zero walks into the castle that is the Nobody of a place - and confronts what his own Nobody-cloak has been hiding from him since the beginning.",
+      "story": "The castle rises out of nothing, and every corridor is a question. Zero climbs through the memory of the Keyblade War, past the Organization's thrones, and at the peak the dark door waits - the same Door to Darkness he has sealed and resealed across a hundred worlds. Sora seals it from the light side. Zero is the hinge on the dark side, as he was at the end of the first game. And there, in the final silence, the old whisper finally speaks clearly: not Ansem's voice, but the one under it. A boy who was taken. A seeker who took him. And a heart that carried both into Zero's chest long before this world began. 'Terra was never alone in the dark,' the whisper says. 'Neither were you.'",
+      "shader": "ps2_kh2",
+      "beats": [
+        "the castle between",
+        "the memory of the keyblade war",
+        "sora seals the door, zero holds the hinge",
+        "the voice under the voice",
+        "the name under the mask"
+      ]
+    }
+  ]
+}
