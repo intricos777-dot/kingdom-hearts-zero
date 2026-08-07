@@ -7,7 +7,7 @@ namespace khz {
 
 // Persistent player state. Saves are checksummed; corruption self-heals.
 struct SaveRecord {
-    uint32_t version = 1;
+    uint32_t version = 2;
     char world[32] = "traverse_town";
     uint32_t act = 1;
     uint32_t hp = 100;
@@ -18,6 +18,22 @@ struct SaveRecord {
     uint32_t keyholes_closed = 0;
     uint32_t memories_held = 0;
     char journal[4096] = {0};
+    // KH2-style leveling
+    uint32_t level = 1;
+    uint32_t xp = 0;
+    uint32_t xp_to_next = 30;
+    uint32_t base_str = 5;
+    uint32_t base_mag = 5;
+    uint32_t base_def = 3;
+    uint32_t base_spd = 3;
+    uint32_t base_crt = 1;
+    // Keyblade ownership: bitmask index into data/combat/keyblades.json
+    uint32_t owned_keyblades = 0x1;  // bit0 = twilight_keyblade
+    uint32_t active_keyblade = 0;      // index of the equipped blade
+    // Drive forms: bit0 shadow overdrive, bit1 ultima drive, bit2 twilight form
+    uint32_t forms_unlocked = 0;
+    // Boss kills: bit per Shambler (defeated order == json order)
+    uint32_t bosses_defeated = 0;
 };
 
 class SaveSystem {

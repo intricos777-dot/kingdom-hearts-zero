@@ -1,0 +1,722 @@
+{
+  "title": "Enemy Registry - Kingdom Hearts 0: Door to Darkness",
+  "note": "The Heartless are the horde. The Nobodies are the shadow of the horde. But the Dimensional Shamblers are something older - eldritch entities in Nobody cloaks who steal memories across the planes. 17 of them stand as level bosses on Zero's road; the last is the Archon, the one who stole the door itself.",
+  "heartless": [
+    {
+      "id": "shadow",
+      "name": "Shadow",
+      "element": "dark",
+      "hp": 12,
+      "str": 3,
+      "mag": 0,
+      "def": 1,
+      "spd": 4,
+      "exp": 4,
+      "attack": "claw swipe",
+      "desc": "The lowest Heartless. Black as the bottom of a heart, skittering on two too many legs. Kills by weight of numbers, not by skill."
+    },
+    {
+      "id": "soldier",
+      "name": "Soldier",
+      "element": "none",
+      "hp": 20,
+      "str": 5,
+      "mag": 0,
+      "def": 2,
+      "spd": 3,
+      "exp": 6,
+      "attack": "shield bash",
+      "desc": "An armored Heartless with a blade and a grudge. Fights like it remembers being a person, badly."
+    },
+    {
+      "id": "large_body",
+      "name": "Large Body",
+      "element": "earth",
+      "hp": 60,
+      "str": 9,
+      "mag": 0,
+      "def": 8,
+      "spd": 1,
+      "exp": 12,
+      "attack": "belly press",
+      "desc": "A walking wall of stolen weight. Its front armor ignores weak blows; strike the dark seam at its back."
+    },
+    {
+      "id": "neoshadow",
+      "name": "Neoshadow",
+      "element": "dark",
+      "hp": 30,
+      "str": 7,
+      "mag": 2,
+      "def": 3,
+      "spd": 6,
+      "exp": 10,
+      "attack": "melting lunge",
+      "desc": "The Shadow that learned to stand. Strikes twice, retreats into the floor, strikes twice again."
+    },
+    {
+      "id": "wyvern",
+      "name": "Wyvern",
+      "element": "wind",
+      "hp": 45,
+      "str": 8,
+      "mag": 3,
+      "def": 3,
+      "spd": 7,
+      "exp": 14,
+      "attack": "wing shear",
+      "desc": "A winged Heartless that hunts from above. Its howl shakes the resonance of the world it flies over."
+    },
+    {
+      "id": "sorcerer",
+      "name": "Sorcerer",
+      "element": "thunder",
+      "hp": 35,
+      "str": 3,
+      "mag": 10,
+      "def": 2,
+      "spd": 4,
+      "exp": 16,
+      "attack": "volt nova",
+      "desc": "A hooded Heartless that throws stolen magic. Kill it fast - it feeds on every memory you spend."
+    },
+    {
+      "id": "dusk",
+      "name": "Dusk",
+      "element": "none",
+      "hp": 26,
+      "str": 6,
+      "mag": 0,
+      "def": 2,
+      "spd": 5,
+      "exp": 11,
+      "attack": "whip strike",
+      "desc": "A Nobody. It wears no face, only purpose. Zero recognizes it the way you recognize your own shadow."
+    },
+    {
+      "id": "berserker",
+      "name": "Berserker",
+      "element": "dark",
+      "hp": 55,
+      "str": 12,
+      "mag": 0,
+      "def": 6,
+      "spd": 2,
+      "exp": 18,
+      "attack": "chain crash",
+      "desc": "A hulking Nobody whose strength grows as its HP falls. Break it before it breaks the world's resonance."
+    }
+  ],
+  "shamblers": [
+    {
+      "id": "veska_the_erasure",
+      "name": "Veska, the Erasure",
+      "act": 1,
+      "world": "traverse_town",
+      "hp": 90,
+      "str": 8,
+      "mag": 6,
+      "def": 4,
+      "spd": 5,
+      "crt": 1,
+      "exp": 30,
+      "element": "dark",
+      "memory_steal": "forgets your first command's name",
+      "attacks": [
+        {
+          "name": "Memory Lash",
+          "element": "dark",
+          "power": 7,
+          "effect": "steal"
+        },
+        {
+          "name": "Unwrite",
+          "element": "dark",
+          "power": 10,
+          "effect": "debuff"
+        }
+      ],
+      "loot_keyblade": "kingdom_key",
+      "loot_desc": "A splinter of the first Keyblade's light, pried from its cloak.",
+      "desc": "The first Shambler Zero meets. It wears the coat of a Nobody but no face beneath the hood - only a wound where a face should be. It feeds on the names of commands, erasing them from Zero's deck mid-fight."
+    },
+    {
+      "id": "throx_the_echo",
+      "name": "Throx, the Echo",
+      "act": 1,
+      "world": "destiny_islands",
+      "hp": 110,
+      "str": 9,
+      "mag": 7,
+      "def": 5,
+      "spd": 4,
+      "crt": 2,
+      "exp": 40,
+      "element": "light",
+      "memory_steal": "copies your last attack and throws it back",
+      "attacks": [
+        {
+          "name": "Mirror Claw",
+          "element": "light",
+          "power": 8,
+          "effect": "copy"
+        },
+        {
+          "name": "Tide of Remembered Worlds",
+          "element": "light",
+          "power": 12,
+          "effect": "aoe"
+        }
+      ],
+      "loot_keyblade": "way_to_the_dawn",
+      "loot_desc": "Soul Eater's dark successor, torn from the Echo's own memory of Riku.",
+      "desc": "It walks the drowned isle wearing a memory of Riku's coat. Every strike Zero lands, it answers with the same strike, perfected. The world's first wound taught it how."
+    },
+    {
+      "id": "qilra_the_trial",
+      "name": "Qilra, the Trial",
+      "act": 1,
+      "world": "wonderland",
+      "hp": 100,
+      "str": 7,
+      "mag": 9,
+      "def": 4,
+      "spd": 6,
+      "crt": 2,
+      "exp": 42,
+      "element": "light",
+      "memory_steal": "steals a fragment of your journal",
+      "attacks": [
+        {
+          "name": "Sentence",
+          "element": "light",
+          "power": 9,
+          "effect": "debuff"
+        },
+        {
+          "name": "Off With Your Name",
+          "element": "light",
+          "power": 11,
+          "effect": "steal"
+        }
+      ],
+      "loot_keyblade": "oathkeeper",
+      "loot_desc": "A promise kept in Wonderland's forgetting-room: the light half of the Twilight Keyblade.",
+      "desc": "A court of one. It stands on the Queen's dais and passes judgment on memory itself, erasing whole journal pages with a gavel of stolen bone. Zero must win before his own story is struck from the record."
+    },
+    {
+      "id": "herrak_the_phantom",
+      "name": "Herrak, the Phantom",
+      "act": 1,
+      "world": "olympus_coliseum",
+      "hp": 130,
+      "str": 11,
+      "mag": 5,
+      "def": 6,
+      "spd": 5,
+      "crt": 3,
+      "exp": 50,
+      "element": "dark",
+      "memory_steal": "steals your drive gauge",
+      "attacks": [
+        {
+          "name": "Phantom Bracket",
+          "element": "dark",
+          "power": 10,
+          "effect": "debuff"
+        },
+        {
+          "name": "Underworld Dive",
+          "element": "earth",
+          "power": 14,
+          "effect": "aoe"
+        }
+      ],
+      "loot_keyblade": "wayward_wind",
+      "loot_desc": "Ventus's blade, torn from the phantom bracket before Hades could spend it.",
+      "desc": "It fights in the phantom bracket, seeding the tournament with ghosts of Cloud's old duels. Hades whispers its name between rounds. It steals the drive gauge because it knows Zero will one day need it."
+    },
+    {
+      "id": "zankor_the_vine",
+      "name": "Zankor, the Vine",
+      "act": 1,
+      "world": "deep_jungle",
+      "hp": 120,
+      "str": 8,
+      "mag": 8,
+      "def": 6,
+      "spd": 5,
+      "crt": 2,
+      "exp": 46,
+      "element": "earth",
+      "memory_steal": "steals the jungle's resonance",
+      "attacks": [
+        {
+          "name": "Root Grip",
+          "element": "earth",
+          "power": 9,
+          "effect": "steal"
+        },
+        {
+          "name": "Canopy Collapse",
+          "element": "earth",
+          "power": 13,
+          "effect": "aoe"
+        }
+      ],
+      "loot_keyblade": "two_become_one",
+      "loot_desc": "Roxas's blade, grown in the canopy - left for the only other unremembered.",
+      "desc": "It hides in the temple vines, stealing the jungle's voice so the Keyhole stays open. It wears a cloak of green rot and speaks in Tarzan's discarded words - the only speech it remembers."
+    },
+    {
+      "id": "mallos_the_hoard",
+      "name": "Mallos, the Hoard",
+      "act": 2,
+      "world": "agrabah",
+      "hp": 150,
+      "str": 10,
+      "mag": 7,
+      "def": 8,
+      "spd": 4,
+      "crt": 1,
+      "exp": 55,
+      "element": "earth",
+      "memory_steal": "steals a treasure from your keyblade's power",
+      "attacks": [
+        {
+          "name": "Golden Avalanche",
+          "element": "earth",
+          "power": 12,
+          "effect": "aoe"
+        },
+        {
+          "name": "Hoard Crash",
+          "element": "earth",
+          "power": 15,
+          "effect": "debuff"
+        }
+      ],
+      "loot_keyblade": "oblivion",
+      "loot_desc": "The dark half of the Twilight Keyblade, dragged into the Cave of Wonders by greed.",
+      "desc": "It wears a coat crusted with gold and gem-dust, hoarding not treasure but the weight of it. The Cave of Wonders' Keyhole hums with its hoarded memories of every thief who ever died inside."
+    },
+    {
+      "id": "vurok_the_belly",
+      "name": "Vurok, the Belly",
+      "act": 2,
+      "world": "monstro",
+      "hp": 160,
+      "str": 12,
+      "mag": 4,
+      "def": 9,
+      "spd": 3,
+      "crt": 1,
+      "exp": 58,
+      "element": "dark",
+      "memory_steal": "swallows a command card whole",
+      "attacks": [
+        {
+          "name": "Devour",
+          "element": "dark",
+          "power": 13,
+          "effect": "steal"
+        },
+        {
+          "name": "Rib Slam",
+          "element": "earth",
+          "power": 11,
+          "effect": "aoe"
+        }
+      ],
+      "loot_keyblade": "keyblade_of_peoples_hearts",
+      "loot_desc": "A heart-shaped wound that chose a new purpose, coughed up from the whale's memory.",
+      "desc": "It lives in Monstro's stomach lining like a leech, growing fat on the memories of swallowed sailors. It cannot be reasoned with - it can only be emptied."
+    },
+    {
+      "id": "yssora_the_tide",
+      "name": "Yssora, the Tide",
+      "act": 2,
+      "world": "atlantica",
+      "hp": 140,
+      "str": 8,
+      "mag": 11,
+      "def": 5,
+      "spd": 6,
+      "crt": 2,
+      "exp": 60,
+      "element": "water",
+      "memory_steal": "steals the song of a princess",
+      "attacks": [
+        {
+          "name": "Undertow",
+          "element": "water",
+          "power": 10,
+          "effect": "aoe"
+        },
+        {
+          "name": "Storm Chorus",
+          "element": "water",
+          "power": 14,
+          "effect": "debuff"
+        }
+      ],
+      "loot_keyblade": "destinys_embrace",
+      "loot_desc": "A princess's gift, thrown into the deep by the one who hates singing.",
+      "desc": "It hates music - because music is memory made sweet. It steals Ariel's voice and wears it under the sea, where no song can reach."
+    },
+    {
+      "id": "grinx_the_grin",
+      "name": "Grinx, the Grin",
+      "act": 2,
+      "world": "halloween_town",
+      "hp": 150,
+      "str": 10,
+      "mag": 8,
+      "def": 6,
+      "spd": 5,
+      "crt": 4,
+      "exp": 62,
+      "element": "dark",
+      "memory_steal": "steals your sense of time",
+      "attacks": [
+        {
+          "name": "Jack-o-Claw",
+          "element": "dark",
+          "power": 11,
+          "effect": "debuff"
+        },
+        {
+          "name": "Fright Night",
+          "element": "dark",
+          "power": 15,
+          "effect": "steal"
+        }
+      ],
+      "loot_keyblade": "ultima_weapon",
+      "loot_desc": "The Forge of Worlds' blade, half-forged in the second grin's cauldron.",
+      "desc": "It is a grin without a face, stitched over the town's jack-o-lanterns. Every scare it pulls from the children is a year stolen from Zero's clock."
+    },
+    {
+      "id": "nox_the_hook",
+      "name": "Nox, the Hook",
+      "act": 2,
+      "world": "neverland",
+      "hp": 145,
+      "str": 11,
+      "mag": 6,
+      "def": 5,
+      "spd": 7,
+      "crt": 3,
+      "exp": 64,
+      "element": "wind",
+      "memory_steal": "steals the memory of flight",
+      "attacks": [
+        {
+          "name": "Hook's Lunge",
+          "element": "wind",
+          "power": 12,
+          "effect": "debuff"
+        },
+        {
+          "name": "Never-Crash",
+          "element": "wind",
+          "power": 14,
+          "effect": "aoe"
+        }
+      ],
+      "loot_keyblade": "kingdom_key_d",
+      "loot_desc": "The King's own blade, fished from the clockwork sea by the Hook's hand.",
+      "desc": "It wears Hook's hook but no other part of him, stalking the clock tower where the Keyhole rests. It steals the memory of flight so that everyone - even Zero - must walk its plank."
+    },
+    {
+      "id": "poohs_shadow",
+      "name": "The Page-Eater",
+      "act": 2,
+      "world": "hundred_acre_wood",
+      "hp": 120,
+      "str": 7,
+      "mag": 7,
+      "def": 4,
+      "spd": 5,
+      "crt": 2,
+      "exp": 50,
+      "element": "light",
+      "memory_steal": "eats a page of the storybook",
+      "attacks": [
+        {
+          "name": "Ink Blot",
+          "element": "dark",
+          "power": 9,
+          "effect": "debuff"
+        },
+        {
+          "name": "Unwritten Chapter",
+          "element": "light",
+          "power": 13,
+          "effect": "steal"
+        }
+      ],
+      "loot_keyblade": "rainfell",
+      "loot_desc": "Aqua's blade, dried ink-stained, recovered from the eaten chapter.",
+      "desc": "It is what happens when a Shambler tries to eat a world made of pages: it becomes a smudge that eats more pages. The Hundred Acre Wood is the one world that fights back by being kind."
+    },
+    {
+      "id": "the_machine_heart",
+      "name": "The Machine Heart",
+      "act": 3,
+      "world": "hollow_bastion",
+      "hp": 200,
+      "str": 13,
+      "mag": 10,
+      "def": 8,
+      "spd": 4,
+      "crt": 2,
+      "exp": 80,
+      "element": "dark",
+      "memory_steal": "steals the reflection of your face",
+      "attacks": [
+        {
+          "name": "Piston Stomp",
+          "element": "earth",
+          "power": 15,
+          "effect": "aoe"
+        },
+        {
+          "name": "Ansem's Echo",
+          "element": "dark",
+          "power": 18,
+          "effect": "debuff"
+        }
+      ],
+      "loot_keyblade": "no_name",
+      "loot_desc": "Xehanort's blade, pulled from the machine's core - an old name, finally given.",
+      "desc": "The fortress's own heart given a cloak. It wears Ansem's memories like armor and speaks in his voice - the same voice that narrates Zero's story. Beating it is beating the narrator."
+    },
+    {
+      "id": "the_hinge_that_opens",
+      "name": "The Hinge That Opens",
+      "act": 3,
+      "world": "pride_lands",
+      "hp": 220,
+      "str": 15,
+      "mag": 6,
+      "def": 10,
+      "spd": 3,
+      "crt": 2,
+      "exp": 90,
+      "element": "earth",
+      "memory_steal": "steals the memory of being closed",
+      "attacks": [
+        {
+          "name": "Door Slam",
+          "element": "earth",
+          "power": 16,
+          "effect": "aoe"
+        },
+        {
+          "name": "Hinge Creak",
+          "element": "dark",
+          "power": 20,
+          "effect": "debuff"
+        }
+      ],
+      "loot_keyblade": "earthshaker",
+      "loot_desc": "The heaviest blade in the game, wedged in the Hinge's jaws mid-slam.",
+      "desc": "A door with a cloak draped over it, or a cloak shaped like a door - no one can decide, least of all the Pride Lands' animals it terrifies. It exists only to open what should stay shut, and it creaks the old name of the door it serves."
+    },
+    {
+      "id": "the_organizations_eye",
+      "name": "The Organization's Eye",
+      "act": 4,
+      "world": "land_of_dragons",
+      "hp": 210,
+      "str": 12,
+      "mag": 12,
+      "def": 7,
+      "spd": 6,
+      "crt": 3,
+      "exp": 95,
+      "element": "thunder",
+      "memory_steal": "steals your strategy",
+      "attacks": [
+        {
+          "name": "Icy Gaze",
+          "element": "blizzard",
+          "power": 14,
+          "effect": "debuff"
+        },
+        {
+          "name": "Thousand-Mile Stare",
+          "element": "thunder",
+          "power": 17,
+          "effect": "aoe"
+        }
+      ],
+      "loot_keyblade": "bond_of_flame",
+      "loot_desc": "A blade of fire and fury, plucked from the Eye's thousand-mile stare.",
+      "desc": "A single unblinking eye floating in a cloak, it watches every battle in the Land of Dragons and sells the knowledge to whoever pays in memory. It sees Zero's every move - unless Zero makes a move even he doesn't expect."
+    },
+    {
+      "id": "saix_the_berserker",
+      "name": "Saix, the Berserker",
+      "act": 4,
+      "world": "disney_castle",
+      "hp": 240,
+      "str": 16,
+      "mag": 8,
+      "def": 9,
+      "spd": 4,
+      "crt": 4,
+      "exp": 110,
+      "element": "dark",
+      "memory_steal": "steals your rage",
+      "attacks": [
+        {
+          "name": "Luna Splitter",
+          "element": "dark",
+          "power": 18,
+          "effect": "debuff"
+        },
+        {
+          "name": "Berserk Charge",
+          "element": "dark",
+          "power": 22,
+          "effect": "aoe"
+        }
+      ],
+      "loot_keyblade": "kingdom_key_xi",
+      "loot_desc": "The copy that refused to be erased, drawn from the berserk moon's light.",
+      "desc": "It wears Saix's face like a mask, but the berserk moon behind it is pure Shambler. The longer the fight, the stronger it becomes - and the less of itself it remembers being."
+    },
+    {
+      "id": "luxord_the_gambler",
+      "name": "Luxord, the Gambler",
+      "act": 4,
+      "world": "port_royal",
+      "hp": 230,
+      "str": 10,
+      "mag": 13,
+      "def": 7,
+      "spd": 7,
+      "crt": 5,
+      "exp": 115,
+      "element": "thunder",
+      "memory_steal": "bets your memories in a card game",
+      "attacks": [
+        {
+          "name": "Card Storm",
+          "element": "thunder",
+          "power": 15,
+          "effect": "aoe"
+        },
+        {
+          "name": "All-In",
+          "element": "dark",
+          "power": 19,
+          "effect": "steal"
+        }
+      ],
+      "loot_keyblade": "luxords_die",
+      "loot_desc": "A die of pure chance - not a keyblade, but luck is a weapon of its own.",
+      "desc": "A gambler's coat with a die for a head. Every encounter is a wager: it deals cards from Zero's memories and calls the game on his most precious ones."
+    },
+    {
+      "id": "the_archon",
+      "name": "The Shambler Archon",
+      "act": 5,
+      "world": "wnwas",
+      "hp": 500,
+      "str": 20,
+      "mag": 18,
+      "def": 12,
+      "spd": 8,
+      "crt": 5,
+      "exp": 400,
+      "element": "void",
+      "memory_steal": "steals the memory of your allies' names",
+      "attacks": [
+        {
+          "name": "Planar Howl",
+          "element": "dark",
+          "power": 24,
+          "effect": "aoe"
+        },
+        {
+          "name": "Memory Eclipse",
+          "element": "void",
+          "power": 30,
+          "effect": "steal"
+        },
+        {
+          "name": "Unwitnessed Step",
+          "element": "void",
+          "power": 22,
+          "effect": "debuff"
+        },
+        {
+          "name": "The Door's Own Name",
+          "element": "void",
+          "power": 40,
+          "effect": "finisher"
+        }
+      ],
+      "loot_keyblade": "ultima_keyseal",
+      "loot_desc": "The Ultima Keyseal - the final keyblade of the final door.",
+      "desc": "The first Shambler. The one that stole the Door to Darkness itself, and has worn its weight ever since. It is multi-planar - it stands in every world Zero ever visited at once, and only the Twilight Form's five keyblades can reach all of it. Its memory-steal is absolute: it forgets allies' names so Zero must fight for them alone."
+    }
+  ],
+  "acts": [
+    {
+      "act": 1,
+      "title": "ACT ONE - THE DOOR BETWEEN",
+      "worlds": [
+        "traverse_town",
+        "destiny_islands",
+        "wonderland",
+        "olympus_coliseum",
+        "deep_jungle"
+      ],
+      "summary": "Zero falls into the first worldline and closes the first keyholes, meeting the Shamblers that hunt the edges of every story."
+    },
+    {
+      "act": 2,
+      "title": "ACT TWO - KEYS AND MEMORIES",
+      "worlds": [
+        "agrabah",
+        "monstro",
+        "atlantica",
+        "halloween_town",
+        "neverland",
+        "hundred_acre_wood"
+      ],
+      "summary": "The Shamblers begin to coordinate. Zero learns that memory is the currency of the dark - and starts keeping his own."
+    },
+    {
+      "act": 3,
+      "title": "ACT THREE - THE HEART OF THE MACHINE",
+      "worlds": [
+        "hollow_bastion",
+        "pride_lands"
+      ],
+      "summary": "Inside Ansem's fortress, Zero meets the Machine Heart and the Hinge That Opens - and hears a name he refuses to repeat."
+    },
+    {
+      "act": 4,
+      "title": "ACT FOUR - THE SECOND WORLD",
+      "worlds": [
+        "land_of_dragons",
+        "disney_castle",
+        "port_royal"
+      ],
+      "summary": "In the worldline of the second game, the Organization's echoes hunt Zero. The Shamblers wear the faces of old enemies now."
+    },
+    {
+      "act": 5,
+      "title": "ACT FIVE - THE DOOR TO DARKNESS",
+      "worlds": [
+        "wnwas"
+      ],
+      "summary": "At the World That Never Was, Zero takes the Twilight Form and faces the Archon - the Shambler that stole the Door itself."
+    }
+  ]
+}

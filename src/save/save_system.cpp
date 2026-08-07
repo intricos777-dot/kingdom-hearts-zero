@@ -15,7 +15,7 @@ std::string SaveSystem::default_path() {
 bool SaveSystem::initialize() {
     std::memset(&m_record, 0, sizeof(m_record));
     std::memset(&m_shadow, 0, sizeof(m_shadow));
-    m_record.version = 1;
+    m_record.version = 2;
     m_record.world[0] = '\0';
     std::strncpy(m_record.world, "traverse_town", sizeof(m_record.world) - 1);
     m_record.act = 1;
@@ -24,6 +24,18 @@ bool SaveSystem::initialize() {
     m_record.mp = 60;
     m_record.max_mp = 100;
     m_record.keyblade_tier = 0;
+    m_record.level = 1;
+    m_record.xp = 0;
+    m_record.xp_to_next = 30;
+    m_record.base_str = 5;
+    m_record.base_mag = 5;
+    m_record.base_def = 3;
+    m_record.base_spd = 3;
+    m_record.base_crt = 1;
+    m_record.owned_keyblades = 0x1;
+    m_record.active_keyblade = 0;
+    m_record.forms_unlocked = 0;
+    m_record.bosses_defeated = 0;
     m_shadow = m_record;
     m_corrupted = false;
     std::printf("\x1b[2m[Save] checksum save engine ready\x1b[0m\n");

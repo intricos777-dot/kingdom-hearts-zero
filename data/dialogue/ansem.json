@@ -1,0 +1,116 @@
+{
+  "title": "Ansem's Dialogue - Kingdom Hearts 0: Door to Darkness",
+  "note": "Every line in the game is Ansem's voice. He narrates the story, taunts the Shamblers, and - in the last act - lets the truth about Zero's past slip, one word at a time.",
+  "prologue": [
+    "Listen. And listen well, for what I am about to tell you was never written in any book of the worlds.",
+    "There is a keyblade wielder the worlds do not name. They call him Zero - the unknown.",
+    "He walks the edges of every story. He is the bridge between light and dark.",
+    "Now the Door to Darkness is opening. The heroes are scattered across a thousand worlds. And the unknown must step out of the shadows at last."
+  ],
+  "taunts": {
+    "veska_the_erasure": [
+      "Veska erases what it does not understand. You are fortunate, Zero - it has never understood you.",
+      "It is already forgetting your name. Do not let it forget your blade."
+    ],
+    "throx_the_echo": [
+      "The Echo copies everything it hears. Careful, Zero - it has heard your heart beating since Destiny Islands.",
+      "Every strike you make, it makes better. Fight like yourself, not like your echo."
+    ],
+    "qilra_the_trial": [
+      "The Trial judges memory itself. It has already struck your journal from the record. What remains of your story now?",
+      "Off with your name. That is its only sentence - and it never appeals."
+    ],
+    "herrak_the_phantom": [
+      "The Phantom fights in the bracket Hades built for ghosts. Win, and even Hades will have to remember you.",
+      "It steals drive gauges, Zero. It knows what you will need to become."
+    ],
+    "zankor_the_vine": [
+      "The Vine speaks in borrowed words. Even its threats belong to someone else.",
+      "It strangles the jungle's voice so the Keyhole cannot cry for help."
+    ],
+    "mallos_the_hoard": [
+      "The Hoard weighs its memories in gold. It has been weighing yours for a thousand years.",
+      "A diamond in the rough glitters only in the dark. It is afraid you will glitter brighter than its treasure."
+    ],
+    "vurok_the_belly": [
+      "Vurok swallows commands like sailors. Its hunger is the only memory it keeps.",
+      "Empty it, Zero. That is the only mercy it understands."
+    ],
+    "yssora_the_tide": [
+      "The Tide stole a princess's voice because it could not stand one thing that was purely sweet.",
+      "Under the sea, even silence has a song. It is terrified you will sing."
+    ],
+    "grinx_the_grin": [
+      "The Grin is a smile with nothing behind it. You know that smile, Zero - you have worn it for years.",
+      "It steals time because it is running out of it."
+    ],
+    "nox_the_hook": [
+      "The Hook steals the memory of flight so everyone must walk its plank. How does a cloak learn to hate the sky?",
+      "It fears falling. Everything Shambler fears falling - the dark below them is the same dark they feed on."
+    ],
+    "poohs_shadow": [
+      "The Page-Eater is what a Shambler becomes when it tries to eat a world made of kindness. It chokes, Zero. It chokes and cannot stop.",
+      "That world is the only one that has never held a keyhole. It eats Shamblers for breakfast."
+    ],
+    "the_machine_heart": [
+      "This is the heart of the machine that made me. Beating it is beating the narrator of your own story.",
+      "It wears my memory like armor. Everything I have said to you - it has heard it all."
+    ],
+    "the_hinge_that_opens": [
+      "The Hinge only opens what should stay shut. It creaks the old name of the door it serves, and the name is not mine.",
+      "Do not let it finish its sentence, Zero. You are not ready to hear it."
+    ],
+    "the_organizations_eye": [
+      "The Eye watches every battle and sells the knowledge. It has already sold your story to the Archon.",
+      "It sees everything except the one thing you have always kept hidden. Use that."
+    ],
+    "saix_the_berserker": [
+      "Saix's face is only a mask now. The berserk moon behind it is pure Shambler - and the moon is full tonight.",
+      "The longer it fights, the less of itself it remembers being. Be glad your own madness has a name."
+    ],
+    "luxord_the_gambler": [
+      "Luxord deals from your memories. Every card is a day you lived that it thinks it can spend.",
+      "It bets everything on the last hand. Win, and it will owe you more than it can steal."
+    ],
+    "the_archon": [
+      "The Archon stole the Door to Darkness itself. It has worn the door's weight ever since - and the weight has made it strong.",
+      "It stands in every world you ever visited, all at once. Only the Twilight Form's five keyblades can reach all of it.",
+      "Fight it as yourself, Zero. Fight it as the one who lived between. And when it asks your name - remember that it already stole it.",
+      "This is the last story I will narrate. I am proud of the one telling it."
+    ]
+  },
+  "keyhole_closed": [
+    "The keyhole closes. Another world breathes.",
+    "Sealed. The door between that world and the dark has been locked from the inside.",
+    "The keyhole remembers the one who closed it. You are becoming real to the worlds, Zero."
+  ],
+  "shambler_defeated": [
+    "A Shambler falls - and with it, a fragment of the memory it stole.",
+    "The cloak collapses into nothing. Somewhere, a stolen memory returns to its owner.",
+    "You have unwritten one of the Archon's pages."
+  ],
+  "archon_defeated": [
+    "It is done. The Archon falls, and the Door to Darkness closes at last - from both sides.",
+    "You were never alone in there, were you, Terra?",
+    "The old name slips out. I could not keep it forever. The story is over, Zero - and now the story of who you were can begin."
+  ],
+  "journal_entries": {
+    "traverse_town": "The urchins named me Zero. I let them. It is easier than the truth.",
+    "destiny_islands": "I saw the drawing in the cave. A keyblade, drawn by children who did not know what they were drawing. I took a shard of the first light.",
+    "wonderland": "The Queen judged me without a trial. I judged her without a verdict. We were both wrong, but I closed the keyhole first.",
+    "olympus_coliseum": "Hercules never saw me fight. He saw a shadow win. That is what I am for.",
+    "deep_jungle": "I spoke without the mask today. The jungle accepted me anyway. I have forgotten the last time that happened.",
+    "agrabah": "I left a single coin in the Cave of Wonders. The only treasure I have ever owned.",
+    "monstro": "The whale sneezed us free. Pinocchio's heart was real - made, but real. I held it for a moment.",
+    "atlantica": "I tasted salt today. I did not know I could taste anything.",
+    "halloween_town": "Jack took his bow. I closed the grin before it could laugh at us.",
+    "neverland": "I found proof Sora is alive. The boy who lost himself is still out there.",
+    "hundred_acre_wood": "For one chapter, I was not the unknown. I was just someone who walked in from the dark to play. It was the best chapter.",
+    "hollow_bastion": "I saw a face in the reflection that was not mine. Old eyes. A seeker's eyes. The dark whispered a name I have never spoken: Terra.",
+    "pride_lands": "The Hinge creaked the old name again. I covered my ears, but the sound was inside my head.",
+    "land_of_dragons": "The Eye sold my story. I wonder what it was worth.",
+    "disney_castle": "The clockwork vault held a fragment of the final keyblade. The Archon knows I am coming.",
+    "port_royal": "I won the last hand. Luxord owes me more than it can steal - it owes me its name.",
+    "wnwas": "The Archon stole the Door itself. I am going to take it back."
+  }
+}
