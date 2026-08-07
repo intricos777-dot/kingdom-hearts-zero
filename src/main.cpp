@@ -134,13 +134,13 @@ int act_one(khz::SaveSystem& saves) {
             map.push_back(row.get<std::string>());
     }
     if (map.empty()) map = {"###", "#S#", "###"};
-    for (const auto& row : map) {
-        bool has_start = false;
-        for (char c : row) if (c == 'S') { has_start = true; break; }
-        if (!has_start) {
-            std::printf("  \x1b[2m[act one] the map has no start point\x1b[0m\n");
-            return 1;
-        }
+    bool any_start = false;
+    for (const auto& row : map)
+        for (char c : row)
+            if (c == 'S') { any_start = true; break; }
+    if (!any_start) {
+        std::printf("  \x1b[2m[act one] the map has no start point\x1b[0m\n");
+        return 1;
     }
 
     int px = 1, py = 1;

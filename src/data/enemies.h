@@ -30,6 +30,7 @@ struct EnemyDef {
     std::vector<EnemyAttack> attacks;
     std::string loot_keyblade;
     std::string loot_desc;
+    std::string music;   // boss fight track clip id
     std::string desc;
 };
 

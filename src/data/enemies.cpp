@@ -24,6 +24,7 @@ EnemyDef parse_enemy(const nlohmann::json& e, const std::string& kind) {
     d.memory_steal = e.value("memory_steal", "");
     d.loot_keyblade = e.value("loot_keyblade", "");
     d.loot_desc = e.value("loot_desc", "");
+    d.music = e.value("music", "");
     d.desc = e.value("desc", "");
     for (const auto& a : e.value("attacks", nlohmann::json::array())) {
         EnemyAttack at;
