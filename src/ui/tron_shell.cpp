@@ -42,6 +42,9 @@ bool TronShell::init(const char* title) {
     m_beat_count = m_db.worlds().empty() ? 0 : m_db.worlds()[0].beats.size() + 1;
     m_saves.initialize();
     m_saves.load(SaveSystem::default_path());
+    m_blades.load("data/combat/keyblades.json");
+    m_enemies.load("data/combat/enemies.json");
+    m_combat.bind(m_saves, m_blades);
     m_audio.init("assets/audio");
     m_music.attach(m_audio);
     m_music.load("data/audio/music.json");
@@ -73,6 +76,8 @@ std::vector<std::string> TronShell::deck_lines(const WorldDef& w) const {
     }
     out.push_back("");
     out.push_back("  [z] enter  [x] cast  [c] guard  [esc] return");
+    if (m_enemies.shambler_for_world(w.id))
+        out.push_back("  [b] INVOKE the Shambler");
     return out;
 }
 
@@ -142,6 +147,33 @@ void TronShell::draw_select(const FrameInput& in) {
     m_renderer.draw_terminal(60, 500, 1160, 200, "TRON // GUIDE", lines, accent, WHITE);
 }
 
+void TronShell::start_battle(const EnemyDef& enemy) {
+    m_combat.begin(enemy);
+    m_battle_cursor = 0;
+    m_battle_log.clear();
+    m_state = State::BATTLE;
+    // boss music: the shambler's own fight track wins over the world theme
+    m_music.play_now(enemy.music.empty() ? m_music.hub().combat : enemy.music);
+}
+
+void TronShell::end_battle() {
+    const auto& r = m_combat.result();
+    SaveRecord& rec = m_saves.record();
+    if (r.victory) {
+        m_combat.reward(r);
+        m_saves.save(SaveSystem::default_path());
+    } else if (rec.hp == 0) {
+        // the dark spares Zero - revive so the journey can continue
+        rec.hp = rec.max_hp;  // no permadeath in the world terminal
+        m_saves.save(SaveSystem::default_path());
+    }
+    // return to the world with world combat theme
+    const auto& w = m_db.worlds()[m_selected];
+    if (const WorldThemeMusic* t = m_music.theme_for(w.id))
+        m_music.play_now(t->combat);
+    m_state = State::ADVENTURE;
+}
+
 void TronShell::draw_adventure(const FrameInput& in) {
     auto& worlds = m_db.worlds();
     const WorldDef& w = worlds[m_selected];
@@ -154,6 +186,12 @@ void TronShell::draw_adventure(const FrameInput& in) {
         std::snprintf(rec.world, sizeof(rec.world), "%s", w.id.c_str());
         rec.memories_held = std::min(m_beat, w.beats.size());
         m_saves.save(SaveSystem::default_path());
+    }
+    if (in.key == 'b' || in.key == 'B' || in.tab) {
+        if (const EnemyDef* shambler = m_enemies.shambler_for_world(w.id)) {
+            start_battle(*shambler);
+            return;
+        }
     }
 
     m_renderer.draw_text(20, 16, "KINGDOM HEARTS 0: DOOR TO DARKNESS", true, 22, accent);
@@ -188,6 +226,110 @@ void TronShell::draw_adventure(const FrameInput& in) {
     m_renderer.draw_terminal(780, 250, 440, 430, "COMMAND DECK", deck_lines(w), accent, WHITE);
 }
 
+void TronShell::draw_battle(const FrameInput& in) {
+    const auto& v = m_combat.view();
+    const auto& worlds = m_db.worlds();
+    const WorldDef& w = worlds[m_selected];
+    const float* accent = accent_for(w);
+
+    auto flee = [&]() {
+        end_battle();
+    };
+
+    // ---- input handling per phase ----
+    if (v.phase == BattlePhase::FormSelect) {
+        auto names = m_combat.form_names();
+        if (in.up || in.left) m_battle_cursor = (m_battle_cursor + names.size() - 1) % names.size();
+        else if (in.down || in.right) m_battle_cursor = (m_battle_cursor + 1) % names.size();
+        if (in.enter || in.key == 'z') {
+            m_combat.select_form(m_battle_cursor);
+            m_battle_cursor = 0;
+        }
+        if (in.esc || in.back) flee();
+    } else if (v.phase == BattlePhase::PlayerTurn) {
+        if (in.up || in.left) m_battle_cursor = (m_battle_cursor + v.deck.size() - 1) % v.deck.size();
+        else if (in.down || in.right) m_battle_cursor = (m_battle_cursor + 1) % v.deck.size();
+        if (in.enter || in.key == 'z') {
+            std::vector<std::string> lines = m_combat.act(m_battle_cursor);
+            m_battle_log.insert(m_battle_log.end(), lines.begin(), lines.end());
+            if (m_battle_log.size() > 40) m_battle_log.erase(m_battle_log.begin(),
+                                                             m_battle_log.begin() + (m_battle_log.size() - 40));
+            m_battle_cursor = 0;
+        }
+        if (in.esc || in.back) flee();
+    } else {
+        // Victory / Defeat: dismiss and apply rewards
+        if (in.enter || in.esc) { end_battle(); return; }
+        if (in.key == '\n' || in.key == 'z') end_battle();
+    }
+
+    // ---- render ----
+    m_renderer.draw_text(20, 16, "KINGDOM HEARTS 0: DOOR TO DARKNESS", true, 22, RED);
+    m_renderer.draw_text(22, 44, "BATTLE // " + w.name + " - Ansem narrates the dark", false, 15, DIM);
+
+    // enemy panel
+    std::vector<std::string> enemy_lines = {
+        v.enemy_name + (v.enemy_kind == "shambler" ? "   [SHAMBLER]" : "   [HEARTLESS]"),
+        "",
+        "HP " + std::to_string(v.enemy_hp) + "/" + std::to_string(v.enemy_max_hp),
+        "",
+        "music: " + (v.music.empty() ? "(world theme)" : v.music),
+    };
+    m_renderer.draw_terminal(60, 100, 560, 190, "ENEMY", enemy_lines, RED, WHITE);
+
+    // player panel
+    std::vector<std::string> p = {
+        "Zero",
+        "",
+        "HP " + std::to_string(v.hp) + "/" + std::to_string(v.max_hp),
+        "MP " + std::to_string(v.mp) + "/" + std::to_string(v.max_mp),
+    };
+    m_renderer.draw_terminal(660, 100, 560, 190, "ZERO", p, accent, WHITE);
+
+    // action panel: form select or deck
+    if (v.phase == BattlePhase::FormSelect) {
+        auto names = m_combat.form_names();
+        std::vector<std::string> forms;
+        for (size_t i = 0; i < names.size(); ++i)
+            forms.push_back(std::string(i == m_battle_cursor ? ">> " : "    ") + names[i]);
+        forms.push_back("");
+        forms.push_back("select with up/down, confirm with enter");
+        m_renderer.draw_terminal(120, 320, 700, 340, "CHOOSE FORM", forms, VIOLET, WHITE);
+    } else if (v.phase == BattlePhase::PlayerTurn) {
+        std::vector<std::string> deck;
+        for (size_t i = 0; i < v.deck.size(); ++i)
+            deck.push_back(std::string(i == m_battle_cursor ? ">> " : "    ") + v.deck[i].name +
+                           " (" + std::to_string(v.deck[i].cost) + "MP)");
+        deck.push_back("");
+        deck.push_back("up/down choose   enter act   esc flee");
+        m_renderer.draw_terminal(120, 320, 700, 340, "COMMAND DECK", deck, accent, WHITE);
+    } else if (v.phase == BattlePhase::Victory) {
+        std::vector<std::string> win = {
+            "The shambler falls.",
+            "",
+            "XP +" + std::to_string(m_combat.result().xp),
+            m_combat.result().loot_keyblade.empty()
+                ? ""
+                : "KEYBLADE: " + m_combat.result().loot_keyblade,
+        };
+        win.push_back("");
+        win.push_back("press enter to continue");
+        m_renderer.draw_terminal(120, 320, 700, 340, "VICTORY", win, GREEN, WHITE);
+    } else if (v.phase == BattlePhase::Defeat) {
+        std::vector<std::string> lose = {
+            "The dark closes around Zero...",
+            "",
+            "memories lost: " + std::to_string(v.memories_stolen),
+            "",
+            "press enter to return",
+        };
+        m_renderer.draw_terminal(120, 320, 700, 340, "DEFEAT", lose, RED, WHITE);
+    }
+
+    // battle log
+    m_renderer.draw_terminal(860, 320, 360, 340, "BATTLE LOG", m_battle_log, AMBER, WHITE);
+}
+
 void TronShell::run() {
     uint64_t last = SDL_GetTicks64();
     while (!m_renderer.should_close()) {
@@ -198,16 +340,18 @@ void TronShell::run() {
 
         m_renderer.begin_frame(0.02f, 0.03f, 0.06f);
         if (m_state == State::SELECT) draw_select(in);
-        else draw_adventure(in);
+        else if (m_state == State::ADVENTURE) draw_adventure(in);
+        else draw_battle(in);
         m_renderer.end_frame();
 
         // MusicDirector / AFK watchdog: feed input + world + boss state.
         const bool any_input = in.enter || in.esc || in.left || in.right ||
                                in.up || in.down || in.vol_up || in.vol_down;
         const bool boss = (m_state == State::BATTLE);
+        const std::string& boss_clip = boss ? m_combat.view().music : "";
         m_music.tick(m_state == State::SELECT ? "hub"
                                               : m_db.worlds()[m_selected].id,
-                     boss, "", SDL_GetTicks64(), any_input);
+                     boss, boss_clip, SDL_GetTicks64(), any_input);
 
         uint64_t now = SDL_GetTicks64();
         if (now - last < 16) SDL_Delay(16 - (now - last));

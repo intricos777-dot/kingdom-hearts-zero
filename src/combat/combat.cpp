@@ -5,6 +5,7 @@
 #include <cstring>
 #include <ctime>
 #include <algorithm>
+#include <iostream>
 
 namespace khz {
 
@@ -24,7 +25,13 @@ std::string hp_bar(uint32_t cur, uint32_t max, uint32_t width) {
 }
 
 CombatEngine::CombatEngine(SaveSystem& saves, const KeybladeDB& blades)
-    : m_saves(saves), m_blades(blades) {
+    {
+    bind(saves, blades);
+}
+
+void CombatEngine::bind(SaveSystem& saves, const KeybladeDB& blades) {
+    m_saves = &saves;
+    m_blades = &blades;
     std::srand((unsigned)std::time(nullptr));
     rebuild_deck();
 }
@@ -33,7 +40,7 @@ CombatEngine::CombatEngine(SaveSystem& saves, const KeybladeDB& blades)
 
 void CombatEngine::rebuild_deck() {
     m_deck.clear();
-    const uint32_t lvl = m_saves.record().level;
+    const uint32_t lvl = m_saves->record().level;
     m_deck.push_back({"Slash", "slash", 0, 10 + lvl / 3, true});
     if (lvl >= 1) m_deck.push_back({"Fira", "fire", 8, 24 + lvl / 2, true});
     if (lvl >= 3) m_deck.push_back({"Blizzard", "blizzard", 8, 22 + lvl / 2, true});
@@ -51,95 +58,66 @@ const KeybladeDef* active_blade(const SaveRecord& rec, const KeybladeDB& db) {
     return db.by_index(rec.active_keyblade);
 }
 
-// Twilight form: stats from up to 5 owned blades at once.
-struct SummedBlade {
-    uint32_t str = 0, mag = 0, def = 0, crt = 0, spd = 0;
-    uint32_t count = 0;
-};
-SummedBlade sum_blades(const SaveRecord& rec, const KeybladeDB& db, uint32_t limit) {
-    SummedBlade s;
+// Twilight form: stats from owned blades (up to `limit` of the best).
+template <typename T>
+uint32_t twilight_sum(const SaveRecord& rec, const KeybladeDB& db, uint32_t limit,
+                      T KeybladeDef::*field) {
     std::vector<const KeybladeDef*> owned;
-    for (uint32_t i = 0; i < 32; ++i) {
+    for (uint32_t i = 0; i < 32; ++i)
         if (rec.owned_keyblades & (1u << i))
             if (const KeybladeDef* b = db.by_index(i)) owned.push_back(b);
+    std::sort(owned.begin(), owned.end(),
+              [&](const KeybladeDef* a, const KeybladeDef* b) {
+                  return (a->*field) > (b->*field);
+              });
+    uint32_t sum = 0;
+    for (size_t i = 0; i < std::min<size_t>(limit, owned.size()); ++i) {
+        int32_t v = (int32_t)(owned[i]->*field);
+        if (v > 0) sum += (uint32_t)v;
     }
-    std::sort(owned.begin(), owned.end(), [](const KeybladeDef* a, const KeybladeDef* b) {
-        return (a->str + a->mag) > (b->str + b->mag);
-    });
-    size_t n = std::min<size_t>(limit, owned.size());
-    for (size_t i = 0; i < n; ++i) {
-        s.str += owned[i]->str;
-        s.mag += owned[i]->mag;
-        s.def += owned[i]->def;
-        s.crt += owned[i]->crt;
-        s.spd += (uint32_t)std::max(0, owned[i]->spd);
-        ++s.count;
-    }
-    return s;
+    return sum;
 }
 }
 
 uint32_t CombatEngine::player_str(uint32_t idx) {
-    const SaveRecord& rec = m_saves.record();
+    const SaveRecord& rec = m_saves->record();
     uint32_t base = rec.base_str;
-    if (m_form == FORM_TWILIGHT) {
-        base += sum_blades(rec, m_blades, 5).str;
-        if (m_form & FORM_SHADOW) base = base * 3 / 2;
-        return base;
-    }
-    const KeybladeDef* b = active_blade(rec, m_blades);
-    if (b) base += b->str;
+    if (m_form == FORM_TWILIGHT) return base + twilight_sum(rec, *m_blades, 5, &KeybladeDef::str);
+    if (const KeybladeDef* b = active_blade(rec, *m_blades)) base += b->str;
     if (m_form == FORM_SHADOW) base = base * 3 / 2;
     return base;
 }
 
 uint32_t CombatEngine::player_mag(uint32_t idx) {
-    const SaveRecord& rec = m_saves.record();
+    const SaveRecord& rec = m_saves->record();
     uint32_t base = rec.base_mag;
-    if (m_form == FORM_TWILIGHT) {
-        base += sum_blades(rec, m_blades, 5).mag;
-        if (m_form & FORM_ULTIMA) base = base * 3 / 2;
-        return base;
-    }
-    const KeybladeDef* b = active_blade(rec, m_blades);
-    if (b) base += b->mag;
+    if (m_form == FORM_TWILIGHT) return base + twilight_sum(rec, *m_blades, 5, &KeybladeDef::mag);
+    if (const KeybladeDef* b = active_blade(rec, *m_blades)) base += b->mag;
     if (m_form == FORM_ULTIMA) base = base * 3 / 2;
     return base;
 }
 
 uint32_t CombatEngine::player_def(uint32_t idx) {
-    const SaveRecord& rec = m_saves.record();
+    const SaveRecord& rec = m_saves->record();
     uint32_t base = rec.base_def;
-    if (m_form == FORM_TWILIGHT) {
-        base += sum_blades(rec, m_blades, 5).def;
-        return base;
-    }
-    const KeybladeDef* b = active_blade(rec, m_blades);
-    if (b) base += b->def;
+    if (m_form == FORM_TWILIGHT) return base + twilight_sum(rec, *m_blades, 5, &KeybladeDef::def);
+    if (const KeybladeDef* b = active_blade(rec, *m_blades)) base += b->def;
     return base;
 }
 
 uint32_t CombatEngine::player_crt(uint32_t idx) {
-    const SaveRecord& rec = m_saves.record();
+    const SaveRecord& rec = m_saves->record();
     uint32_t base = rec.base_crt;
-    if (m_form == FORM_TWILIGHT) {
-        base += sum_blades(rec, m_blades, 5).crt;
-        return base;
-    }
-    const KeybladeDef* b = active_blade(rec, m_blades);
-    if (b) base += b->crt;
+    if (m_form == FORM_TWILIGHT) return base + twilight_sum(rec, *m_blades, 5, &KeybladeDef::crt);
+    if (const KeybladeDef* b = active_blade(rec, *m_blades)) base += b->crt;
     return base;
 }
 
 int32_t CombatEngine::player_spd(uint32_t idx) {
-    const SaveRecord& rec = m_saves.record();
+    const SaveRecord& rec = m_saves->record();
     int32_t base = (int32_t)rec.base_spd;
-    if (m_form == FORM_TWILIGHT) {
-        base += (int32_t)sum_blades(rec, m_blades, 5).spd;
-        return base;
-    }
-    const KeybladeDef* b = active_blade(rec, m_blades);
-    if (b) base += b->spd;
+    if (m_form == FORM_TWILIGHT) return base + (int32_t)twilight_sum(rec, *m_blades, 5, &KeybladeDef::spd);
+    if (const KeybladeDef* b = active_blade(rec, *m_blades)) base += b->spd;
     return base;
 }
 
@@ -160,7 +138,7 @@ uint32_t element_multiplier(const std::string& atk, const std::string& def) {
 }
 
 uint32_t CombatEngine::resolve_attack(const Command& cmd, const EnemyDef& e, uint32_t dex) {
-    auto& rec = m_saves.record();
+    auto& rec = m_saves->record();
     bool physical = (cmd.element == "slash" || cmd.element == "guard" ||
                      cmd.element == "dark");
     uint32_t stat = physical ? player_str(dex) : player_mag(dex);
@@ -174,186 +152,189 @@ uint32_t CombatEngine::resolve_attack(const Command& cmd, const EnemyDef& e, uin
     bool crit = (crit_chance > 0) && ((uint32_t)std::rand() % 100) < crit_chance * 5;
     if (crit) dmg = (int32_t)((uint32_t)dmg * 150 / 100);
 
-    // form bonuses
-    if (m_form & FORM_SHADOW && cmd.element == "dark")
-        dmg = (int32_t)((uint32_t)dmg * 130 / 100);
-    if (m_form & FORM_ULTIMA && (cmd.element == "fire" || cmd.element == "blizzard" ||
-                                 cmd.element == "thunder"))
-        dmg = (int32_t)((uint32_t)dmg * 130 / 100);
-
-    std::printf("  \x1b[1mZero\x1b[0m uses \x1b[1m%s\x1b[0m", cmd.name.c_str());
-    if (crit) std::printf(" - \x1b[38;5;220mCRITICAL\x1b[0m");
-    std::printf(" - \x1b[38;5;196m%d\x1b[0m damage.\n", dmg);
     return (uint32_t)std::max(0, dmg);
 }
 
-uint32_t CombatEngine::enemy_attack_damage(const EnemyAttack& atk, uint32_t& memories) {
-    auto& rec = m_saves.record();
+uint32_t CombatEngine::enemy_attack_damage(const EnemyAttack& atk) {
     int32_t dmg = (int32_t)atk.power - (int32_t)player_def(0) / 2;
     dmg = (int32_t)((uint32_t)dmg * element_multiplier(atk.element, "none") / 100);
     if (dmg < 1) dmg = 1;
-
-    if (atk.effect == "steal" && rec.memories_held > 0) {
-        --rec.memories_held;
-        ++memories;
-        std::printf("  \x1b[38;5;196m%s\x1b[0m \x1b[2msteals a memory from you! (%u left)\x1b[0m\n",
-                    atk.name.c_str(), rec.memories_held);
-        return 0;
-    }
-    if (atk.effect == "debuff") {
-        std::printf("  \x1b[38;5;196m%s\x1b[0m - the dark weighs on you.\n", atk.name.c_str());
-    }
-    std::printf("  \x1b[38;5;196m%s\x1b[0m hits for \x1b[38;5;208m%d\x1b[0m.\n",
-                atk.name.c_str(), dmg);
     return (uint32_t)dmg;
 }
 
-// ---- the battle loop ----
+// ---- session ----
 
-BattleResult CombatEngine::battle(const EnemyDef& enemy) {
-    auto& rec = m_saves.record();
-    BattleResult res;
-    std::printf("\n\x1b[1m\x1b[38;5;196m  %s\x1b[0m  \x1b[2m(%s)\x1b[0m\n",
-                enemy.name.c_str(), enemy.kind == "shambler" ? "SHAMBLER" : "HEARTLESS");
-    if (!enemy.desc.empty())
-        std::printf("  \x1b[2m%s\x1b[0m\n\n", enemy.desc.c_str());
-
-    uint32_t ehp = enemy.hp;
-    const bool boss = (enemy.kind == "shambler");
-    uint32_t memories = 0;
-
-    // form select (bosses only)
-    if (boss) {
-        std::printf("  \x1b[1mChoose your form:\x1b[0m\n");
-        std::printf("   1) base        - no bonus\n");
-        if (rec.forms_unlocked & FORM_SHADOW)
-            std::printf("   2) shadow      - SHADOW OVERDRIVE (heartless form)\n");
-        if (rec.forms_unlocked & FORM_ULTIMA)
-            std::printf("   3) ultima      - ULTIMA DRIVE\n");
-        if (rec.forms_unlocked & FORM_TWILIGHT)
-            std::printf("   4) twilight    - five keyblades at once\n");
-        std::printf("  \x1b[2m[form]\x1b[0m ");
-        char buf[16];
-        if (std::fgets(buf, sizeof(buf), stdin)) {
-            switch (buf[0]) {
-                case '2': if (rec.forms_unlocked & FORM_SHADOW) m_form = FORM_SHADOW; break;
-                case '3': if (rec.forms_unlocked & FORM_ULTIMA) m_form = FORM_ULTIMA; break;
-                case '4': if (rec.forms_unlocked & FORM_TWILIGHT) m_form = FORM_TWILIGHT; break;
-                default: m_form = 0;
-            }
-        } else {
-            m_form = 0;
-        }
-        if (m_form)
-            std::printf("  \x1b[2m(form engaged)\x1b[0m\n");
-        rebuild_deck();
-    } else {
-        m_form = 0;
-    }
-
-    uint32_t guard_next = 0;
-    bool player_turn_first = (player_spd(0) >= enemy.spd);
-
-    while (rec.hp > 0 && ehp > 0) {
-        // ---- player turn ----
-        std::printf("\n  \x1b[38;5;196m%s\x1b[0m HP \x1b[38;5;28m%s\x1b[0m %u/%u\n",
-                    enemy.name.c_str(), hp_bar(ehp, enemy.hp, 24).c_str(), ehp, enemy.hp);
-        std::printf("  \x1b[1mZero\x1b[0m HP \x1b[38;5;28m%s\x1b[0m %u/%u  MP \x1b[38;5;27m%s\x1b[0m %u/%u\n",
-                    hp_bar(rec.hp, rec.max_hp, 24).c_str(), rec.hp, rec.max_hp,
-                    hp_bar(rec.mp, rec.max_mp, 16).c_str(), rec.mp, rec.max_mp);
-        std::printf("  \x1b[2m[deck]\x1b[0m ");
-        for (size_t i = 0; i < m_deck.size(); ++i) {
-            const auto& c = m_deck[i];
-            std::printf("%zu) %s\x1b[2m(%uMP)\x1b[0m  ", i + 1, c.name.c_str(), c.cost);
-        }
-        std::printf("\n  \x1b[2m[action]\x1b[0m ");
-        char buf[32];
-        if (!std::fgets(buf, sizeof(buf), stdin)) { res.victory = false; return res; }
-        int choice = std::atoi(buf);
-        if (choice < 1 || (size_t)choice > m_deck.size()) {
-            std::printf("  \x1b[2m(the command is forgotten - the dark murmurs)\x1b[0m\n");
-            continue;
-        }
-        const Command& cmd = m_deck[choice - 1];
-
-        if (cmd.element == "cure") {
-            uint32_t heal = cmd.power;
-            uint32_t old = rec.hp;
-            rec.hp = std::min(rec.max_hp, rec.hp + heal);
-            std::printf("  \x1b[1mZero\x1b[0m casts Cura - restored \x1b[38;5;46m%u\x1b[0m HP.\n",
-                        rec.hp - old);
-        } else if (cmd.element == "focus") {
-            uint32_t gain = cmd.power;
-            rec.mp = std::min(rec.max_mp, rec.mp + gain);
-            std::printf("  \x1b[1mZero\x1b[0m focuses - recovered \x1b[38;5;51m%u\x1b[0m MP.\n", gain);
-        } else if (cmd.element == "guard") {
-            guard_next = player_def(0) * 2 + 8;
-            std::printf("  \x1b[1mZero\x1b[0m raises the guard.\n");
-        } else {
-            if (rec.mp < cmd.cost) {
-                std::printf("  \x1b[2m(not enough MP - the command card flickers)\x1b[0m\n");
-                continue;
-            }
-            rec.mp -= cmd.cost;
-            uint32_t dmg = resolve_attack(cmd, enemy, 0);
-            if (dmg >= ehp) ehp = 0;
-            else ehp -= dmg;
-        }
-
-        if (ehp == 0) break;
-
-        // ---- enemy turn ----
-        uint32_t dmg = 0;
-        if (guard_next > 0) {
-            std::printf("  \x1b[38;5;196m%s\x1b[0m strikes the guard - \x1b[2mblocked\x1b[0m.\n",
-                        enemy.name.c_str());
-            guard_next = 0;
-        } else if (!enemy.attacks.empty() && (boss || (std::rand() % 3) == 0)) {
-            const EnemyAttack& atk = enemy.attacks[std::rand() % enemy.attacks.size()];
-            dmg = enemy_attack_damage(atk, memories);
-        } else {
-            dmg = std::max<uint32_t>(1, enemy.str + 2 - player_def(0) / 2);
-            std::printf("  \x1b[38;5;196m%s\x1b[0m attacks for \x1b[38;5;208m%u\x1b[0m.\n",
-                        enemy.name.c_str(), dmg);
-        }
-        if (dmg >= rec.hp) rec.hp = 0;
-        else rec.hp -= dmg;
-
-        if (rec.hp == 0) {
-            std::printf("\n  \x1b[38;5;196m[The dark closes around Zero...]\x1b[0m\n");
-            res.victory = false;
-            return res;
-        }
-    }
-
-    if (ehp == 0) {
-        res.victory = true;
-        res.xp = enemy.exp * (boss ? 2 : 1);
-        res.memories_stolen = memories;
-        std::printf("\n  \x1b[38;5;220m[%s falls.]\x1b[0m  \x1b[1m+%u XP\x1b[0m\n",
-                    enemy.name.c_str(), res.xp);
-        if (boss && !enemy.loot_keyblade.empty() && enemy.loot_keyblade != "luxords_die") {
-            uint32_t bit = 0;
-            for (size_t i = 0; i < m_blades.all().size(); ++i) {
-                if (m_blades.all()[i].id == enemy.loot_keyblade) { bit = (1u << i); break; }
-            }
-            if (bit && !(rec.owned_keyblades & bit)) {
-                rec.owned_keyblades |= bit;
-                res.loot_keyblade = enemy.loot_keyblade;
-                res.loot_desc = enemy.loot_desc;
-            }
-        }
-    }
-    return res;
+void CombatEngine::begin(const EnemyDef& enemy) {
+    m_enemy = &enemy;
+    m_result = BattleResult{};
+    m_guard_next = 0;
+    m_form = 0;
+    m_view = BattleView{};
+    m_view.phase = BattlePhase::FormSelect;
+    m_view.enemy_name = enemy.name;
+    m_view.enemy_kind = enemy.kind;
+    m_view.enemy_hp = enemy.hp;
+    m_view.enemy_max_hp = enemy.hp;
+    m_view.hp = m_saves->record().hp;
+    m_view.max_hp = m_saves->record().max_hp;
+    m_view.mp = m_saves->record().mp;
+    m_view.max_mp = m_saves->record().max_mp;
+    m_view.music = enemy.music;
+    rebuild_deck();
+    m_view.deck = m_deck;
 }
 
-// ---- XP + leveling (KH2-style growth) ----
+std::vector<std::string> CombatEngine::form_names() const {
+    const auto& forms = m_saves->record().forms_unlocked;
+    std::vector<std::string> names;
+    names.push_back("Base Form");                       // always 0
+    if (forms & FORM_SHADOW)  names.push_back("Shadow Overdrive");
+    if (forms & FORM_ULTIMA)  names.push_back("Ultima Drive");
+    if (forms & FORM_TWILIGHT) names.push_back("Twilight Form");
+    return names;
+}
+
+void CombatEngine::select_form(size_t choice) {
+    switch (choice) {
+        case 1: m_form = FORM_SHADOW; break;
+        case 2: m_form = FORM_ULTIMA; break;
+        case 3: m_form = FORM_TWILIGHT; break;
+        default: m_form = 0;
+    }
+    rebuild_deck();
+    m_view.deck = m_deck;
+    m_view.phase = BattlePhase::PlayerTurn;
+}
+
+// One full round: player command, then (if still alive) the enemy reply.
+// Narration lines are returned for the host to render in its own style.
+#define NARR(fmt, ...)                                      \
+    do {                                                    \
+        char _b[256];                                       \
+        std::snprintf(_b, sizeof(_b), fmt __VA_OPT__(,) __VA_ARGS__); \
+        log.push_back(_b);                                  \
+    } while (0)
+
+std::vector<std::string> CombatEngine::act(size_t deck_index) {
+    auto& rec = m_saves->record();
+    std::vector<std::string> log;
+    if (m_view.phase != BattlePhase::PlayerTurn || deck_index >= m_deck.size() ||
+        !m_enemy) {
+        return log;
+    }
+    const EnemyDef& enemy = *m_enemy;
+    const Command& cmd = m_deck[deck_index];
+
+    // ---- player command ----
+    if (cmd.element == "cure") {
+        uint32_t old = rec.hp;
+        uint32_t heal = std::min(rec.max_hp - rec.hp, cmd.power);
+        rec.hp += heal;
+        m_view.hp = rec.hp;
+        NARR("Zero casts Cura - restored %u HP (%u/%u)", heal, rec.hp, rec.max_hp);
+    } else if (cmd.element == "focus") {
+        uint32_t gain = std::min(rec.max_mp - rec.mp, cmd.power);
+        rec.mp += gain;
+        m_view.mp = rec.mp;
+        NARR("Zero focuses - recovered %u MP (%u/%u)", gain, rec.mp, rec.max_mp);
+    } else if (cmd.element == "guard") {
+        m_guard_next = player_def(0) * 2 + 8;
+        NARR("Zero raises the guard");
+    } else {
+        if (rec.mp < cmd.cost) {
+            NARR("(not enough MP - the card flickers)");
+            return log;
+        }
+        rec.mp -= cmd.cost;
+        m_view.mp = rec.mp;
+        uint32_t dmg = resolve_attack(cmd, enemy, 0);
+        m_view.enemy_hp = (dmg >= m_view.enemy_hp) ? 0 : m_view.enemy_hp - dmg;
+        NARR("Zero: %s strikes for %u damage", cmd.name.c_str(), dmg);
+        if (m_view.enemy_hp == 0) {
+            on_victory(log);
+            return log;
+        }
+    }
+
+    // ---- enemy reply ----
+    uint32_t dmg = 0;
+    if (m_guard_next > 0) {
+        NARR("%s is blocked by the guard.", enemy.name.c_str());
+        m_guard_next = 0;
+    } else if (!enemy.attacks.empty() &&
+               (m_view.enemy_kind == "shambler" || (std::rand() % 5) == 0)) {
+        const EnemyAttack& atk = enemy.attacks[std::rand() % enemy.attacks.size()];
+        if (atk.effect == "steal" && rec.memories_held > 0 && m_view.enemy_kind == "shambler") {
+            --rec.memories_held;
+            ++m_view.memories_stolen;
+            NARR("%s steals a memory from you! (%u left)", enemy.name.c_str(),
+                 rec.memories_held);
+        } else {
+            dmg = enemy_attack_damage(atk);
+            if (atk.effect == "debuff") dmg = (dmg * 3) / 2;
+            NARR("%s uses %s - %u damage.", enemy.name.c_str(), atk.name.c_str(), dmg);
+        }
+    } else {
+        dmg = std::max<uint32_t>(1, enemy.str + 2 - player_def(0) / 2);
+        NARR("%s strikes for %u damage.", enemy.name.c_str(), dmg);
+    }
+    rec.hp = (dmg >= rec.hp) ? 0 : rec.hp - dmg;
+    m_view.hp = rec.hp;
+    if (rec.hp == 0) {
+        NARR("[The dark closes around Zero...]");
+        m_view.phase = BattlePhase::Defeat;
+        m_result = BattleResult{};
+        m_result.victory = false;
+        return log;
+    }
+    m_view.phase = BattlePhase::PlayerTurn;
+    return log;
+}
+#undef NARR
+
+void CombatEngine::on_victory(std::vector<std::string>& log) {
+    const EnemyDef& enemy = *m_enemy;
+    bool boss = (m_view.enemy_kind == "shambler");
+    m_view.phase = BattlePhase::Victory;
+    m_result.victory = true;
+    m_result.xp = enemy.exp * (boss ? 2 : 1);
+    m_result.memories_stolen = m_view.memories_stolen;
+
+    char b[256];
+    std::snprintf(b, sizeof(b), "[%s falls] +%u XP", enemy.name.c_str(), m_result.xp);
+    log.push_back(b);
+    std::printf("  \x1b[38;5;220m%s\x1b[0m\n", b);
+
+    // boss loot: the keyblade the boss guards, once
+    if (boss && !enemy.loot_keyblade.empty()) {
+        size_t idx = 0;
+        for (const auto& k : m_blades->all()) {
+            if (k.id == enemy.loot_keyblade) break;
+            ++idx;
+        }
+        if (idx < m_blades->all().size()) {
+            uint32_t bit = (1u << idx);
+            if (!(m_saves->record().owned_keyblades & bit)) {
+                m_saves->record().owned_keyblades |= bit;
+                const KeybladeDef& k = m_blades->all()[idx];
+                m_result.loot_keyblade = k.id;
+                m_result.loot_desc = k.desc;
+                std::snprintf(b, sizeof(b), "[KEYBLADE EARNED] %s - %s",
+                              k.name.c_str(), k.desc.c_str());
+                log.push_back(b);
+                std::printf("  \x1b[38;5;220m\x1b[1m%s\x1b[0m\n", b);
+            }
+        }
+    }
+}
+
+// ---- XP / leveling (KH2-style) ----
 
 void CombatEngine::reward(const BattleResult& r) {
-    auto& rec = m_saves.record();
+    auto& rec = m_saves->record();
     if (!r.victory) return;
+    uint32_t before = rec.level;
     rec.xp += r.xp;
-    std::vector<uint32_t> gained;
     while (rec.xp >= rec.xp_to_next) {
         rec.xp -= rec.xp_to_next;
         ++rec.level;
@@ -367,21 +348,62 @@ void CombatEngine::reward(const BattleResult& r) {
         rec.xp_to_next = 30 + rec.level * 12;
         rec.hp = rec.max_hp;
         rec.mp = rec.max_mp;
-        gained.push_back(rec.level);
+        std::printf("  \x1b[38;5;220m\x1b[1m[LEVEL UP] Zero is now level %u\x1b[0m\n", rec.level);
     }
-    for (uint32_t lvl : gained) {
-        std::printf("  \x1b[38;5;220m\x1b[1m[LEVEL UP] Zero is now level %u\x1b[0m\n", lvl);
-        std::printf("  \x1b[2m  HP +6  MP +3  and the command deck grows\x1b[0m\n");
-    }
+    m_result.levels_gained = rec.level - before;
+    m_view.hp = rec.hp;
+    m_view.mp = rec.mp;
     rebuild_deck();
+    m_view.deck = m_deck;
 }
 
-bool CombatEngine::unlock_form(uint32_t form_bit, const std::string& flavor) {
-    auto& rec = m_saves.record();
-    if (rec.forms_unlocked & form_bit) return true;
-    rec.forms_unlocked |= form_bit;
-    std::printf("\n  \x1b[38;5;141m\x1b[1m[A new form awakens]\x1b[0m  %s\n", flavor.c_str());
-    return true;
+// ---- terminal wrapper over the shared session ----
+
+BattleResult CombatEngine::battle(const EnemyDef& enemy) {
+    begin(enemy);
+
+    if (m_view.phase == BattlePhase::FormSelect) {
+        auto names = form_names();
+        std::printf("\n  \x1b[1mChoose your form:\x1b[0m\n");
+        for (size_t i = 0; i < names.size(); ++i)
+            std::printf("   %zu) %s\n", i + 1, names[i].c_str());
+        std::printf("  \x1b[2m[form]\x1b[0m ");
+        std::string line;
+        std::getline(std::cin, line);
+        size_t choice = line.empty() ? 0 : (size_t)(line[0] - '1');
+        if (choice >= names.size()) choice = 0;
+        select_form(choice);
+    }
+
+    while (m_view.phase == BattlePhase::PlayerTurn) {
+        std::printf("\n  \x1b[38;5;196m%s\x1b[0m HP \x1b[38;5;28m%s\x1b[0m %u/%u\n",
+                    m_view.enemy_name.c_str(),
+                    hp_bar(m_view.enemy_hp, m_view.enemy_max_hp, 24).c_str(),
+                    m_view.enemy_hp, m_view.enemy_max_hp);
+        std::printf("  \x1b[1mZero\x1b[0m HP \x1b[38;5;28m%s\x1b[0m %u/%u  MP \x1b[38;5;27m%s\x1b[0m %u/%u\n",
+                    hp_bar(m_view.hp, m_view.max_hp, 24).c_str(), m_view.hp, m_view.max_hp,
+                    hp_bar(m_view.mp, m_view.max_mp, 16).c_str(), m_view.mp, m_view.max_mp);
+        std::printf("  \x1b[2m[deck]\x1b[0m ");
+        for (size_t i = 0; i < m_deck.size(); ++i)
+            std::printf("%zu) %s\x1b[2m(%uMP)\x1b[0m  ", i + 1,
+                        m_deck[i].name.c_str(), m_deck[i].cost);
+        std::printf("\n  \x1b[2m[action]\x1b[0m ");
+        std::string line;
+        if (!std::getline(std::cin, line)) { m_result.escaped = true; return m_result; }
+        int choice = std::atoi(line.c_str());
+        if (choice < 1 || (size_t)choice > m_deck.size()) {
+            std::printf("  \x1b[2m(the command is forgotten - the dark murmurs)\x1b[0m\n");
+            continue;
+        }
+        act((size_t)choice - 1);
+    }
+
+    if (m_view.phase == BattlePhase::Victory) {
+        std::printf("\n  \x1b[38;5;220m[%s falls.]\x1b[0m\n", m_view.enemy_name.c_str());
+    } else if (m_view.phase == BattlePhase::Defeat) {
+        std::printf("\n  \x1b[38;5;196m[The dark closes around Zero...]\x1b[0m\n");
+    }
+    return m_result;
 }
 
 } // namespace khz

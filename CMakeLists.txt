@@ -43,6 +43,21 @@ add_library(khz-worlds STATIC
 target_include_directories(khz-worlds PUBLIC src)
 target_link_libraries(khz-worlds PRIVATE te-engine nlohmann_json::nlohmann_json)
 
+# Enemy (Heartless + Shambler bosses) and Keyblade registries
+add_library(khz-data STATIC
+    src/data/enemies.cpp
+    src/data/keyblades.cpp
+)
+target_include_directories(khz-data PUBLIC src)
+target_link_libraries(khz-data PRIVATE nlohmann_json::nlohmann_json)
+
+# Turn-based combat engine over the command deck (terminal + session API)
+add_library(khz-combat STATIC
+    src/combat/combat.cpp
+)
+target_include_directories(khz-combat PUBLIC src)
+target_link_libraries(khz-combat PRIVATE khz-data khz-save khz-ui)
+
 # Background music player (SDL_mixer) with creator credits manifest
 add_library(khz-audio STATIC
     src/audio/audio.cpp
@@ -58,11 +73,20 @@ add_library(khz-render STATIC
 )
 target_include_directories(khz-render PUBLIC src)
 target_link_libraries(khz-render PRIVATE te-engine khz-worlds khz-save khz-audio
+    khz-data khz-combat
     SDL2::SDL2 PkgConfig::SDL2_ttf PkgConfig::GLEW OpenGL::GL)
 
 # Main executable
 enable_testing()
 add_executable(kh-door src/main.cpp)
 target_include_directories(kh-door PRIVATE src)
-target_link_libraries(kh-door PRIVATE te-engine khz-ui khz-story khz-save khz-worlds khz-render khz-audio nlohmann_json::nlohmann_json)
+target_link_libraries(kh-door PRIVATE te-engine khz-ui khz-story khz-save khz-worlds khz-render khz-audio khz-data khz-combat nlohmann_json::nlohmann_json)
 add_test(NAME khz-core COMMAND kh-door --terminal)
+set_tests_properties(khz-core PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+# Headless combat session check (drives the phase machine the shell uses)
+add_executable(khz-combat-test tests/combat_session_test.cpp)
+target_include_directories(khz-combat-test PRIVATE src)
+target_link_libraries(khz-combat-test PRIVATE khz-combat khz-data khz-save khz-ui)
+add_test(NAME khz-combat-session COMMAND khz-combat-test)
+set_tests_properties(khz-combat-session PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})

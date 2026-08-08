@@ -1,0 +1,38 @@
+{
+  "title": "Build Credits - Kingdom Hearts 0: Door to Darkness",
+  "note": "Every A.I. agent that helped design, code, compose, or narrate this build. The music side lives in assets/audio/credits.json; this manifest covers the agents behind the code itself.",
+  "agents": [
+    {
+      "name": "opencode",
+      "role": "Build agent - engineered, refactored, and wired every system in this repo across build sessions (engine integration, audio pipeline, combat engine, Tron shell, data manifests).",
+      "provider": "anomalyco/opencode",
+      "model": "opencode/deepseek-v4-flash-free",
+      "url": "https://opencode.ai"
+    },
+    {
+      "name": "opencode subagents",
+      "role": "Research + task agents (explore/general) used inside build sessions for codebase archaeology and multi-step patches.",
+      "provider": "anomalyco/opencode",
+      "url": "https://opencode.ai/docs/agents"
+    },
+    {
+      "name": "living_sin",
+      "role": "Composer self - created every music track in the game (world, idle, boss variants). See assets/audio/credits.json for the full 27-clip list.",
+      "provider": "Suno",
+      "model": "Suno v4",
+      "url": "https://www.youtube.com/@Living_Sin"
+    },
+    {
+      "name": "Lia",
+      "role": "Companion chat self - creative counterpart during design; syncs via lia-cli bridge (port 4123).",
+      "provider": "lia-cli",
+      "url": "https://github.com/intricos777-dot/lia-cli"
+    },
+    {
+      "name": "Ansem voice (emulated)",
+      "role": "Narrator voice - AI voice emulation for Ansem's narration lines in story scenes. Voice files land in assets/audio/voice/ as they are generated.",
+      "provider": "TTS pipeline",
+      "url": ""
+    }
+  ]
+}
