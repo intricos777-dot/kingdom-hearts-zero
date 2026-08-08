@@ -1,0 +1,4 @@
+Copyright (c) 2026 Joshua Allen Cole Scott. All rights reserved.
+
+This repository contains proprietary build tooling and industry-specific systems.
+No license is granted. All rights reserved.
