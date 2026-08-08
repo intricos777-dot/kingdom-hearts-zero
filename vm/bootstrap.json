@@ -1,0 +1,12 @@
+{
+  "vm_name": "vm-khz",
+  "os": "zen",
+  "memory_mb": 4096,
+  "cpus": 4,
+  "shared_workspace": "/home/sin/Projects/kingdom-hearts-zero",
+  "guest_tools": [
+    "self-heal.sh",
+    "self-debug.sh",
+    "bde-patrol.sh"
+  ]
+}
