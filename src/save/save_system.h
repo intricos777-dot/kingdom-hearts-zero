@@ -34,7 +34,12 @@ struct SaveRecord {
     uint32_t forms_unlocked = 0;
     // Boss kills: bit per Shambler (defeated order == json order)
     uint32_t bosses_defeated = 0;
+    // Command deck persistent state
+    char active_deck[256];
+    uint32_t active_deck_len = 0;
+    uint32_t deck_level = 1; // unlocks slots as player progresses
 };
+;
 
 class SaveSystem {
 public:

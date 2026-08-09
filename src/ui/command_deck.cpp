@@ -1,6 +1,7 @@
 #include "ui/command_deck.h"
 #include "save/save_system.h"
 #include <cstdio>
+#include <cstring>
 #include <algorithm>
 
 namespace khz {
@@ -226,10 +227,27 @@ std::string CommandDeck::resolve(const Command& cmd, SaveSystem& saves) {
         m_hp = std::min(m_max_hp, m_hp + healed);
         rec.hp = m_hp;
         note = cmd.name + " heals " + std::to_string(healed) + " HP (now " + std::to_string(m_hp) + ").";
+    } else if (cmd.element == "focus") {
+        note = cmd.name + " sharpens focus.";
+    } else if (cmd.element == "dark") {
+        note = cmd.name + " pulls at the edges of the dark.";
     } else {
         note = cmd.name + " resolves with no effect.";
     }
     if (rec.hp > 0 && rec.max_hp == 0) rec.max_hp = m_max_hp;
+
+    // Persist current active deck selection for save/load continuity
+    std::memset(rec.active_deck, 0, sizeof(rec.active_deck));
+    rec.active_deck_len = 0;
+    for (size_t i = 0; i < m_commands.size() && i < 8 && rec.active_deck_len < sizeof(rec.active_deck) - 1; ++i) {
+        const auto& c = m_commands[i];
+        size_t len = std::min(c.name.size(), sizeof(rec.active_deck) - rec.active_deck_len - 1);
+        std::memcpy(rec.active_deck + rec.active_deck_len, c.name.c_str(), len);
+        rec.active_deck_len += (uint32_t)len;
+        rec.active_deck[rec.active_deck_len++] = (i + 1 < m_commands.size()) ? ',' : '\0';
+    }
+    rec.deck_level = std::max(rec.deck_level, (uint32_t)((m_commands.size() > 4) ? 2 : 1));
+
     std::printf("  [command] \x1b[1m%s\x1b[0m -> %s\n", cmd.name.c_str(), note.c_str());
     return note;
 }

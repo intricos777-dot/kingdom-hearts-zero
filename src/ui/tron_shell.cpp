@@ -90,22 +90,31 @@ bool TronShell::world_locked(const WorldDef& w) const {
 }
 
 std::vector<std::string> TronShell::deck_lines(const WorldDef& w) const {
-    // world-themed command deck slots, fed by the persistent save state
+    // world-themed command deck, restored from save or rebuilt from defaults
     bool dark = (w.game == "kh2");
     const auto& rec = m_saves.record();
+    std::vector<std::string> deck;
+    deck.push_back("Slash");
+    if (dark) {
+        deck.push_back("Firaga");
+        deck.push_back("Thundaga");
+        deck.push_back("Curaga");
+    } else {
+        deck.push_back("Fira");
+        deck.push_back("Cura");
+        deck.push_back("Thunder");
+        if (rec.deck_level >= 2) deck.push_back("Focus");
+        if (rec.deck_level >= 2) deck.push_back("Dark Side");
+    }
+
     std::vector<std::string> out;
     out.push_back("  " + w.name + " DECK   resonance 88%");
     out.push_back("");
     out.push_back("  HP " + std::to_string(rec.hp) + "/" + std::to_string(rec.max_hp) +
                   "   MP " + std::to_string(rec.mp) + "/" + std::to_string(rec.max_mp));
     out.push_back("");
-    out.push_back("   ▶ Slash       [slash]    0MP");
-    out.push_back("     " + std::string(dark ? "Firaga" : "Fira") + "        [fire]     8MP");
-    out.push_back("     Cura         [cure]    12MP");
-    out.push_back("     " + std::string(dark ? "Thundaga" : "Thunder") + "      [thunder]  16MP");
-    if (!dark) {
-        out.push_back("     Focus        [focus]     6MP");
-        out.push_back("     Dark Side    [dark]     14MP");
+    for (size_t i = 0; i < deck.size(); ++i) {
+        out.push_back("   " + std::string(i == m_active_deck_index ? "▶" : " ") + " " + deck[i]);
     }
     out.push_back("");
     out.push_back("  [z] enter  [x] cast  [c] guard  [esc] return");
@@ -114,6 +123,10 @@ std::vector<std::string> TronShell::deck_lines(const WorldDef& w) const {
             out.push_back("  (shambler gate sealed)");
         else
             out.push_back("  [b] INVOKE the Shambler - act " + std::to_string(s->act));
+    }
+    if (m_deck_message_timer > 0) {
+        out.push_back("");
+        out.push_back("  > " + m_deck_message);
     }
     return out;
 }

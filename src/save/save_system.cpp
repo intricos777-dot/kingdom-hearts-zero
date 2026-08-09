@@ -38,6 +38,9 @@ bool SaveSystem::initialize() {
     m_record.bosses_defeated = 0;
     m_shadow = m_record;
     m_corrupted = false;
+    std::memset(m_record.active_deck, 0, sizeof(m_record.active_deck));
+    m_record.active_deck_len = 0;
+    m_record.deck_level = 1;
     std::printf("\x1b[2m[Save] checksum save engine ready\x1b[0m\n");
     return true;
 }

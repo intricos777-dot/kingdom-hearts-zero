@@ -42,6 +42,9 @@ private:
     // combat session state
     size_t m_battle_cursor = 0;
     std::vector<std::string> m_battle_log;
+    size_t m_active_deck_index = 0;
+    uint32_t m_deck_message_timer = 0;
+    std::string m_deck_message;
 
     void draw_select(const FrameInput& in);
     void draw_adventure(const FrameInput& in);
