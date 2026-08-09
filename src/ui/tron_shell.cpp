@@ -44,6 +44,7 @@ bool TronShell::init(const char* title) {
     m_saves.load(SaveSystem::default_path());
     m_blades.load("data/combat/keyblades.json");
     m_enemies.load("data/combat/enemies.json");
+    m_last_act = sealed_act();
     m_combat.bind(m_saves, m_blades);
     m_audio.init("assets/audio");
     m_music.attach(m_audio);
@@ -54,6 +55,38 @@ bool TronShell::init(const char* title) {
 
 const float* TronShell::accent_for(const WorldDef& w) const {
     return (w.game == "kh2") ? AMBER : CYAN;
+}
+
+uint32_t TronShell::sealed_act() const {
+    // highest act whose whole shambler ledger sits sealed in record().bosses_defeated
+    const auto& sh = m_enemies.shamblers();
+    uint32_t highest = 0;
+    for (const auto& s : sh) highest = std::max(highest, s.act);
+    uint32_t found = 0;
+    for (uint32_t a = 1; a <= highest; ++a) {
+        bool all = true;
+        for (const auto& s : sh) {
+            if (s.act > a) continue;
+            bool sealed = false;
+            for (size_t i = 0; i < sh.size(); ++i)
+                if (sh[i].id == s.id && (m_saves.record().bosses_defeated & (1u << i))) { sealed = true; break; }
+            if (!sealed) { all = false; break; }
+        }
+        if (all) found = a;
+    }
+    return found;
+}
+
+bool TronShell::world_locked(const WorldDef& w) const {
+    // a world's door stays shut until every shambler of earlier acts is sealed
+    const EnemyDef* s = m_enemies.shambler_for_world(w.id);
+    if (!s) return false;
+    const auto& sh = m_enemies.shamblers();
+    for (size_t i = 0; i < sh.size(); ++i) {
+        if (sh[i].act >= s->act) continue;
+        if (!(m_saves.record().bosses_defeated & (1u << i))) return true;
+    }
+    return false;
 }
 
 std::vector<std::string> TronShell::deck_lines(const WorldDef& w) const {
@@ -76,8 +109,12 @@ std::vector<std::string> TronShell::deck_lines(const WorldDef& w) const {
     }
     out.push_back("");
     out.push_back("  [z] enter  [x] cast  [c] guard  [esc] return");
-    if (m_enemies.shambler_for_world(w.id))
-        out.push_back("  [b] INVOKE the Shambler");
+    if (const EnemyDef* s = m_enemies.shambler_for_world(w.id)) {
+        if (world_locked(w))
+            out.push_back("  (shambler gate sealed)");
+        else
+            out.push_back("  [b] INVOKE the Shambler - act " + std::to_string(s->act));
+    }
     return out;
 }
 
@@ -87,15 +124,37 @@ void TronShell::draw_select(const FrameInput& in) {
     if (in.right || in.down) m_selected = (m_selected + 1) % worlds.size();
     if (in.vol_down) m_audio.set_volume(m_audio.volume() - 0.1f);
     if (in.vol_up) m_audio.set_volume(m_audio.volume() + 0.1f);
+
+    // act-unlock banner: announce when the ledger crosses into a new act
+    uint32_t sealed = sealed_act();
+    if (sealed > m_last_act) {
+        m_act_banner = 240;
+        m_last_act = sealed;
+        const char* tag = "ACT TWO // KEYS AND MEMORIES";
+        for (const auto& a : m_enemies.acts())
+            if (a.act == sealed + 1) tag = a.title.c_str();
+        std::printf("\x1b[38;5;45m[Act] the grid opens: %s\x1b[0m\n", tag);
+    }
+    if (m_act_banner > 0) --m_act_banner;
+
     if (in.enter) {
+        const WorldDef& w = worlds[m_selected];
+        if (world_locked(w)) {
+            // sealed door: the shambler behind it outranks the sealed ledger
+            const EnemyDef* s = m_enemies.shambler_for_world(w.id);
+            m_gate_msg = "DOOR SEALED - " + std::to_string(s->act) +
+                         " act shambler. Seal act " + std::to_string(s->act - 1) + " first.";
+            return;
+        }
+        m_gate_msg.clear();
         m_state = State::ADVENTURE;
         m_beat = 0;
         m_beat_count = worlds[m_selected].beats.size() + 1;
-        const WorldDef& w = worlds[m_selected];
-        if (const WorldThemeMusic* t = m_music.theme_for(w.id))
+        const WorldDef& w2 = worlds[m_selected];
+        if (const WorldThemeMusic* t = m_music.theme_for(w2.id))
             m_music.play_now(t->combat);
         else
-            m_audio.play_world(w.id);
+            m_audio.play_world(w2.id);
     }
 
     m_yaw += 0.008f;
@@ -115,7 +174,15 @@ void TronShell::draw_select(const FrameInput& in) {
 
     // title
     m_renderer.draw_text(20, 16, "KINGDOM HEARTS 0: DOOR TO DARKNESS", true, 22, CYAN);
-    m_renderer.draw_text(22, 44, "TRON GRID // WORLD SELECT - select a world with [<]/[>]", false, 15, DIM);
+    {
+        const char* act_tag = "ACT ONE - THE DOOR BETWEEN";
+        for (const auto& a : m_enemies.acts())
+            if (a.act == m_last_act + 1) act_tag = a.title.c_str();
+        m_renderer.draw_text(22, 44,
+                             std::string("TRON GRID // WORLD SELECT - [<]/[>] travel - ") + act_tag +
+                                 std::string("  [sealed: act ") + std::to_string(m_last_act) + " clearest]",
+                             false, 15, DIM);
+    }
 
     // node labels above beams
     for (size_t i = 0; i < nodes.size(); ++i) {
@@ -124,7 +191,10 @@ void TronShell::draw_select(const FrameInput& in) {
         // instead draw labels in the side list panel (below) and a small floating tag via overlay
         (void)sx; (void)sz;
         if (i == m_selected) {
-            m_renderer.draw_text(20, 700, ">> " + nodes[i].name, true, 22, accent_for(worlds[i]));
+            std::string label = ">> " + nodes[i].name;
+            if (world_locked(worlds[i])) label += "  [SEALED]";
+            m_renderer.draw_text(20, 700, label, true, 22,
+                                 world_locked(worlds[i]) ? RED : accent_for(worlds[i]));
         }
     }
 
@@ -132,12 +202,22 @@ void TronShell::draw_select(const FrameInput& in) {
     const WorldDef& w = worlds[m_selected];
     const float* accent = accent_for(w);
     std::vector<std::string> lines;
-    lines.push_back("TRON:// " + w.name);
+    lines.push_back("TRON:// " + w.name + (world_locked(w) ? std::string("  [DOOR SEALED]")
+                                                           : std::string("  [open]")));
     lines.push_back("");
     lines.push_back("WHERE   " + w.timeline);
     lines.push_back("WHEN    " + w.why);
     lines.push_back("WHY     " + w.story);
     lines.push_back("");
+    if (const EnemyDef* s = m_enemies.shambler_for_world(w.id)) {
+        if (world_locked(w))
+            lines.push_back("SHAMBLER act " + std::to_string(s->act) + ": " + s->name);
+        else
+            lines.push_back("SHAMBLER act " + std::to_string(s->act) + ": " + s->name +
+                            "  [" + s->desc + "]");
+    }
+    if (!m_gate_msg.empty()) lines.push_back("");
+    if (!m_gate_msg.empty()) lines.push_back(m_gate_msg);
     if (const MusicCredit* c = m_audio.credit_for(m_audio.current_clip())) {
         lines.push_back("MUSIC   " + c->title + " - " + c->creator);
         lines.push_back("        " + c->youtube_url);
@@ -145,6 +225,16 @@ void TronShell::draw_select(const FrameInput& in) {
     }
     lines.push_back("[enter] journey to " + w.name + "   [esc] return to the dark   [ [ ]/[ ] ] volume");
     m_renderer.draw_terminal(60, 500, 1160, 200, "TRON // GUIDE", lines, accent, WHITE);
+
+    // act-unlock banner: a flash when the next act's doors crack open
+    if (m_act_banner > 0) {
+        static const float BANNER[4] = {1.0f, 0.8f, 0.2f, 1.0f};
+        m_renderer.draw_text(220, 300, "THE GRID OPENED - ACT " + std::to_string(m_last_act + 1) +
+                                          " // KEYS AND MEMORIES",
+                             true, 30, BANNER);
+        m_renderer.draw_text(220, 340, "the world-select grid re-syncs; earlier acts record clean.",
+                             false, 16, WHITE);
+    }
 }
 
 void TronShell::start_battle(const EnemyDef& enemy) {
@@ -161,6 +251,10 @@ void TronShell::end_battle() {
     SaveRecord& rec = m_saves.record();
     if (r.victory) {
         m_combat.reward(r);
+        // shambler seal ledger: bit index == json order
+        const auto& sh = m_enemies.shamblers();
+        for (size_t i = 0; i < sh.size(); ++i)
+            if (sh[i].id == m_combat.view().enemy_id) rec.bosses_defeated |= (1u << i);
         m_saves.save(SaveSystem::default_path());
     } else if (rec.hp == 0) {
         // the dark spares Zero - revive so the journey can continue
@@ -219,7 +313,19 @@ void TronShell::draw_adventure(const FrameInput& in) {
     size_t shown = std::min(m_beat, w.beats.size());
     for (size_t i = 0; i < shown; ++i) story.push_back("  * " + w.beats[i]);
     if (shown < w.beats.size()) story.push_back("");
-    story.push_back("  [enter] next beat   [esc] leave " + w.name);
+    if (shown < w.beats.size()) story.push_back("  [enter] next beat   [esc] leave " + w.name);
+
+    // Act 2 ambience: Nobody sightings once per world while the seal-ledger works.
+    static const int SIGHTING_BEAT = 3;
+    const EnemyDef* sh = m_enemies.shambler_for_world(w.id);
+    if (sh && sh->act >= 2 && m_beat >= SIGHTING_BEAT && m_beat < SIGHTING_BEAT + 1 &&
+        !(m_nobody_seen & (1u << m_selected))) {
+        m_nobody_seen |= (1u << m_selected);
+        story.push_back("");
+        story.push_back("  [sighting] a hooded figure watches from the gridline...");
+        story.push_back("  [sighting] a Nobody. it vanishes behind a collapsing beat.");
+    }
+
     m_renderer.draw_terminal(60, 250, 700, 430, "ANSEM // STORY", story, VIOLET, WHITE);
 
     // command deck terminal (world-themed)

@@ -173,6 +173,7 @@ void CombatEngine::begin(const EnemyDef& enemy) {
     m_view.phase = BattlePhase::FormSelect;
     m_view.enemy_name = enemy.name;
     m_view.enemy_kind = enemy.kind;
+    m_view.enemy_id = enemy.id;
     m_view.enemy_hp = enemy.hp;
     m_view.enemy_max_hp = enemy.hp;
     m_view.hp = m_saves->record().hp;

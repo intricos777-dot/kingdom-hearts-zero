@@ -34,6 +34,10 @@ private:
     State m_state = State::SELECT;
     size_t m_beat = 0;
     size_t m_beat_count = 0;
+    uint32_t m_nobody_seen = 0;   // bit per world: Nobody sighting delivered
+    uint32_t m_last_act = 1;
+    uint32_t m_act_banner = 0;    // frames remaining on the act-unlock banner
+    std::string m_gate_msg;       // last "door is sealed" notice
 
     // combat session state
     size_t m_battle_cursor = 0;
@@ -46,6 +50,10 @@ private:
     void end_battle();
     std::vector<std::string> deck_lines(const WorldDef& w) const;
     const float* accent_for(const WorldDef& w) const;
+
+    // Act 2 gating: shambler acts vs persistent shambler-seal ledger.
+    uint32_t sealed_act() const;             // highest act fully sealed
+    bool world_locked(const WorldDef& w) const;
 };
 
 } // namespace khz

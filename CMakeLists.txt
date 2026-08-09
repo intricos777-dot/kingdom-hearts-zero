@@ -81,7 +81,7 @@ enable_testing()
 add_executable(kh-door src/main.cpp)
 target_include_directories(kh-door PRIVATE src)
 target_link_libraries(kh-door PRIVATE te-engine khz-ui khz-story khz-save khz-worlds khz-render khz-audio khz-data khz-combat nlohmann_json::nlohmann_json)
-add_test(NAME khz-core COMMAND kh-door --terminal)
+add_test(NAME khz-core COMMAND bash -c "printf '4\\n' | $<TARGET_FILE:kh-door> --terminal")
 set_tests_properties(khz-core PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # Headless combat session check (drives the phase machine the shell uses)

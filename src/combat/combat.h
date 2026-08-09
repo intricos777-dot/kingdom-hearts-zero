@@ -48,6 +48,7 @@ struct BattleView {
     BattlePhase phase = BattlePhase::None;
     std::string enemy_name;
     std::string enemy_kind;   // "shambler" | "heartless"
+    std::string enemy_id;     // manifest id (seal ledger key)
     uint32_t enemy_hp = 0;
     uint32_t enemy_max_hp = 0;
     uint32_t hp = 0, max_hp = 0;
