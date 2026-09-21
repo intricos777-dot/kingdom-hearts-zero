@@ -21,6 +21,7 @@ EnemyDef parse_enemy(const nlohmann::json& e, const std::string& kind,
     d.spd = e.value("spd", 1);
     d.crt = e.value("crt", 1);
     d.exp = e.value("exp", 10);
+    d.stagger = e.value("stagger", 100);
     d.element = e.value("element", "none");
     d.memory_steal = e.value("memory_steal", "");
     d.loot_keyblade = e.value("loot_keyblade", "");

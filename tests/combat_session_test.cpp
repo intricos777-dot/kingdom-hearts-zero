@@ -77,6 +77,7 @@ int main() {
         const auto& cmd = deck[pick];
         (void)cmd;
         if (engine.view().mp >= deck[1].cost) pick = 1;
+        engine.tick_atb(1.0f);   // FF7R-flavored gauge: one segment per round
         engine.act(pick);
         guard = 0;
     }
@@ -110,6 +111,7 @@ int main() {
             const auto& deck = engine.view().deck;
             size_t pick = 0;
             if (engine.view().mp >= deck[1].cost) pick = 1;
+            engine.tick_atb(1.0f);   // charge a segment before the command
             engine.act(pick);
         }
         const auto& r2 = engine.result();

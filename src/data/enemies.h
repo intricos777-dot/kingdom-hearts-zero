@@ -27,6 +27,7 @@ struct EnemyDef {
     uint32_t spd = 1;
     uint32_t crt = 1;
     uint32_t exp = 10;
+    uint32_t stagger = 100;    // stagger-bar max (FF7R-flavored pressure)
     std::string element;
     std::string memory_steal;
     std::vector<EnemyAttack> attacks;

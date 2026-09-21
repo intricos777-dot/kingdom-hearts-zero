@@ -122,6 +122,13 @@ target_link_libraries(khz-moogle-test PRIVATE khz-moogle khz-data khz-save khz-m
 add_test(NAME khz-moogle-stall COMMAND khz-moogle-test)
 set_tests_properties(khz-moogle-stall PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
+# FF7R-flavored combat check (ATB gate, pressure/stagger, dodge/block, Echo)
+add_executable(khz-atb-test tests/atb_combat_test.cpp)
+target_include_directories(khz-atb-test PRIVATE src)
+target_link_libraries(khz-atb-test PRIVATE khz-combat khz-data khz-save khz-ui khz-materials)
+add_test(NAME khz-atb COMMAND khz-atb-test)
+set_tests_properties(khz-atb PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
 # Alpha content smoke test (NPCs, areas, drive forms, doors).
 add_executable(khz-alpha-test tests/alpha_content_test.cpp)
 target_include_directories(khz-alpha-test PRIVATE src)

@@ -121,3 +121,17 @@ unlocked yet, and refuses to take munny twice for a blade already owned.
 **Rule 7 (new, amending): nothing is found, everything is finished.** The
 Ultima Weapon is not a reward hidden in a chest; it is the forge's answer to
 what Zero has seen. "The philosopher's stone is forged one step at a time."
+
+## 7. The Echo — a second breath of the drowned shore
+
+When Zero lets a full gauge of the dark's patience slack, he can step back
+and let *someone else* stand — a resonance of the boy who drew a keyblade
+in the sand. The Echo is not a person and not a memory; it is the fight's
+second breath, built fresh every battle and surrendered to the dark when
+it unravels. It has no name, saves nothing, and owns nothing — it answers
+the drowned shore, and the shore is only ever one swing away.
+
+**Rule 8 (new, minor): the cast is one; the Echo is a resonance, not a
+member.** It never persists, it never levels, and it is indistinguishable
+from Zero's own will at the moment of swapping. The one-observer doctrine
+stands; the observer simply changes which shadow the light falls on.

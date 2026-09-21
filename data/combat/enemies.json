@@ -39,7 +39,8 @@
           "chance_per_mille": 100,
           "arc": 1
         }
-      ]
+      ],
+      "stagger": 40
     },
     {
       "id": "soldier",
@@ -81,7 +82,8 @@
           "chance_per_mille": 80,
           "arc": 1
         }
-      ]
+      ],
+      "stagger": 40
     },
     {
       "id": "large_body",
@@ -120,7 +122,8 @@
           "chance_per_mille": 100,
           "arc": 3
         }
-      ]
+      ],
+      "stagger": 40
     },
     {
       "id": "neoshadow",
@@ -158,7 +161,8 @@
           "chance_per_mille": 100,
           "arc": 2
         }
-      ]
+      ],
+      "stagger": 40
     },
     {
       "id": "wyvern",
@@ -196,7 +200,8 @@
           "chance_per_mille": 80,
           "arc": 3
         }
-      ]
+      ],
+      "stagger": 40
     },
     {
       "id": "sorcerer",
@@ -236,7 +241,8 @@
           "chance_per_mille": 120,
           "arc": 2
         }
-      ]
+      ],
+      "stagger": 40
     },
     {
       "id": "dusk",
@@ -277,7 +283,8 @@
           "chance_per_mille": 20,
           "arc": 5
         }
-      ]
+      ],
+      "stagger": 40
     },
     {
       "id": "berserker",
@@ -316,7 +323,8 @@
           "chance_per_mille": 180,
           "arc": 3
         }
-      ]
+      ],
+      "stagger": 40
     }
   ],
   "shamblers": [
@@ -367,7 +375,8 @@
           "chance_per_mille": 500,
           "arc": 1
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "throx_the_echo",
@@ -416,7 +425,8 @@
           "chance_per_mille": 400,
           "arc": 1
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "qilra_the_trial",
@@ -465,7 +475,8 @@
           "chance_per_mille": 600,
           "arc": 1
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "herrak_the_phantom",
@@ -514,7 +525,8 @@
           "chance_per_mille": 400,
           "arc": 1
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "zankor_the_vine",
@@ -563,7 +575,8 @@
           "chance_per_mille": 500,
           "arc": 1
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "mallos_the_hoard",
@@ -612,7 +625,8 @@
           "chance_per_mille": 600,
           "arc": 2
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "vurok_the_belly",
@@ -661,7 +675,8 @@
           "chance_per_mille": 500,
           "arc": 2
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "yssora_the_tide",
@@ -710,7 +725,8 @@
           "chance_per_mille": 600,
           "arc": 2
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "grinx_the_grin",
@@ -759,7 +775,8 @@
           "chance_per_mille": 500,
           "arc": 2
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "nox_the_hook",
@@ -808,7 +825,8 @@
           "chance_per_mille": 500,
           "arc": 2
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "poohs_shadow",
@@ -857,7 +875,8 @@
           "chance_per_mille": 500,
           "arc": 2
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "the_machine_heart",
@@ -906,7 +925,8 @@
           "chance_per_mille": 600,
           "arc": 3
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "the_hinge_that_opens",
@@ -955,7 +975,8 @@
           "chance_per_mille": 400,
           "arc": 3
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "the_organizations_eye",
@@ -1004,7 +1025,8 @@
           "chance_per_mille": 500,
           "arc": 4
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "saix_the_berserker",
@@ -1053,7 +1075,8 @@
           "chance_per_mille": 600,
           "arc": 4
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "luxord_the_gambler",
@@ -1102,7 +1125,8 @@
           "chance_per_mille": 500,
           "arc": 4
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "vexan_the_unwritten",
@@ -1157,7 +1181,8 @@
           "chance_per_mille": 500,
           "arc": 5
         }
-      ]
+      ],
+      "stagger": 60
     },
     {
       "id": "the_archon",
@@ -1225,7 +1250,8 @@
           "chance_per_mille": 600,
           "arc": 5
         }
-      ]
+      ],
+      "stagger": 90
     }
   ],
   "acts": [

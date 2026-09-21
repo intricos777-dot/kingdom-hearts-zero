@@ -43,7 +43,17 @@ enum class BattlePhase {
     Escaped,
 };
 
-// Sanpshot of a session for HUD rendering.
+// FF7R-flavored ATB: a deck command's gauge cost.
+//   slash  -> free (basic swings build the bar)
+//   guard  -> 0.5 segment (free block at a price)
+//   spells -> 1.0 segment
+inline float atb_cost_for(const Command& c) {
+    if (c.element == "slash") return 0.0f;
+    if (c.element == "guard") return 0.5f;
+    return 1.0f;
+}
+
+// Snapshot of a session for HUD rendering.
 struct BattleView {
     BattlePhase phase = BattlePhase::None;
     std::string enemy_name;
@@ -57,11 +67,31 @@ struct BattleView {
     std::vector<Command> deck;
     uint32_t mp_cost(size_t i) const { return i < deck.size() ? deck[i].cost : 0; }
     std::string music;        // boss fight track clip id
+
+    // FF7R-flavored ATB: commands cost gauge segments; the host feeds time.
+    float atb = 0.0f, atb_max = 2.0f;
+    float stagger = 0.0f, stagger_max = 100.0f;
+    bool staggered = false;
+    float stagger_left = 0.0f;    // seconds of stagger remaining
+
+    // The active fighter: Zero, or the Echo (a resonance of the drowned
+    // shore; rebuilt fresh every battle, never persisted).
+    bool leader_is_zero = true;
+    bool echo_in = true;
+    uint32_t echo_hp = 0, echo_max_hp = 0;
+    uint32_t echo_mp = 0, echo_max_mp = 0;
+    std::vector<Command> partner_deck;   // the Echo's deck while it leads
+
+    float atb_cost(size_t i) const { return i < deck.size() ? atb_cost_for(deck[i]) : 0.0f; }
 };
 
-// Turn-based menu combat over the command deck.
-// - Player picks from the world-themed deck (CommandDeck).
-// - Enemies (Heartless + Shambler bosses) attack back.
+// FF7R-flavored command combat over the deck engine.
+// - Free movement time is the judge's silence: commands cost ATB segments
+//   charged by the host (terminal 't'/attack push, shell frame time).
+// - Weakness hits and crits press the stagger bar; at full, the dark is
+//   staggered (1.5x damage in, counter interrupted, drains over time).
+// - Keep the flow deterministic: the engine only ever reads dt it is fed.
+// - Enemies (Heartless + Shambler bosses) attack back after each command.
 // - Shambler memory-steal subtracts memories_held & un-realms command cards.
 // - Victory grants XP (KH2-style leveling) and boss keyblade loot.
 class CombatEngine {
@@ -84,8 +114,15 @@ public:
     const BattleResult& result() const { return m_result; }
 
     // Host picks deck command index; advances one full round (player +
-    // enemy) and returns the round's narration lines.
+    // enemy) and returns the round's narration lines. Gated by ATB.
     std::vector<std::string> act(size_t deck_index);
+
+    // FF7R-flavored ATB + stagger. The host feeds elapsed time; a command
+    // is executable once its gauge cost is charged.
+    void tick_atb(float dt);
+    bool atb_ready(size_t i) const;
+    void dodge_up();                        // free: next enemy reply misses
+    std::vector<std::string> swap_leader(); // costs 1.0 atb; Zero <-> the Echo
 
     // Form select phase (shamblers only).
     std::vector<std::string> form_names() const;   // labels of form choices
@@ -117,7 +154,16 @@ protected:
     BattleResult m_result;
     const EnemyDef* m_enemy = nullptr;   // set by begin()
     uint32_t m_guard_next = 0;
+    bool m_dodge_next = false;
     bool m_enemy_turn_first = false;
+
+    // Active leader: Zero, or the Echo (fresh per battle, never persisted).
+    bool m_leader_zero = true;
+    bool m_echo_in = true;
+    std::vector<Command> m_echo_deck;
+    uint32_t m_echo_hp = 0, m_echo_max_hp = 0;
+    uint32_t m_echo_mp = 0, m_echo_max_mp = 0;
+    uint32_t m_echo_str = 0, m_echo_mag = 0, m_echo_def = 0, m_echo_crt = 0;
 
     void on_victory(std::vector<std::string>& log);
 
@@ -127,8 +173,17 @@ protected:
     uint32_t player_crt(uint32_t idx);
     int32_t  player_spd(uint32_t idx);
 
+    // Leader-aware stat lookups (Zero = save + blade + form; Echo = flat).
+    uint32_t active_str();
+    uint32_t active_mag();
+    uint32_t active_def();
+    uint32_t active_crt();
+
     uint32_t resolve_attack(const Command& cmd, const EnemyDef& e, uint32_t dex);
     uint32_t enemy_attack_damage(const EnemyAttack& atk);
+
+    // Copies fighter state into the HUD view (hp/mp/deck + partner strip).
+    void sync_view_fighter();
 
     void rebuild_deck();
 };

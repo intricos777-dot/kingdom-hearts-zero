@@ -376,6 +376,17 @@ void TronShell::draw_battle(const FrameInput& in) {
                                                              m_battle_log.begin() + (m_battle_log.size() - 40));
             m_battle_cursor = 0;
         }
+        // FF7R-flavored footwork: free dodge vs the next reply; swap leaders.
+        if (in.key == 'd' || in.key == 'D') {
+            m_combat.dodge_up();
+            m_battle_log.push_back("[you prepare to slip aside]");
+        }
+        if (in.key == 's' || in.key == 'S') {
+            auto lines = m_combat.swap_leader();
+            m_battle_log.insert(m_battle_log.end(), lines.begin(), lines.end());
+        }
+        if (m_battle_log.size() > 40) m_battle_log.erase(m_battle_log.begin(),
+                                                         m_battle_log.begin() + (m_battle_log.size() - 40));
         if (in.esc || in.back) flee();
     } else {
         // Victory / Defeat: dismiss and apply rewards
@@ -399,12 +410,45 @@ void TronShell::draw_battle(const FrameInput& in) {
 
     // player panel
     std::vector<std::string> p = {
-        "Zero",
+        v.leader_is_zero ? "Zero  [LEADING]" : "Zero",
         "",
         "HP " + std::to_string(v.hp) + "/" + std::to_string(v.max_hp),
         "MP " + std::to_string(v.mp) + "/" + std::to_string(v.max_mp),
     };
+    if (v.echo_in) {
+        p.push_back("");
+        p.push_back(v.leader_is_zero ? "Echo  [waiting]" : "Echo  [LEADING]");
+        p.push_back("HP " + std::to_string(v.echo_hp) + "/" + std::to_string(v.echo_max_hp) +
+                    "  MP " + std::to_string(v.echo_mp) + "/" + std::to_string(v.echo_max_mp));
+        p.push_back("resonance: the drowned shore");
+    } else {
+        p.push_back("");
+        p.push_back("Echo: unraveled");
+    }
     m_renderer.draw_terminal(660, 100, 560, 190, "ZERO", p, accent, WHITE);
+
+    // FF7R-flavored gauge strip: ATB charges behind the menu (dilated time),
+    // pressure fills toward a stagger; a broken counter takes 1.5x damage.
+    const float bw = 300.0f;
+    const float gy = 66.0f;
+    m_renderer.draw_text(60, gy, "ATB", false, 13, CYAN);
+    m_renderer.draw_rect(100, gy + 2, bw, 8, DIM);
+    m_renderer.draw_rect(100, gy + 2, bw * (v.atb / v.atb_max), 8,
+                         v.leader_is_zero ? CYAN : VIOLET);
+    m_renderer.draw_text(100, gy - 14,
+                         std::to_string((int)(v.atb * 10)) + "/" + std::to_string((int)(v.atb_max * 10)),
+                         false, 13, DIM);
+    if (v.staggered) {
+        m_renderer.draw_rect(100, gy + 14, bw, 6, RED);
+        m_renderer.draw_text(100, gy + 20, "STAGGERED - the counter is broken", true, 15, RED);
+    } else {
+        m_renderer.draw_rect(100, gy + 14, bw, 6, DIM);
+        m_renderer.draw_rect(100, gy + 14, bw * (v.stagger / v.stagger_max), 6, AMBER);
+        m_renderer.draw_text(100, gy + 20,
+                             "pressure " + std::to_string((int)v.stagger) + "/" +
+                                 std::to_string((int)v.stagger_max),
+                             false, 13, DIM);
+    }
 
     // action panel: form select or deck
     if (v.phase == BattlePhase::FormSelect) {
@@ -417,11 +461,16 @@ void TronShell::draw_battle(const FrameInput& in) {
         m_renderer.draw_terminal(120, 320, 700, 340, "CHOOSE FORM", forms, VIOLET, WHITE);
     } else if (v.phase == BattlePhase::PlayerTurn) {
         std::vector<std::string> deck;
-        for (size_t i = 0; i < v.deck.size(); ++i)
+        for (size_t i = 0; i < v.deck.size(); ++i) {
+            float c = v.atb_cost(i);
+            const char* tag = c == 0.0f ? "free" : (c < 1.0f ? "0.5 ATB" : "1.0 ATB");
             deck.push_back(std::string(i == m_battle_cursor ? ">> " : "    ") + v.deck[i].name +
-                           " (" + std::to_string(v.deck[i].cost) + "MP)");
+                           " (" + std::to_string(v.deck[i].cost) + "MP, " + tag + ")");
+        }
         deck.push_back("");
-        deck.push_back("up/down choose   enter act   esc flee");
+        deck.push_back("enter act   d dodge   s swap   esc flee");
+        if (v.staggered)
+            deck.push_back("STAGGER: strikes deal 1.5x damage");
         m_renderer.draw_terminal(120, 320, 700, 340, "COMMAND DECK", deck, accent, WHITE);
     } else if (v.phase == BattlePhase::Victory) {
         std::vector<std::string> win = {
@@ -458,11 +507,21 @@ void TronShell::run() {
         m_pulse = 0.5f + 0.5f * std::sin(m_frame * 0.08f);
         ++m_frame;
 
+        uint64_t now_tick = SDL_GetTicks64();
+        m_dt = (float)(now_tick - last) / 1000.0f;
+        if (m_dt <= 0.0f || m_dt > 0.25f) m_dt = 0.016f;  // clamp hiccups
+        last = now_tick;
+
         m_renderer.begin_frame(0.02f, 0.03f, 0.06f);
         if (m_state == State::SELECT) draw_select(in);
         else if (m_state == State::ADVENTURE) draw_adventure(in);
         else draw_battle(in);
         m_renderer.end_frame();
+
+        // FF7R-flavored ATB: time flows behind the command menu, dilated.
+        if (m_state == State::BATTLE &&
+            m_combat.view().phase == BattlePhase::PlayerTurn)
+            m_combat.tick_atb(m_dt * 0.6f);
 
         // MusicDirector / AFK watchdog: feed input + world + boss state.
         const bool any_input = in.enter || in.esc || in.left || in.right ||

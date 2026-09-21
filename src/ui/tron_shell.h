@@ -31,6 +31,7 @@ private:
     float m_yaw = 0.0f;
     float m_pulse = 0.0f;
     uint64_t m_frame = 0;
+    float m_dt = 0.016f;      // seconds since the last frame (ATB clock)
 
     enum class State { SELECT, ADVENTURE, BATTLE };
     State m_state = State::SELECT;

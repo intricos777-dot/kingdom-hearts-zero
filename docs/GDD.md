@@ -283,3 +283,25 @@ These are vague, woven through terminals and world flavor text.
   Ultima Weapon end to end and asserts refusal paths.
 
 *Last updated: design draft (moogle bazaar + Inheritance gate added)*
+
+## 19. FF7R-flavored combat (ATB + stagger + the Echo)
+
+The command deck now runs over an ATB-style gauge instead of a strict
+round robin. Rules stay in `CombatEngine`; the host (terminal or shell) only
+feeds elapsed time via `tick_atb(dt)` so every path stays deterministic.
+
+- **ATB**: slash is free and builds +0.12 gauge; guard costs 0.5; spells
+  cost 1.0 (bar max 2.0, one segment charged at the whistle).
+- **Pressure -> Stagger**: weakness hits +30, crits +20, normal hits +10.
+  At max the dark is staggered: it takes 1.5x damage, its counter is
+  interrupted for ~2 seconds, then drains. `enemies.json` now carries a
+  per-enemy `stagger` cap (heartless 40, shamblers 60, the Archon 90).
+- **Footwork**: `dodge_up()` is free and slips the next reply; the Guard
+  card blocks it. Storming the bar beats turtling.
+- **The Echo**: a battle-only second fighter (flashback-Sora resonance).
+  Swap costs 1.0 ATB; it has its own HP/MP/deck and flat stats, is rebuilt
+  fresh every fight (never persisted), and unravels instead of dying -
+  handing the fight back to Zero. Zero's death is still the only defeat.
+- **Tests**: khz-atb covers gate/charge/stagger/dodge/block/swap/KO.
+
+*Last updated: FF7R-lite pass (ATB, pressure/stagger, Echo partner)*

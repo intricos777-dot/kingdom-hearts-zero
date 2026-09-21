@@ -143,6 +143,12 @@ int32_t CombatEngine::player_spd(uint32_t idx) {
     return base;
 }
 
+// Active leader stat lookups (Zero = save+blade+form; Echo = flat resonance).
+uint32_t CombatEngine::active_str() { return m_leader_zero ? player_str(0) : m_echo_str; }
+uint32_t CombatEngine::active_mag() { return m_leader_zero ? player_mag(0) : m_echo_mag; }
+uint32_t CombatEngine::active_def() { return m_leader_zero ? player_def(0) : m_echo_def; }
+uint32_t CombatEngine::active_crt() { return m_leader_zero ? player_crt(0) : m_echo_crt; }
+
 // ---- damage resolution ----
 
 namespace {
@@ -160,25 +166,42 @@ uint32_t element_multiplier(const std::string& atk, const std::string& def) {
 }
 
 uint32_t CombatEngine::resolve_attack(const Command& cmd, const EnemyDef& e, uint32_t dex) {
+    (void)dex;
     auto& rec = m_saves->record();
+    (void)rec;
     bool physical = (cmd.element == "slash" || cmd.element == "guard" ||
                      cmd.element == "dark");
-    uint32_t stat = physical ? player_str(dex) : player_mag(dex);
+    uint32_t stat = physical ? active_str() : active_mag();
     int32_t dmg = (int32_t)(cmd.power + stat) - (int32_t)(e.def / (physical ? 2 : 1));
     if (cmd.element == "guard") return 0;
     if (dmg < 1) dmg = 1;
-    dmg = (int32_t)((uint32_t)dmg * element_multiplier(cmd.element, e.element) / 100);
+    int32_t mult = (int32_t)element_multiplier(cmd.element, e.element);
+    dmg = (int32_t)((uint32_t)dmg * mult / 100);
 
     // crit
-    uint32_t crit_chance = player_crt(dex) + (cmd.element == "dark" ? 3 : 0);
+    uint32_t crit_chance = active_crt() + (cmd.element == "dark" ? 3 : 0);
     bool crit = (crit_chance > 0) && ((uint32_t)std::rand() % 100) < crit_chance * 5;
     if (crit) dmg = (int32_t)((uint32_t)dmg * 150 / 100);
+
+    // FF7R-flavored stagger: weakness hits and crits press the bar; a
+    // staggered target takes 1.5x while its counter hangs broken.
+    if (m_view.staggered) {
+        dmg = (int32_t)((uint32_t)dmg * 3 / 2);
+    } else {
+        uint32_t gain = mult >= 150 ? 30u : (crit ? 20u : 10u);
+        m_view.stagger = std::min(m_view.stagger_max, m_view.stagger + (float)gain);
+        if (m_view.stagger >= m_view.stagger_max) {
+            m_view.staggered = true;
+            m_view.stagger = 0.0f;
+            m_view.stagger_left = 2.0f;   // seconds of broken counter
+        }
+    }
 
     return (uint32_t)std::max(0, dmg);
 }
 
 uint32_t CombatEngine::enemy_attack_damage(const EnemyAttack& atk) {
-    int32_t dmg = (int32_t)atk.power - (int32_t)player_def(0) / 2;
+    int32_t dmg = (int32_t)atk.power - (int32_t)active_def() / 2;
     dmg = (int32_t)((uint32_t)dmg * element_multiplier(atk.element, "none") / 100);
     if (dmg < 1) dmg = 1;
     return (uint32_t)dmg;
@@ -186,25 +209,66 @@ uint32_t CombatEngine::enemy_attack_damage(const EnemyAttack& atk) {
 
 // ---- session ----
 
+void CombatEngine::sync_view_fighter() {
+    auto& rec = m_saves->record();
+    m_view.leader_is_zero = m_leader_zero;
+    m_view.echo_in = m_echo_in;
+    m_view.echo_hp = m_echo_hp;
+    m_view.echo_max_hp = m_echo_max_hp;
+    m_view.echo_mp = m_echo_mp;
+    m_view.echo_max_mp = m_echo_max_mp;
+    m_view.partner_deck = m_echo_deck;
+    if (m_leader_zero) {
+        m_view.hp = rec.hp; m_view.max_hp = rec.max_hp;
+        m_view.mp = rec.mp; m_view.max_mp = rec.max_mp;
+        m_view.deck = m_deck;
+    } else {
+        m_view.hp = m_echo_hp; m_view.max_hp = m_echo_max_hp;
+        m_view.mp = m_echo_mp; m_view.max_mp = m_echo_max_mp;
+        m_view.deck = m_echo_deck;
+    }
+}
+
 void CombatEngine::begin(const EnemyDef& enemy) {
     m_enemy = &enemy;
     m_result = BattleResult{};
     m_guard_next = 0;
+    m_dodge_next = false;
     m_form = 0;
     m_view = BattleView{};
+    // A segment is charged at the whistle; two add up to a cast.
+    m_view.atb = 1.0f;
+    m_view.atb_max = 2.0f;
+    m_view.stagger_max = (float)(enemy.stagger > 0 ? enemy.stagger : 100);
     m_view.phase = BattlePhase::FormSelect;
     m_view.enemy_name = enemy.name;
     m_view.enemy_kind = enemy.kind;
     m_view.enemy_id = enemy.id;
     m_view.enemy_hp = enemy.hp;
     m_view.enemy_max_hp = enemy.hp;
-    m_view.hp = m_saves->record().hp;
-    m_view.max_hp = m_saves->record().max_hp;
-    m_view.mp = m_saves->record().mp;
-    m_view.max_mp = m_saves->record().max_mp;
     m_view.music = enemy.music;
+
+    // The Echo: a resonance of the drowned shore, rebuilt fresh per battle.
+    // It is never persisted - it is the fight's second breath, not a save.
+    const uint32_t lvl = m_saves->record().level;
+    m_echo_max_hp = 60 + lvl * 3;
+    m_echo_max_mp = 30 + lvl * 2;
+    m_echo_hp = m_echo_max_hp;
+    m_echo_mp = m_echo_max_mp;
+    m_echo_str = 14 + lvl / 2;
+    m_echo_mag = 12 + lvl / 2;
+    m_echo_def = 10 + lvl / 3;
+    m_echo_crt = 4;
+    m_echo_deck.clear();
+    m_echo_deck.push_back({"Slash", "slash", 0, 12 + lvl / 3, true});
+    m_echo_deck.push_back({"Fira", "fire", 8, 22 + lvl / 2, true});
+    m_echo_deck.push_back({"Blizzard", "blizzard", 8, 20 + lvl / 2, true});
+    m_echo_deck.push_back({"Cura", "cure", 12, 40 + lvl * 2, true});
+    m_leader_zero = true;
+    m_echo_in = true;
+
     rebuild_deck();
-    m_view.deck = m_deck;
+    sync_view_fighter();
 }
 
 std::vector<std::string> CombatEngine::form_names() const {
@@ -225,12 +289,13 @@ void CombatEngine::select_form(size_t choice) {
         default: m_form = 0;
     }
     rebuild_deck();
-    m_view.deck = m_deck;
+    sync_view_fighter();
     m_view.phase = BattlePhase::PlayerTurn;
 }
 
-// One full round: player command, then (if still alive) the enemy reply.
-// Narration lines are returned for the host to render in its own style.
+// One full round: player command (ATB-gated), then (if still alive) the
+// enemy reply - unless the stagger interrupts it, the dodge slips it, or
+// the guard blocks it. Narration lines are returned for the host to render.
 #define NARR(fmt, ...)                                      \
     do {                                                    \
         char _b[256];                                       \
@@ -241,47 +306,71 @@ void CombatEngine::select_form(size_t choice) {
 std::vector<std::string> CombatEngine::act(size_t deck_index) {
     auto& rec = m_saves->record();
     std::vector<std::string> log;
-    if (m_view.phase != BattlePhase::PlayerTurn || deck_index >= m_deck.size() ||
-        !m_enemy) {
+    if (m_view.phase != BattlePhase::PlayerTurn || !m_enemy) {
         return log;
     }
     const EnemyDef& enemy = *m_enemy;
-    const Command& cmd = m_deck[deck_index];
+    const std::vector<Command>& deck = m_leader_zero ? m_deck : m_echo_deck;
+    if (deck_index >= deck.size()) return log;
+    const Command& cmd = deck[deck_index];
+
+    // ---- FF7R-flavored ATB gate: commands cost gauge segments ----
+    const float cost = atb_cost_for(cmd);
+    if (m_view.atb < cost) {
+        NARR("(the gauge flickers - not enough charge)");
+        return log;
+    }
+    m_view.atb = std::max(0.0f, m_view.atb - cost);
+    if (cmd.element == "slash")
+        m_view.atb = std::min(m_view.atb_max, m_view.atb + 0.12f);  // swings charge the bar
 
     // ---- player command ----
+    const char* who = m_leader_zero ? "Zero" : "the Echo";
     if (cmd.element == "cure") {
-        uint32_t old = rec.hp;
-        uint32_t heal = std::min(rec.max_hp - rec.hp, cmd.power);
-        rec.hp += heal;
-        m_view.hp = rec.hp;
-        NARR("Zero casts Cura - restored %u HP (%u/%u)", heal, rec.hp, rec.max_hp);
+        uint32_t& hp = m_leader_zero ? rec.hp : m_echo_hp;
+        uint32_t& maxhp = m_leader_zero ? rec.max_hp : m_echo_max_hp;
+        uint32_t heal = std::min(maxhp - hp, cmd.power);
+        hp += heal;
+        NARR("%s casts Cura - restored %u HP (%u/%u)", who, heal, hp, maxhp);
+        sync_view_fighter();
     } else if (cmd.element == "focus") {
         uint32_t gain = std::min(rec.max_mp - rec.mp, cmd.power);
         rec.mp += gain;
         m_view.mp = rec.mp;
         NARR("Zero focuses - recovered %u MP (%u/%u)", gain, rec.mp, rec.max_mp);
     } else if (cmd.element == "guard") {
-        m_guard_next = player_def(0) * 2 + 8;
-        NARR("Zero raises the guard");
+        m_guard_next = active_def() * 2 + 8;
+        NARR("%s raises the guard", who);
     } else {
-        if (rec.mp < cmd.cost) {
+        if (m_leader_zero ? rec.mp < cmd.cost : m_echo_mp < cmd.cost) {
             NARR("(not enough MP - the card flickers)");
             return log;
         }
-        rec.mp -= cmd.cost;
-        m_view.mp = rec.mp;
+        if (m_leader_zero) {
+            rec.mp -= cmd.cost;
+            m_view.mp = rec.mp;
+        } else {
+            m_echo_mp -= cmd.cost;
+            m_view.mp = m_echo_mp;
+        }
         uint32_t dmg = resolve_attack(cmd, enemy, 0);
         m_view.enemy_hp = (dmg >= m_view.enemy_hp) ? 0 : m_view.enemy_hp - dmg;
-        NARR("Zero: %s strikes for %u damage", cmd.name.c_str(), dmg);
+        NARR("%s: %s strikes for %u damage%s", who, cmd.name.c_str(), dmg,
+             (m_view.staggered ? " - STAGGER!" : ""));
         if (m_view.enemy_hp == 0) {
             on_victory(log);
             return log;
         }
     }
 
-    // ---- enemy reply ----
+    // ---- enemy reply: interrupted by stagger, slipped by dodge, blocked ----
     uint32_t dmg = 0;
-    if (m_guard_next > 0) {
+    if (m_view.staggered) {
+        NARR("%s reels - its counter is broken.", enemy.name.c_str());
+    } else if (m_dodge_next) {
+        m_dodge_next = false;
+        NARR("you slip through the dark's reach.");
+    } else if (m_guard_next > 0) {
         NARR("%s is blocked by the guard.", enemy.name.c_str());
         m_guard_next = 0;
     } else if (!enemy.attacks.empty() &&
@@ -298,19 +387,73 @@ std::vector<std::string> CombatEngine::act(size_t deck_index) {
             NARR("%s uses %s - %u damage.", enemy.name.c_str(), atk.name.c_str(), dmg);
         }
     } else {
-        dmg = std::max<uint32_t>(1, enemy.str + 2 - player_def(0) / 2);
+        dmg = std::max<uint32_t>(1, enemy.str + 2 - active_def() / 2);
         NARR("%s strikes for %u damage.", enemy.name.c_str(), dmg);
     }
-    rec.hp = (dmg >= rec.hp) ? 0 : rec.hp - dmg;
-    m_view.hp = rec.hp;
-    if (rec.hp == 0) {
-        NARR("[The dark closes around Zero...]");
-        m_view.phase = BattlePhase::Defeat;
-        m_result = BattleResult{};
-        m_result.victory = false;
-        return log;
+
+    // Damage lands on the active leader. The Echo unravels instead of dying;
+    // Zero's death is the defeat.
+    if (m_leader_zero) {
+        rec.hp = (dmg >= rec.hp) ? 0 : rec.hp - dmg;
+        m_view.hp = rec.hp;
+        if (rec.hp == 0) {
+            NARR("[The dark closes around Zero...]");
+            m_view.phase = BattlePhase::Defeat;
+            m_result = BattleResult{};
+            m_result.victory = false;
+            return log;
+        }
+    } else {
+        m_echo_hp = (dmg >= m_echo_hp) ? 0 : m_echo_hp - dmg;
+        if (m_echo_hp == 0) {
+            NARR("[The Echo unravels - it can answer no more]");
+            m_echo_in = false;
+            m_leader_zero = true;   // the fight is handed back to Zero
+        }
+        sync_view_fighter();
     }
     m_view.phase = BattlePhase::PlayerTurn;
+    return log;
+}
+
+void CombatEngine::tick_atb(float dt) {
+    if (m_view.phase != BattlePhase::PlayerTurn) return;
+    m_view.atb = std::min(m_view.atb_max, m_view.atb + dt);
+    if (m_view.staggered) {
+        m_view.stagger_left -= dt;
+        if (m_view.stagger_left <= 0.0f) {
+            m_view.staggered = false;
+            m_view.stagger = 0.0f;
+        }
+    }
+}
+
+bool CombatEngine::atb_ready(size_t i) const {
+    const std::vector<Command>& deck = m_leader_zero ? m_deck : m_echo_deck;
+    if (i >= deck.size()) return false;
+    return m_view.atb >= atb_cost_for(deck[i]);
+}
+
+void CombatEngine::dodge_up() {
+    if (m_view.phase == BattlePhase::PlayerTurn) m_dodge_next = true;
+}
+
+std::vector<std::string> CombatEngine::swap_leader() {
+    std::vector<std::string> log;
+    if (m_view.phase != BattlePhase::PlayerTurn || !m_enemy) return log;
+    if (m_view.atb < 1.0f) {
+        NARR("(the gauge needs a full segment - the resonance demurs)");
+        return log;
+    }
+    if (m_leader_zero && !m_echo_in) {
+        NARR("(the Echo is unraveled - only Zero can stand)");
+        return log;
+    }
+    m_view.atb = std::max(0.0f, m_view.atb - 1.0f);
+    m_leader_zero = !m_leader_zero;
+    if (m_leader_zero) NARR("The Echo recedes; Zero steps into the light.");
+    else NARR("Zero falls back; the Echo answers in his place.");
+    sync_view_fighter();
     return log;
 }
 #undef NARR
@@ -398,10 +541,8 @@ void CombatEngine::reward(const BattleResult& r) {
         std::printf("  \x1b[38;5;220m\x1b[1m[LEVEL UP] Zero is now level %u\x1b[0m\n", rec.level);
     }
     m_result.levels_gained = rec.level - before;
-    m_view.hp = rec.hp;
-    m_view.mp = rec.mp;
     rebuild_deck();
-    m_view.deck = m_deck;
+    sync_view_fighter();
 }
 
 // ---- terminal wrapper over the shared session ----
@@ -423,26 +564,72 @@ BattleResult CombatEngine::battle(const EnemyDef& enemy) {
     }
 
     while (m_view.phase == BattlePhase::PlayerTurn) {
-        std::printf("\n  \x1b[38;5;196m%s\x1b[0m HP \x1b[38;5;28m%s\x1b[0m %u/%u\n",
+        // ATB + stagger strip
+        std::printf("  \x1b[1mATB\x1b[0m %s %0.1f/%0.1f",
+                    hp_bar((uint32_t)(m_view.atb / m_view.atb_max * 20.0f), 20, 20).c_str(),
+                    m_view.atb, m_view.atb_max);
+        if (m_view.staggered)
+            std::printf("   \x1b[38;5;220m\x1b[1m[STAGGERING!]\x1b[0m\n");
+        else
+            std::printf("   \x1b[2m[stagger %0.0f/%0.0f]\x1b[0m\n",
+                        m_view.stagger, m_view.stagger_max);
+
+        // combatants
+        std::printf("  \x1b[38;5;196m%s\x1b[0m HP \x1b[38;5;28m%s\x1b[0m %u/%u\n",
                     m_view.enemy_name.c_str(),
                     hp_bar(m_view.enemy_hp, m_view.enemy_max_hp, 24).c_str(),
                     m_view.enemy_hp, m_view.enemy_max_hp);
-        std::printf("  \x1b[1mZero\x1b[0m HP \x1b[38;5;28m%s\x1b[0m %u/%u  MP \x1b[38;5;27m%s\x1b[0m %u/%u\n",
+        std::printf("  \x1b[1m%s\x1b[0m HP \x1b[38;5;28m%s\x1b[0m %u/%u  MP \x1b[38;5;27m%s\x1b[0m %u/%u\n",
+                    m_view.leader_is_zero ? "Zero" : "the Echo",
                     hp_bar(m_view.hp, m_view.max_hp, 24).c_str(), m_view.hp, m_view.max_hp,
                     hp_bar(m_view.mp, m_view.max_mp, 16).c_str(), m_view.mp, m_view.max_mp);
+        if (m_view.echo_in)
+            std::printf("  \x1b[2mEcho %s: HP %u/%u  MP %u/%u\x1b[0m\n",
+                        m_view.leader_is_zero ? "(waiting)" : "(leading)",
+                        m_view.echo_hp, m_view.echo_max_hp,
+                        m_view.echo_mp, m_view.echo_max_mp);
+        else
+            std::printf("  \x1b[2mEcho: unraveled\x1b[0m\n");
+
+        // deck with gauge costs
         std::printf("  \x1b[2m[deck]\x1b[0m ");
-        for (size_t i = 0; i < m_deck.size(); ++i)
-            std::printf("%zu) %s\x1b[2m(%uMP)\x1b[0m  ", i + 1,
-                        m_deck[i].name.c_str(), m_deck[i].cost);
-        std::printf("\n  \x1b[2m[action]\x1b[0m ");
+        for (size_t i = 0; i < m_view.deck.size(); ++i) {
+            float c = m_view.atb_cost(i);
+            const char* tag = c == 0.0f ? "free" : (c < 1.0f ? "0.5" : "1.0");
+            std::printf("%zu) %s\x1b[2m(%uMP,%s)\x1b[0m  ", i + 1,
+                        m_view.deck[i].name.c_str(), m_view.deck[i].cost, tag);
+        }
+        std::printf("\n  \x1b[2m[action]\x1b[0m [1-%zu cast] [a]ttack [g]uard [d]odge "
+                    "[t]ick [s]wap [q]uit : ",
+                    m_view.deck.size());
         std::string line;
         if (!std::getline(std::cin, line)) { m_result.escaped = true; return m_result; }
-        int choice = std::atoi(line.c_str());
-        if (choice < 1 || (size_t)choice > m_deck.size()) {
-            std::printf("  \x1b[2m(the command is forgotten - the dark murmurs)\x1b[0m\n");
-            continue;
+        char k = line.empty() ? '\0' : (char)line[0];
+
+        if (k == 'q') { m_result.escaped = true; return m_result; }
+        if (k == 'a') {
+            for (auto& l : act(0)) std::printf("   %s\n", l.c_str());
+        } else if (k == 'g') {
+            size_t gi = 0;
+            for (size_t i = 0; i < m_view.deck.size(); ++i)
+                if (m_view.deck[i].element == "guard") { gi = i; break; }
+            for (auto& l : act(gi)) std::printf("   %s\n", l.c_str());
+        } else if (k == 'd') {
+            dodge_up();
+            std::printf("   you prepare to slip aside\n");
+        } else if (k == 't') {
+            tick_atb(0.4f);
+            std::printf("   the dark waits; the gauge charges\n");
+        } else if (k == 's') {
+            for (auto& l : swap_leader()) std::printf("   %s\n", l.c_str());
+        } else {
+            int choice = std::atoi(line.c_str());
+            if (choice < 1 || (size_t)choice > m_view.deck.size()) {
+                std::printf("  \x1b[2m(the command is forgotten - the dark murmurs)\x1b[0m\n");
+                continue;
+            }
+            for (auto& l : act((size_t)choice - 1)) std::printf("   %s\n", l.c_str());
         }
-        act((size_t)choice - 1);
     }
 
     if (m_view.phase == BattlePhase::Victory) {
