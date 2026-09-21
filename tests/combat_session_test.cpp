@@ -15,12 +15,12 @@ int main() {
     }
 
     khz::KeybladeDB blades;
-    if (!blades.load("/home/sin/Projects/kingdom-hearts-zero/data/combat/keyblades.json")) {
+    if (!blades.load("/home/sin/Projects/games/kingdom-hearts-zero/data/combat/keyblades.json")) {
         std::printf("FAIL: keyblades.json\n");
         return 1;
     }
     khz::EnemyDB enemies;
-    if (!enemies.load("/home/sin/Projects/kingdom-hearts-zero/data/combat/enemies.json")) {
+    if (!enemies.load("/home/sin/Projects/games/kingdom-hearts-zero/data/combat/enemies.json")) {
         std::printf("FAIL: enemies.json\n");
         return 1;
     }

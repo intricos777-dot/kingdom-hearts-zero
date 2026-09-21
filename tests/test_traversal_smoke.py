@@ -1,7 +1,7 @@
 import os, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
-REPO = Path("/home/sin/Projects/kingdom-hearts-zero")
+REPO = Path("/home/sin/Projects/games/kingdom-hearts-zero")
 BIN = REPO / "build/kh-door"
 
 

@@ -13,7 +13,7 @@ pkg_check_modules(SDL2_mixer REQUIRED IMPORTED_TARGET SDL2_mixer)
 find_package(OpenGL REQUIRED)
 
 # Built entirely off the Twilight Elysium engine
-add_subdirectory(/home/sin/Projects/twilight-elysium ${CMAKE_BINARY_DIR}/twilight-elysium)
+add_subdirectory(/home/sin/Projects/games/twilight-elysium ${CMAKE_BINARY_DIR}/twilight-elysium)
 
 # World-synced command deck UI (terminal)
 add_library(khz-ui STATIC

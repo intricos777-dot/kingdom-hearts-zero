@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "disc_id": "kh_zero",
+  "description": "Mythic world zones for kingdom-hearts-zero — Seele world-block + character placement (flavor: mythic; Zero, the darker Nobody-shadow of the spiky-haired archetype).",
+  "zones": [
+    {
+      "id": "kh_zero_destiny_shore",
+      "name": "Drowned Destiny Shore",
+      "type": "field",
+      "sky": [10, 8, 20],
+      "ground": [120, 130, 160],
+      "fog": 35,
+      "structures": ["crystal", "pillar"],
+      "npcs": ["Zero"],
+      "monsters": ["Shadow", "Golem"]
+    },
+    {
+      "id": "kh_zero_traverse_door",
+      "name": "Traverse Door",
+      "type": "field",
+      "sky": [45, 20, 5],
+      "ground": [180, 150, 120],
+      "fog": 30,
+      "structures": ["tower", "crystal"],
+      "npcs": ["Zero"],
+      "monsters": ["Shadow", "Golem"]
+    },
+    {
+      "id": "kh_zero_the_door",
+      "name": "The Door Sanctum",
+      "type": "dungeon",
+      "sky": [5, 5, 15],
+      "ground": [80, 80, 110],
+      "fog": 60,
+      "structures": ["monolith", "gate"],
+      "npcs": ["Zero"],
+      "monsters": ["Boss"]
+    }
+  ]
+}
