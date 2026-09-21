@@ -12,10 +12,18 @@
 #include "save/save_system.h"
 #include "ui/tron_shell.h"
 #include "render/worlds.h"
+#include "data/keyblades.h"
+#include "crafting/materials.h"
+#include "crafting/moogle_stall.h"
 
 namespace {
 
 const char* INTRO_VIDEO = "assets/intro/intro.mp4";
+
+void play_flashback_with_sora(khz::SaveSystem& saves, const khz::KeybladeDB& blades);
+int act_two(khz::SaveSystem& saves, const khz::KeybladeDB& blades);
+int moogle_flow(khz::SaveSystem& saves, khz::MoogleStall& stall,
+                const khz::KeybladeDB& blades);
 
 void title_screen() {
     std::printf("\x1b[38;5;141m\x1b[1m");
@@ -228,7 +236,12 @@ int act_one(khz::SaveSystem& saves) {
         if (tile == 'K' && !visited_keyhole) {
             visited_keyhole = true;
             std::printf("\n  \x1b[38;5;220m\x1b[1mYou found the district's keyhole.\x1b[0m\n");
-            std::printf("  \x1b[2mZero places the blade into the dark, and the dark closes around it.\x1b[0m\n");
+            // Story gate: before the flashback with Sora, Zero has no keyblade —
+            // only the twin red sabres sealed the first door.
+            if (saves.record().story_progress < 2)
+                std::printf("  \x1b[2mZero drives the twin red sabres into the dark, and the dark closes around them - a first door, without a key.\x1b[0m\n");
+            else
+                std::printf("  \x1b[2mZero places the blade into the dark, and the dark closes around it.\x1b[0m\n");
             map[py][px] = '.';
             sealed = true;
         } else if (tile == 'E' && visited_keyhole) {
@@ -244,19 +257,275 @@ int act_one(khz::SaveSystem& saves) {
     }
 
     std::printf("\n  \x1b[2m[act one] the first keyhole is marked - committing the memory\x1b[0m\n");
+    if (saves.record().story_progress < 1) saves.record().story_progress = 1;
     return saves.save(khz::SaveSystem::default_path()) ? 0 : 1;
+}
+
+int act_two(khz::SaveSystem& saves, const khz::KeybladeDB& blades) {
+    // Mission two: The Traverse Door. Sealing its keyhole shakes the flashback
+    // with Sora loose — and the Inheritance lands: from here, keyblades answer.
+    std::vector<std::string> map;
+    {
+        std::ifstream f("data/worlds/traverse_door.json");
+        if (!f) {
+            std::printf("  \x1b[2m[act two] the traverse door is lost in the dark\x1b[0m\n");
+            return 1;
+        }
+        nlohmann::json j;
+        try { f >> j; } catch (...) {
+            std::printf("  \x1b[2m[act two] the door's map is unreadable\x1b[0m\n");
+            return 1;
+        }
+        for (const auto& row : j.value("map", nlohmann::json::array()))
+            map.push_back(row.get<std::string>());
+    }
+    if (map.empty()) map = {"#####", "#S#K#", "#.#E#", "#####"};
+    bool any_start = false;
+    for (const auto& row : map)
+        for (char c : row)
+            if (c == 'S') { any_start = true; break; }
+    if (!any_start) {
+        std::printf("  \x1b[2m[act two] the door has no threshold\x1b[0m\n");
+        return 1;
+    }
+
+    int px = 1, py = 1;
+    for (size_t r = 0; r < map.size(); ++r)
+        for (size_t c = 0; c < map[r].size(); ++c)
+            if (map[r][c] == 'S') { py = (int)r; px = (int)c; }
+
+    bool sealed = false;
+    bool visited_keyhole = false;
+
+    auto draw = [&]() {
+        std::printf("\n  \x1b[1m\x1b[38;5;141mACT TWO // THE TRAVERSE DOOR\x1b[0m\n");
+        for (size_t r = 0; r < map.size(); ++r) {
+            for (size_t c = 0; c < map[r].size(); ++c) {
+                if ((int)r == py && (int)c == px) {
+                    std::printf("\x1b[1m@\x1b[0m");
+                    continue;
+                }
+                char ch = map[r][c];
+                if (ch == 'S') std::printf(".");
+                else if (ch == 'K') std::printf("\x1b[38;5;220mK\x1b[0m");
+                else if (ch == 'E') std::printf("\x1b[38;5;81mD\x1b[0m");
+                else if (ch == '#') std::printf("\x1b[38;5;236m#\x1b[0m");
+                else std::printf("%c", ch);
+            }
+            std::printf("\n");
+        }
+        std::printf("  \x1b[2mwasd=move | j=slash | f=fire | c=cure | t=thunder | g=guard | ?=help\x1b[0m\n");
+    };
+
+    std::printf("\n  \x1b[1m[Ansem]\x1b[0m \x1b[2mThe door between worlds wobbles - it only does that in the presence of the liminal. Find its keyhole, Zero. And do not listen to what the door offers.\x1b[0m\n");
+    std::printf("  \x1b[2mThe twin red sabres rest at your hips. No keyblade answers you yet.\x1b[0m\n");
+    draw();
+
+    while (!sealed) {
+        std::printf("  \x1b[2m[command]\x1b[0m ");
+        char buf[32];
+        if (!std::fgets(buf, sizeof(buf), stdin)) break;
+        std::string cmd;
+        for (char* p = buf; *p; ++p) {
+            if (*p != '\n' && *p != '\r') cmd += (char)std::tolower((unsigned char)*p);
+        }
+        if (cmd == "quit" || cmd == "q") break;
+        if (cmd == "help" || cmd == "?") {
+            std::printf("  \x1b[2msabres: j | sealed=%d keyhole=%d\x1b[0m\n", (int)sealed, (int)visited_keyhole);
+            continue;
+        }
+
+        int nx = px, ny = py;
+        for (char ch : cmd) {
+            if (ch == 'w') ny -= 1;
+            else if (ch == 's') ny += 1;
+            else if (ch == 'a') nx -= 1;
+            else if (ch == 'd') nx += 1;
+            else if (ch == 'j') {
+                std::printf("  \x1b[1mZero\x1b[0m cuts the dark air with the twin red sabres.\n");
+                continue;
+            }
+            else if (ch == 'f') {
+                std::printf("  \x1b[1mZero\x1b[0m throws fire into the dark.\n");
+                continue;
+            }
+            else if (ch == 'c') {
+                std::printf("  \x1b[1mZero\x1b[0m heals from the memory fragments.\n");
+                saves.record().hp = std::min(saves.record().max_hp, saves.record().hp + 30);
+                continue;
+            }
+            else if (ch == 't') {
+                std::printf("  \x1b[1mZero\x1b[0m calls thunder across the door.\n");
+                continue;
+            }
+            else if (ch == 'g') {
+                std::printf("  \x1b[1mZero\x1b[0m raises the guard.\n");
+                continue;
+            }
+            else continue;
+
+            if (ny < 0 || ny >= (int)map.size() || nx < 0 || nx >= (int)map[ny].size())
+                continue;
+            if (map[ny][nx] != '#') {
+                px = nx; py = ny;
+            }
+        }
+
+        char tile = map[py][px];
+        if (tile == 'K' && !visited_keyhole) {
+            visited_keyhole = true;
+            std::printf("\n  \x1b[38;5;220m\x1b[1mThe Door's keyhole glows — a door that leads nowhere except onward.\x1b[0m\n");
+            std::printf("  \x1b[2mZero seals it with the sabres' red edge. The wobble stops — and then it does not.\x1b[0m\n");
+            map[py][px] = '.';
+            sealed = true;
+        } else if (tile == 'E' && visited_keyhole) {
+            sealed = true;
+        } else if (tile == 'K' && visited_keyhole) {
+            std::printf("  \x1b[2mThe keyhole is already sealed here.\x1b[0m\n");
+        }
+        if ((std::rand() % 100) < 18) {
+            std::printf("\n  \x1b[38;5;196mA Nobody steps out of the door's shadow!\x1b[0m\n");
+        }
+        draw();
+    }
+
+    // Mission two complete: the flashback with Sora grants the Inheritance.
+    saves.record().story_progress = 2;
+    play_flashback_with_sora(saves, blades);
+    return saves.save(khz::SaveSystem::default_path()) ? 0 : 1;
+}
+
+// The Inheritance by Witness: after the second door is sealed, Zero sees the
+// boy on the drowned shore draw a Keyblade in the sand — and keyblades answer
+// him from that moment on. Grants the Twilight Keyblade to the save.
+void play_flashback_with_sora(khz::SaveSystem& saves, const khz::KeybladeDB& blades) {
+    std::printf("\n  \x1b[38;5;141m\x1b[1m--- THE FLASHBACK ---\x1b[0m\n");
+
+    std::ifstream f("data/dialogue/flashback_sora.json");
+    if (f) {
+        nlohmann::json j;
+        try { f >> j; } catch (...) {}
+        for (const auto& line : j.value("scene", nlohmann::json::array())) {
+            std::printf("  %s\n", line.get<std::string>().c_str());
+            std::fflush(stdout);
+        }
+    } else {
+        std::printf("  [the drowned shore - a boy draws a key in the sand]\n");
+    }
+
+    // The grant: Twilight Keyblade answers at Zero's side.
+    int32_t idx = blades.index_for_id("twilight_keyblade");
+    if (idx >= 0) {
+        saves.record().owned_keyblades |= (1u << (uint32_t)idx);
+        saves.record().active_keyblade = (uint32_t)idx;
+    }
+    std::printf("\n  \x1b[38;5;220m\x1b[1mThe Twilight Keyblade answers at Zero's side.\x1b[0m\n");
+    std::printf("  \x1b[2mThe twin red sabres remain at his hips - the fast, honest steel of his first act.\x1b[0m\n");
+    std::printf("  \x1b[2mFrom here, the master gate is open: keyblades answer him.\x1b[0m\n");
+}
+
+// The Bazaar Between Doors: a terminal crafting flow. The stallkeeper forghes
+// any blueprint the story arc allows - including the Ultima Weapon.
+int moogle_flow(khz::SaveSystem& saves, khz::MoogleStall& stall,
+                const khz::KeybladeDB& blades) {
+    auto& rec = saves.record();
+    std::printf("\n  \x1b[38;5;141m\x1b[1m--- MOOGLE STALL // %s ---\x1b[0m\n",
+                stall.stallkeeper_name());
+    std::printf("  \x1b[2m%s\x1b[0m\n", "A small striped tent, exactly where Zero turned around.");
+
+    while (true) {
+        auto avail = stall.available(rec);
+        std::printf("\n  \x1b[2m[stall] list | 1..%zu forge | mats | munny | q\x1b[0m ",
+                    avail.size());
+        char buf[32];
+        if (!std::fgets(buf, sizeof(buf), stdin)) break;
+        std::string cmd;
+        for (char* p = buf; *p; ++p) {
+            if (*p != '\n' && *p != '\r') cmd += (char)std::tolower((unsigned char)*p);
+        }
+        if (cmd == "q" || cmd == "quit" || cmd == "back") break;
+        if (cmd == "list" || cmd == "l") {
+            std::printf("  %-4s %-28s %-8s %-10s %s\n",
+                        "#", "forge", "kind", "munny", "materials");
+            for (size_t i = 0; i < avail.size(); ++i) {
+                const khz::Recipe* r = avail[i];
+                std::string mats;
+                for (const auto& miq : r->mats) {
+                    if (!mats.empty()) mats += ", ";
+                    mats += std::to_string(miq.second) + " " +
+                            stall.materials().name(miq.first);
+                }
+                std::printf("  %-4zu %-28s %-8s %6u   %s%s\n",
+                            i + 1, r->name.c_str(), r->kind.c_str(), r->cost,
+                            mats.c_str(),
+                            stall.already_owns(*r, rec) ? "  [owned]" : "");
+            }
+        } else if (cmd == "mats" || cmd == "m") {
+            std::printf("  [satchel] munny: %u\n", rec.munny);
+            bool any = false;
+            for (size_t i = 0; i < stall.materials().size(); ++i) {
+                if (rec.materials[i] == 0) continue;
+                any = true;
+                std::printf("    %-24s x%u\n",
+                            stall.materials().name((uint32_t)i).c_str(),
+                            rec.materials[i]);
+            }
+            if (!any) std::printf("    (the satchel is empty, kupo...)\n");
+        } else if (cmd == "munny") {
+            std::printf("  [account] %u munny\n", rec.munny);
+        } else if (!cmd.empty() && cmd[0] >= '1' && cmd[0] <= '9') {
+            size_t n = (size_t)(cmd[0] - '1');
+            if (n < avail.size()) {
+                const khz::Recipe* r = avail[n];
+                std::string flavor;
+                auto res = stall.craft(*r, rec, blades, flavor);
+                std::printf("  %s\n", flavor.c_str());
+                if (res == khz::MoogleStall::CraftResult::Ok)
+                    std::printf("  \x1b[2m[catalog] remember to save the dark's memory\x1b[0m\n");
+            } else {
+                std::printf("  The stall cocks an ear at that number, kupo.\n");
+            }
+        } else {
+            std::printf("  The stallkeeper blinks. \"Kupo?\"\n");
+        }
+    }
+    std::printf("\n  \x1b[2m%s\x1b[0m\n", "The stall is always between doors, kupo.");
+    return 0;
 }
 
 int menu_loop() {
     khz::SaveSystem saves;
     saves.initialize();
 
+    khz::KeybladeDB blades;
+    blades.load("data/combat/keyblades.json");
+    khz::MoogleStall stall;
+    stall.load("data/crafting/material_catalog.json",
+               "data/crafting/recipes.json",
+               "data/crafting/moogle_stall.json");
+
     while (true) {
+        auto& rec = saves.record();
         std::printf("\n  \x1b[1m--- DOOR TO DARKNESS ---\x1b[0m\n");
+        if (rec.story_progress >= 2)
+            std::printf("  \x1b[2mZero wears the %s at his side | munny %u | blades %lu/%lu\x1b[0m\n",
+                        blades.by_index(rec.active_keyblade)
+                            ? blades.by_index(rec.active_keyblade)->name.c_str()
+                            : "Twin Red Sabres",
+                        rec.munny,
+                        (unsigned long)__builtin_popcount(rec.owned_keyblades),
+                        blades.all().size());
+        else
+            std::printf("  \x1b[2mZero wears the Twin Red Sabres | munny %u | the gate is closed\x1b[0m\n",
+                        rec.munny);
         std::printf("  1) begin act one - traverse town\n");
-        std::printf("  2) save the dark's memory\n");
-        std::printf("  3) load the dark's memory\n");
-        std::printf("  4) quit\n");
+        std::printf("  %s\n", rec.story_progress >= 1
+                    ? "  2) begin act two - the traverse door"
+                    : "  2) begin act two - the traverse door (seal the district first)");
+        std::printf("  3) visit the moogle stall\n");
+        std::printf("  4) save the dark's memory\n");
+        std::printf("  5) load the dark's memory\n");
+        std::printf("  6) quit\n");
         std::printf("  \x1b[2m[choice]\x1b[0m ");
         char buf[16];
         if (!std::fgets(buf, sizeof(buf), stdin)) break;
@@ -264,12 +533,21 @@ int menu_loop() {
             case '1':
                 return act_one(saves);
             case '2':
-                saves.save(khz::SaveSystem::default_path());
-                break;
+                if (saves.record().story_progress < 1) {
+                    std::printf("  \x1b[2mThe second door is still sealed shut - finish the district first.\x1b[0m\n");
+                    break;
+                }
+                return act_two(saves, blades);
             case '3':
-                saves.load(khz::SaveSystem::default_path());
+                moogle_flow(saves, stall, blades);
                 break;
             case '4':
+                saves.save(khz::SaveSystem::default_path());
+                break;
+            case '5':
+                saves.load(khz::SaveSystem::default_path());
+                break;
+            case '6':
                 std::printf("  \x1b[2m[the dark closes the door behind you]\x1b[0m\n");
                 return 0;
             default:

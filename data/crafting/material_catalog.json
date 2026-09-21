@@ -1,0 +1,27 @@
+{
+  "title": "Material Catalog - the Motes the dark sheds",
+  "note": "32 slots, index = SaveRecord.materials[] index. Drops are keyed to world location and story arc: early worlds shed common motes, the late worlds shed the rare ores. First Light leaves only the Archon's body.",
+  "materials": [
+    { "id": "dusk_shard",   "name": "Dusk Shard",      "rarity": "common",    "desc": "A splinter of the dark that the lowest Heartless sloughs when it dies. Nothing special, but the stall can make cold iron answer for it." },
+    { "id": "heart_fragment", "name": "Heart Fragment", "rarity": "common",  "desc": "A shard of a stolen heart, still warm. Tastes of the drowned islands. The Forge buys these by the fistful." },
+    { "id": "nobody_thread", "name": "Nobody Thread",  "rarity": "common",    "desc": "Woven from the coat of a defeated Nobody. It refuses to unravel — which makes it excellent for binding." },
+    { "id": "clock_gear",   "name": "Clockwork Gear",  "rarity": "uncommon",  "desc": "Turned by Wonderland's forgetting-room. Each gear holds one second of someone else's time." },
+    { "id": "gold_dust",    "name": "Sunken Gold",     "rarity": "uncommon",  "desc": "Sand from the Cave of Wonders that remembers being treasure. Mallos hoards it; Zero collects it." },
+    { "id": "belly_rune",   "name": "Belly Rune",      "rarity": "uncommon",  "desc": "Etched by the acid of Monstro's stomach. It hums a swallowed sailor's lullaby." },
+    { "id": "stolen_song",  "name": "Stolen Song",     "rarity": "rare",      "desc": "A melody Yssora tore from Ariel's throat. The stall whistles it off-key and cups its hands around the note." },
+    { "id": "pumpkin_wax",  "name": "Pumpkin Wax",     "rarity": "uncommon",  "desc": "Drippings from a hundred jack-o'-lanterns. The grin sewed its stitches through this." },
+    { "id": "hook_chain",   "name": "Hook Chain",      "rarity": "uncommon",  "desc": "A link of the captain's anchor chain, pulled from Neverland's tide. It weighs more than it should." },
+    { "id": "ink_leaf",     "name": "Ink Leaf",        "rarity": "uncommon",  "desc": "A page torn from a storybook world. Whatever is written on it cannot be lied about." },
+    { "id": "piston_seal",  "name": "Piston Seal",     "rarity": "rare",      "desc": "A pressure seal from Ansem's machine heart. It still ticks in the Keyblade's rhythm." },
+    { "id": "pride_claw",   "name": "Pride Claw",      "rarity": "rare",      "desc": "The Hinge That Opens shed this like a nail. The Pride Lands' animals refuse to touch it out of respect." },
+    { "id": "dragon_scale", "name": "Dragon Scale",    "rarity": "rare",      "desc": "One scale from the thousand-mile stare's eye-wall. Warm like a forge that is always lit." },
+    { "id": "moon_shard",   "name": "Moon Shard",      "rarity": "rare",      "desc": "A crescent of the berserk moon, stolen by Saix's abandoned rage. It hums on every full phase." },
+    { "id": "gamblers_die", "name": "Gambler's Die",   "rarity": "rare",      "desc": "A six-sided lie. Luxord rolled it once and lost his own name; now it belongs to whoever throws it first." },
+    { "id": "void_smoke",   "name": "Void Smoke",      "rarity": "epic",      "desc": "The only thing that burns in the World That Never Was. It extinguishes light and remembers the shape of it." },
+    { "id": "witness_ash",  "name": "Witness Ash",     "rarity": "epic",      "desc": "Ash of the drowned shore where a boy drew a Keyblade in sand. It knows what being seen means." },
+    { "id": "first_light",  "name": "First Light",     "rarity": "legendary", "desc": "The Archon carried this before it carried the Door. The first light the dark ever ate. Only its own body drops it." },
+    { "id": "bell_metal",   "name": "Belled Metal",    "rarity": "uncommon",  "desc": "Cast from the great bells of sleeping castles. Rings once when a keyblade is near." },
+    { "id": "memory_chord", "name": "Memory Chord",    "rarity": "uncommon",  "desc": "A tightened string of recollection, plucked from any Heartless soldier who half-remembers its past." }
+  ],
+  "reserved_slots": 20
+}

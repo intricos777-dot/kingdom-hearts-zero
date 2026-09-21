@@ -1,0 +1,431 @@
+{
+  "game": "Kingdom Hearts II (PS2) — Expanded Areas",
+  "note": "Each world from KH2 with its areas/rooms. Organization, Roxas, and final-act worlds.",
+  "worlds": [
+    {
+      "id": "twilight_town",
+      "name": "Twilight Town",
+      "areas": [
+        {
+          "id": "twilight_station",
+          "name": "The Sunset Station",
+          "world": "twilight_town",
+          "desc": "The train never comes at the same time twice. The sun never decides.",
+          "map": [
+            "##########",
+            "#S.......#",
+            "#........#",
+            "#....K...#",
+            "#........#",
+            "#.......E#",
+            "##########"
+          ],
+          "npcs": ["axel"]
+        },
+        {
+          "id": "twilight_clock_tower",
+          "name": "The Old Mansion Clock Tower",
+          "world": "twilight_town",
+          "desc": "The clock tower watches the town. Roxas once ate ice cream here. Zero left a feather.",
+          "map": [
+            "########",
+            "#S..N..#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": ["axel"]
+        },
+        {
+          "id": "twilight_mansion",
+          "name": "The Old Mansion",
+          "world": "twilight_town",
+          "desc": "Empty now. The Organization's thirteenth member used to sit here. The dust remembers.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "olympus",
+      "name": "Olympus Coliseum (Return)",
+      "areas": [
+        {
+          "id": "olympus_underworld",
+          "name": "The Underworld Gate",
+          "world": "olympus",
+          "desc": "Hades is dead. The underworld is holding its own tournament. Auron's ghost watches.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": ["auron", "goofy"]
+        },
+        {
+          "id": "olympus_games",
+          "name": "The God-Games Arena",
+          "world": "olympus",
+          "desc": "Hercules stands again. The crowd roars. The arena Keyhole never opened — Zero sealed it long ago.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": ["goofy"]
+        }
+      ]
+    },
+    {
+      "id": "beast_castle",
+      "name": "Beast's Castle",
+      "areas": [
+        {
+          "id": "beast_rose_room",
+          "name": "The Rose Room",
+          "world": "beast_castle",
+          "desc": "The rose is the lock. Xaldin wants the Beast's rage. Zero stands between the spears and the petals.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "beast_hall",
+          "name": "The Grand Hall",
+          "world": "beast_castle",
+          "desc": "The curtains are always drawn. The enchanted objects are not enchanted enough.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "timeless_river",
+      "name": "Timeless River",
+      "areas": [
+        {
+          "id": "timeless_main_street",
+          "name": "The Flat Main Street",
+          "world": "timeless_river",
+          "desc": "The river of ink is a road to the past. Disney Castle's shadow falls here, long before any of them were born.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "space_paranoids",
+      "name": "Space Paranoids",
+      "areas": [
+        {
+          "id": "space_grid",
+          "name": "The Light-Cycle Grid",
+          "world": "space_paranoids",
+          "desc": "Zero is digitized. Tron meets him on the grid. Together they override the MCP.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "space_mcp",
+          "name": "The MCP Core",
+          "world": "space_paranoids",
+          "desc": "The master control program is not evil. It is just afraid of users.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "pride_lands",
+      "name": "Pride Lands",
+      "areas": [
+        {
+          "id": "pride_outlands",
+          "name": "The Outlands",
+          "world": "pride_lands",
+          "desc": "Scar's pride is a keyhole shaped like a wound. Simba is coming. Zero will let him take the light.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "pride_pride Rock",
+          "name": "Pride Rock",
+          "world": "pride_lands",
+          "desc": "The kings watch from the stone. The wind carries their names.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "land_of_dragons",
+      "name": "Land of Dragons",
+      "areas": [
+        {
+          "id": "land_mountain",
+          "name": "The Mountain Pass",
+          "world": "land_of_dragons",
+          "desc": "Mulan hides her strength to save her family. Zero hides his name to save the worlds.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "land_camp",
+          "name": "The Imperial Camp",
+          "world": "land_of_dragons",
+          "desc": "The Organization's Eye watches from the mountains. It sees everything except the one thing Zero hides.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "port_royal",
+      "name": "Port Royal",
+      "areas": [
+        {
+          "id": "port_tavern",
+          "name": "The Tavern",
+          "world": "port_royal",
+          "desc": "The cursed crew drinks without tasting. The Keyhole pays in souls.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "port_ship",
+          "name": "The Black Pearl",
+          "world": "port_royal",
+          "desc": "Jack Sparrow's ship is cursed gold and stubbornness. The moonlight shows the dead their faces.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "disney_castle",
+      "name": "Disney Castle",
+      "areas": [
+        {
+          "id": "disney_courtyard",
+          "name": "The Courtyard",
+          "world": "disney_castle",
+          "desc": "The Cornerstone of Light burns. Zero keeps his distance. It would recognize him, or worse, burn.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": ["kairi"]
+        },
+        {
+          "id": "disney_vault",
+          "name": "The Clockwork Vault",
+          "world": "disney_castle",
+          "desc": "Pete claws at the Cornerstone. The vault holds a fragment of the final keyblade.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "agrabah2",
+      "name": "Agrabah (Return)",
+      "areas": [
+        {
+          "id": "agrabah2_cave",
+          "name": "The Deeper Cave",
+          "world": "agrabah2",
+          "desc": "The second Keyhole glows in the dark heart of the treasure. The golem remembers Zero.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "halloween_town2",
+      "name": "Halloween Town (Return)",
+      "areas": [
+        {
+          "id": "halloween2_christmas",
+          "name": "The Christmas Workshop",
+          "world": "halloween_town2",
+          "desc": "The Heartless stole Christmas. Sandy Claws waits for someone to hand it back. Zero does, twice in one world.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "hundred_acre_wood2",
+      "name": "100 Acre Wood (Return)",
+      "areas": [
+        {
+          "id": "hundred2_clearing",
+          "name": "The Remembered Clearing",
+          "world": "hundred_acre_wood2",
+          "desc": "The book remembers the shadow who helped before. Pooh calls Zero 'friend' without a mask.",
+          "map": [
+            "#######",
+            "#S.N..#",
+            "#.....#",
+            "#..K..#",
+            "#....E#",
+            "#######"
+          ],
+          "npcs": ["merlin"]
+        }
+      ]
+    },
+    {
+      "id": "wnwas",
+      "name": "The World That Never Was",
+      "areas": [
+        {
+          "id": "wnwas_city",
+          "name": "The Castle Between",
+          "world": "wnwas",
+          "desc": "Nothing is nothing, and the dark dreams on. The final door waits at the peak.",
+          "map": [
+            "##########",
+            "#S.......#",
+            "#........#",
+            "#....K...#",
+            "#........#",
+            "#.......E#",
+            "##########"
+          ],
+          "npcs": ["xemnas"]
+        },
+        {
+          "id": "wnwas_throne",
+          "name": "The Throne of the Archon",
+          "world": "wnwas",
+          "desc": "The Shambler that stole the Door itself stands here, in every world at once. Only the Twilight Form's five keyblades can reach all of it.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": ["xemnas"]
+        }
+      ]
+    }
+  ]
+}

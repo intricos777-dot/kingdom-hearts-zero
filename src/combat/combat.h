@@ -4,6 +4,7 @@
 #include <vector>
 #include "data/enemies.h"
 #include "data/keyblades.h"
+#include "crafting/materials.h"
 #include "save/save_system.h"
 #include "ui/command_deck.h"
 
@@ -16,10 +17,7 @@ enum class Form {
     Twilight = 4,  // blends Shadow + Ultima, 5 keyblades at once
 };
 
-// Machine numbers used by the save bitmask.
-constexpr uint32_t FORM_SHADOW  = (1u << 0);
-constexpr uint32_t FORM_ULTIMA  = (1u << 1);
-constexpr uint32_t FORM_TWILIGHT = (1u << 2);
+// Form bits live in save_system.h (they are the save's forms_unlocked mask).
 
 // Result of a single battle.
 struct BattleResult {
@@ -28,6 +26,8 @@ struct BattleResult {
     uint32_t xp = 0;
     uint32_t levels_gained = 0;
     uint32_t memories_stolen = 0;   // how many memories the dark took from you
+    uint32_t munny = 0;             // the dark settles its account
+    std::vector<LootDrop> loot;     // crafting motes dropped this fight
     std::string loot_keyblade;       // keyblade id earned, or ""
     std::string loot_desc;
 };
@@ -67,11 +67,13 @@ struct BattleView {
 class CombatEngine {
 public:
     CombatEngine() = default;
-    CombatEngine(SaveSystem& saves, const KeybladeDB& blades);
+    CombatEngine(SaveSystem& saves, const KeybladeDB& blades,
+                 const MaterialCatalog* mats = nullptr);
 
     // Bind save + keyblade DB (used when default-constructed by a host
     // that wires dependencies after construction).
-    void bind(SaveSystem& saves, const KeybladeDB& blades);
+    void bind(SaveSystem& saves, const KeybladeDB& blades,
+              const MaterialCatalog* mats = nullptr);
 
     // Fights the given enemy until one side falls. Returns the result.
     BattleResult battle(const EnemyDef& enemy);
@@ -98,9 +100,15 @@ public:
     // The deck currently available to the player, shaped by level + form.
     const std::vector<Command>& deck() const { return m_view.deck; }
 
+    // Story gate: until the flashback after mission two, Zero cannot wield
+    // keyblades — the twin red sabres are the only weapon the engine allows.
+    bool keyblades_unlocked() const;
+    std::string weapon_name() const;   // active melee: sabres or equipped keyblade
+
 protected:
     SaveSystem* m_saves = nullptr;
     const KeybladeDB* m_blades = nullptr;
+    const MaterialCatalog* m_mats = nullptr;
 
     std::vector<Command> m_deck;
     uint32_t m_form = 0;   // active form bit

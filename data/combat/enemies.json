@@ -13,7 +13,33 @@
       "spd": 4,
       "exp": 4,
       "attack": "claw swipe",
-      "desc": "The lowest Heartless. Black as the bottom of a heart, skittering on two too many legs. Kills by weight of numbers, not by skill."
+      "desc": "The lowest Heartless. Black as the bottom of a heart, skittering on two too many legs. Kills by weight of numbers, not by skill.",
+      "acts": [
+        1,
+        2,
+        3
+      ],
+      "worlds": [
+        "traverse_town",
+        "destiny_islands",
+        "wonderland"
+      ],
+      "drops": [
+        {
+          "material": "dusk_shard",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 250,
+          "arc": 1
+        },
+        {
+          "material": "heart_fragment",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 100,
+          "arc": 1
+        }
+      ]
     },
     {
       "id": "soldier",
@@ -26,7 +52,36 @@
       "spd": 3,
       "exp": 6,
       "attack": "shield bash",
-      "desc": "An armored Heartless with a blade and a grudge. Fights like it remembers being a person, badly."
+      "desc": "An armored Heartless with a blade and a grudge. Fights like it remembers being a person, badly.",
+      "acts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "worlds": [
+        "traverse_town",
+        "olympus_coliseum",
+        "agrabah",
+        "hollow_bastion",
+        "land_of_dragons"
+      ],
+      "drops": [
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 200,
+          "arc": 1
+        },
+        {
+          "material": "heart_fragment",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 80,
+          "arc": 1
+        }
+      ]
     },
     {
       "id": "large_body",
@@ -39,7 +94,33 @@
       "spd": 1,
       "exp": 12,
       "attack": "belly press",
-      "desc": "A walking wall of stolen weight. Its front armor ignores weak blows; strike the dark seam at its back."
+      "desc": "A walking wall of stolen weight. Its front armor ignores weak blows; strike the dark seam at its back.",
+      "acts": [
+        1,
+        2,
+        3
+      ],
+      "worlds": [
+        "deep_jungle",
+        "disney_castle",
+        "beast_castle"
+      ],
+      "drops": [
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 150,
+          "arc": 2
+        },
+        {
+          "material": "bell_metal",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 100,
+          "arc": 3
+        }
+      ]
     },
     {
       "id": "neoshadow",
@@ -52,7 +133,32 @@
       "spd": 6,
       "exp": 10,
       "attack": "melting lunge",
-      "desc": "The Shadow that learned to stand. Strikes twice, retreats into the floor, strikes twice again."
+      "desc": "The Shadow that learned to stand. Strikes twice, retreats into the floor, strikes twice again.",
+      "acts": [
+        2,
+        3
+      ],
+      "worlds": [
+        "destiny_islands",
+        "twilight_town",
+        "hollow_bastion"
+      ],
+      "drops": [
+        {
+          "material": "heart_fragment",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 250,
+          "arc": 2
+        },
+        {
+          "material": "clock_gear",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 100,
+          "arc": 2
+        }
+      ]
     },
     {
       "id": "wyvern",
@@ -65,7 +171,32 @@
       "spd": 7,
       "exp": 14,
       "attack": "wing shear",
-      "desc": "A winged Heartless that hunts from above. Its howl shakes the resonance of the world it flies over."
+      "desc": "A winged Heartless that hunts from above. Its howl shakes the resonance of the world it flies over.",
+      "acts": [
+        2,
+        3
+      ],
+      "worlds": [
+        "neverland",
+        "land_of_dragons",
+        "hollow_bastion"
+      ],
+      "drops": [
+        {
+          "material": "nobody_thread",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 200,
+          "arc": 2
+        },
+        {
+          "material": "hook_chain",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 80,
+          "arc": 3
+        }
+      ]
     },
     {
       "id": "sorcerer",
@@ -78,7 +209,34 @@
       "spd": 4,
       "exp": 16,
       "attack": "volt nova",
-      "desc": "A hooded Heartless that throws stolen magic. Kill it fast - it feeds on every memory you spend."
+      "desc": "A hooded Heartless that throws stolen magic. Kill it fast - it feeds on every memory you spend.",
+      "acts": [
+        2,
+        3,
+        4
+      ],
+      "worlds": [
+        "wonderland",
+        "atlantica",
+        "port_royal",
+        "disney_castle"
+      ],
+      "drops": [
+        {
+          "material": "clock_gear",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 180,
+          "arc": 2
+        },
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 120,
+          "arc": 2
+        }
+      ]
     },
     {
       "id": "dusk",
@@ -91,7 +249,35 @@
       "spd": 5,
       "exp": 11,
       "attack": "whip strike",
-      "desc": "A Nobody. It wears no face, only purpose. Zero recognizes it the way you recognize your own shadow."
+      "desc": "A Nobody. It wears no face, only purpose. Zero recognizes it the way you recognize your own shadow.",
+      "acts": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "worlds": [
+        "traverse_town",
+        "twilight_town",
+        "castle_oblivion",
+        "wnwas"
+      ],
+      "drops": [
+        {
+          "material": "nobody_thread",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 220,
+          "arc": 1
+        },
+        {
+          "material": "void_smoke",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 20,
+          "arc": 5
+        }
+      ]
     },
     {
       "id": "berserker",
@@ -104,7 +290,33 @@
       "spd": 2,
       "exp": 18,
       "attack": "chain crash",
-      "desc": "A hulking Nobody whose strength grows as its HP falls. Break it before it breaks the world's resonance."
+      "desc": "A hulking Nobody whose strength grows as its HP falls. Break it before it breaks the world's resonance.",
+      "acts": [
+        2,
+        3,
+        4
+      ],
+      "worlds": [
+        "agrabah",
+        "hollow_bastion",
+        "disney_castle"
+      ],
+      "drops": [
+        {
+          "material": "bell_metal",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 140,
+          "arc": 3
+        },
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 180,
+          "arc": 3
+        }
+      ]
     }
   ],
   "shamblers": [
@@ -139,7 +351,23 @@
       "loot_keyblade": "kingdom_key",
       "loot_desc": "A splinter of the first Keyblade's light, pried from its cloak.",
       "desc": "The first Shambler Zero meets. It wears the coat of a Nobody but no face beneath the hood - only a wound where a face should be. It feeds on the names of commands, erasing them from Zero's deck mid-fight.",
-      "music": "first_key_first_door"
+      "music": "first_key_first_door",
+      "drops": [
+        {
+          "material": "dusk_shard",
+          "qty_min": 2,
+          "qty_max": 3,
+          "chance_per_mille": 1000,
+          "arc": 1
+        },
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 1
+        }
+      ]
     },
     {
       "id": "throx_the_echo",
@@ -172,7 +400,23 @@
       "loot_keyblade": "way_to_the_dawn",
       "loot_desc": "Soul Eater's dark successor, torn from the Echo's own memory of Riku.",
       "desc": "It walks the drowned isle wearing a memory of Riku's coat. Every strike Zero lands, it answers with the same strike, perfected. The world's first wound taught it how.",
-      "music": "first_key_first_door"
+      "music": "first_key_first_door",
+      "drops": [
+        {
+          "material": "heart_fragment",
+          "qty_min": 2,
+          "qty_max": 3,
+          "chance_per_mille": 1000,
+          "arc": 1
+        },
+        {
+          "material": "nobody_thread",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 400,
+          "arc": 1
+        }
+      ]
     },
     {
       "id": "qilra_the_trial",
@@ -205,7 +449,23 @@
       "loot_keyblade": "oathkeeper",
       "loot_desc": "A promise kept in Wonderland's forgetting-room: the light half of the Twilight Keyblade.",
       "desc": "A court of one. It stands on the Queen's dais and passes judgment on memory itself, erasing whole journal pages with a gavel of stolen bone. Zero must win before his own story is struck from the record.",
-      "music": "clockwork_district"
+      "music": "clockwork_district",
+      "drops": [
+        {
+          "material": "clock_gear",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 700,
+          "arc": 1
+        },
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 600,
+          "arc": 1
+        }
+      ]
     },
     {
       "id": "herrak_the_phantom",
@@ -238,7 +498,23 @@
       "loot_keyblade": "wayward_wind",
       "loot_desc": "Ventus's blade, torn from the phantom bracket before Hades could spend it.",
       "desc": "It fights in the phantom bracket, seeding the tournament with ghosts of Cloud's old duels. Hades whispers its name between rounds. It steals the drive gauge because it knows Zero will one day need it.",
-      "music": "ashen_arena"
+      "music": "ashen_arena",
+      "drops": [
+        {
+          "material": "gold_dust",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 600,
+          "arc": 1
+        },
+        {
+          "material": "bell_metal",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 400,
+          "arc": 1
+        }
+      ]
     },
     {
       "id": "zankor_the_vine",
@@ -271,7 +547,23 @@
       "loot_keyblade": "two_become_one",
       "loot_desc": "Roxas's blade, grown in the canopy - left for the only other unremembered.",
       "desc": "It hides in the temple vines, stealing the jungle's voice so the Keyhole stays open. It wears a cloak of green rot and speaks in Tarzan's discarded words - the only speech it remembers.",
-      "music": "first_key_first_door"
+      "music": "first_key_first_door",
+      "drops": [
+        {
+          "material": "ink_leaf",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 600,
+          "arc": 1
+        },
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 1
+        }
+      ]
     },
     {
       "id": "mallos_the_hoard",
@@ -304,7 +596,23 @@
       "loot_keyblade": "oblivion",
       "loot_desc": "The dark half of the Twilight Keyblade, dragged into the Cave of Wonders by greed.",
       "desc": "It wears a coat crusted with gold and gem-dust, hoarding not treasure but the weight of it. The Cave of Wonders' Keyhole hums with its hoarded memories of every thief who ever died inside.",
-      "music": "agrabah_duel_run"
+      "music": "agrabah_duel_run",
+      "drops": [
+        {
+          "material": "gold_dust",
+          "qty_min": 2,
+          "qty_max": 3,
+          "chance_per_mille": 1000,
+          "arc": 2
+        },
+        {
+          "material": "clock_gear",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 600,
+          "arc": 2
+        }
+      ]
     },
     {
       "id": "vurok_the_belly",
@@ -337,7 +645,23 @@
       "loot_keyblade": "keyblade_of_peoples_hearts",
       "loot_desc": "A heart-shaped wound that chose a new purpose, coughed up from the whale's memory.",
       "desc": "It lives in Monstro's stomach lining like a leech, growing fat on the memories of swallowed sailors. It cannot be reasoned with - it can only be emptied.",
-      "music": "shattergate_pursuit"
+      "music": "shattergate_pursuit",
+      "drops": [
+        {
+          "material": "belly_rune",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 2
+        },
+        {
+          "material": "nobody_thread",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 2
+        }
+      ]
     },
     {
       "id": "yssora_the_tide",
@@ -370,7 +694,23 @@
       "loot_keyblade": "destinys_embrace",
       "loot_desc": "A princess's gift, thrown into the deep by the one who hates singing.",
       "desc": "It hates music - because music is memory made sweet. It steals Ariel's voice and wears it under the sea, where no song can reach.",
-      "music": "tidebreaker_clash"
+      "music": "tidebreaker_clash",
+      "drops": [
+        {
+          "material": "stolen_song",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 2
+        },
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 600,
+          "arc": 2
+        }
+      ]
     },
     {
       "id": "grinx_the_grin",
@@ -403,7 +743,23 @@
       "loot_keyblade": "ultima_weapon",
       "loot_desc": "The Forge of Worlds' blade, half-forged in the second grin's cauldron.",
       "desc": "It is a grin without a face, stitched over the town's jack-o-lanterns. Every scare it pulls from the children is a year stolen from Zero's clock.",
-      "music": "pumpkin_key_clash"
+      "music": "pumpkin_key_clash",
+      "drops": [
+        {
+          "material": "pumpkin_wax",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 2
+        },
+        {
+          "material": "bell_metal",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 2
+        }
+      ]
     },
     {
       "id": "nox_the_hook",
@@ -436,7 +792,23 @@
       "loot_keyblade": "kingdom_key_d",
       "loot_desc": "The King's own blade, fished from the clockwork sea by the Hook's hand.",
       "desc": "It wears Hook's hook but no other part of him, stalking the clock tower where the Keyhole rests. It steals the memory of flight so that everyone - even Zero - must walk its plank.",
-      "music": "tidebreaker_clash"
+      "music": "tidebreaker_clash",
+      "drops": [
+        {
+          "material": "hook_chain",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 2
+        },
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 2
+        }
+      ]
     },
     {
       "id": "poohs_shadow",
@@ -469,7 +841,23 @@
       "loot_keyblade": "rainfell",
       "loot_desc": "Aqua's blade, dried ink-stained, recovered from the eaten chapter.",
       "desc": "It is what happens when a Shambler tries to eat a world made of pages: it becomes a smudge that eats more pages. The Hundred Acre Wood is the one world that fights back by being kind.",
-      "music": "clockwork_district"
+      "music": "clockwork_district",
+      "drops": [
+        {
+          "material": "ink_leaf",
+          "qty_min": 2,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 2
+        },
+        {
+          "material": "nobody_thread",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 2
+        }
+      ]
     },
     {
       "id": "the_machine_heart",
@@ -502,7 +890,23 @@
       "loot_keyblade": "no_name",
       "loot_desc": "Xehanort's blade, pulled from the machine's core - an old name, finally given.",
       "desc": "The fortress's own heart given a cloak. It wears Ansem's memories like armor and speaks in his voice - the same voice that narrates Zero's story. Beating it is beating the narrator.",
-      "music": "bastion_rift"
+      "music": "bastion_rift",
+      "drops": [
+        {
+          "material": "piston_seal",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 3
+        },
+        {
+          "material": "bell_metal",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 600,
+          "arc": 3
+        }
+      ]
     },
     {
       "id": "the_hinge_that_opens",
@@ -535,7 +939,23 @@
       "loot_keyblade": "earthshaker",
       "loot_desc": "The heaviest blade in the game, wedged in the Hinge's jaws mid-slam.",
       "desc": "A door with a cloak draped over it, or a cloak shaped like a door - no one can decide, least of all the Pride Lands' animals it terrifies. It exists only to open what should stay shut, and it creaks the old name of the door it serves.",
-      "music": "ashen_arena"
+      "music": "ashen_arena",
+      "drops": [
+        {
+          "material": "pride_claw",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 3
+        },
+        {
+          "material": "gold_dust",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 400,
+          "arc": 3
+        }
+      ]
     },
     {
       "id": "the_organizations_eye",
@@ -568,7 +988,23 @@
       "loot_keyblade": "bond_of_flame",
       "loot_desc": "A blade of fire and fury, plucked from the Eye's thousand-mile stare.",
       "desc": "A single unblinking eye floating in a cloak, it watches every battle in the Land of Dragons and sells the knowledge to whoever pays in memory. It sees Zero's every move - unless Zero makes a move even he doesn't expect.",
-      "music": "clockwork_district"
+      "music": "clockwork_district",
+      "drops": [
+        {
+          "material": "dragon_scale",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 4
+        },
+        {
+          "material": "clock_gear",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 4
+        }
+      ]
     },
     {
       "id": "saix_the_berserker",
@@ -601,7 +1037,23 @@
       "loot_keyblade": "kingdom_key_xi",
       "loot_desc": "The copy that refused to be erased, drawn from the berserk moon's light.",
       "desc": "It wears Saix's face like a mask, but the berserk moon behind it is pure Shambler. The longer the fight, the stronger it becomes - and the less of itself it remembers being.",
-      "music": "shattergate_pursuit"
+      "music": "shattergate_pursuit",
+      "drops": [
+        {
+          "material": "moon_shard",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 4
+        },
+        {
+          "material": "bell_metal",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 600,
+          "arc": 4
+        }
+      ]
     },
     {
       "id": "luxord_the_gambler",
@@ -634,7 +1086,23 @@
       "loot_keyblade": "luxords_die",
       "loot_desc": "A die of pure chance - not a keyblade, but luck is a weapon of its own.",
       "desc": "A gambler's coat with a die for a head. Every encounter is a wager: it deals cards from Zero's memories and calls the game on his most precious ones.",
-      "music": "shattergate_pursuit"
+      "music": "shattergate_pursuit",
+      "drops": [
+        {
+          "material": "gamblers_die",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 4
+        },
+        {
+          "material": "memory_chord",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 4
+        }
+      ]
     },
     {
       "id": "vexan_the_unwritten",
@@ -673,7 +1141,23 @@
       "loot_keyblade": "",
       "loot_desc": "A blank page that never had a story - the Unwritten's only possession.",
       "desc": "The 17th Shambler, and the Archon's own shadow-cloak. It stands before the final door, erasing every victory Zero has ever claimed so the Archon can enter the fight without a name to fear. Heart Zero Clash - the one memory it cannot take.",
-      "music": "heart_zero_clash"
+      "music": "heart_zero_clash",
+      "drops": [
+        {
+          "material": "void_smoke",
+          "qty_min": 1,
+          "qty_max": 2,
+          "chance_per_mille": 1000,
+          "arc": 5
+        },
+        {
+          "material": "moon_shard",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 500,
+          "arc": 5
+        }
+      ]
     },
     {
       "id": "the_archon",
@@ -718,7 +1202,30 @@
       "loot_keyblade": "ultima_keyseal",
       "loot_desc": "The Ultima Keyseal - the final keyblade of the final door.",
       "desc": "The first Shambler. The one that stole the Door to Darkness itself, and has worn its weight ever since. It is multi-planar - it stands in every world Zero ever visited at once, and only the Twilight Form's five keyblades can reach all of it. Its memory-steal is absolute: it forgets allies' names so Zero must fight for them alone.",
-      "music": "symphonic_apex"
+      "music": "symphonic_apex",
+      "drops": [
+        {
+          "material": "first_light",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 1000,
+          "arc": 5
+        },
+        {
+          "material": "void_smoke",
+          "qty_min": 2,
+          "qty_max": 3,
+          "chance_per_mille": 1000,
+          "arc": 5
+        },
+        {
+          "material": "dragon_scale",
+          "qty_min": 1,
+          "qty_max": 1,
+          "chance_per_mille": 600,
+          "arc": 5
+        }
+      ]
     }
   ],
   "acts": [

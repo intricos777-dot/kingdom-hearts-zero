@@ -1,0 +1,40 @@
+{
+  "title": "Story Progression — Door to Darkness",
+  "note": "Source of truth for mission order and the keyblade gate. story_progress is stored in SaveRecord and persisted by SaveSystem.",
+  "master_gate": {
+    "keyblades_unlock_after": "mission_2",
+    "flashback": "flashback_with_sora",
+    "weapon_before": "twin_red_sabres",
+    "weapon_after": "twilight_keyblade",
+    "rule": "Zero cannot wield a keyblade until after mission two, when the flashback with Sora on the drowned shore grants the Inheritance by witness."
+  },
+  "missions": [
+    {
+      "id": "mission_1",
+      "name": "Traverse Town District",
+      "world": "traverse_town",
+      "clear_progress": 1,
+      "weapon": "twin_red_sabres",
+      "keyblade_unlock": false
+    },
+    {
+      "id": "mission_2",
+      "name": "The Traverse Door",
+      "world": "traverse_door",
+      "clear_progress": 2,
+      "weapon": "twin_red_sabres",
+      "keyblade_unlock": true,
+      "flashback": "flashback_with_sora",
+      "lore": "Sealing the second door shakes something loose. Zero watches a boy on a drowned shore draw a Keyblade in the sand — and the Inheritance lands. From here, keyblades answer him."
+    },
+    {
+      "id": "mission_3",
+      "name": "The Door Sanctum",
+      "world": "kh_zero_the_door",
+      "clear_progress": 3,
+      "weapon": "twilight_keyblade",
+      "keyblade_unlock": true,
+      "lore": "The Door Sanctum lies beyond the district. Zero walks it with the Twilight Keyblade at his side — and, still, the twin red sabres at his hips."
+    }
+  ]
+}

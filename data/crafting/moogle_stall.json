@@ -1,0 +1,21 @@
+{
+  "title": "Moogle Stall - The Bazaar Between Doors",
+  "location": "traverse_town",
+  "note": "A small striped tent that is always exactly where Zero turns around. The moogle inside has no name and answers to no world - it simply is, kupo. It purchases the motes the dark sheds and forges them into weapons, forms, and commands.",
+  "keeper": {
+    "kind": "moogle",
+    "name": "The Stallkeeper (kupo)",
+    "greeting": "Welcome, welcome! The stall has eyes on everything and prices on nothing - kupo! Bring me what the dark sheds, and I will hammer it into what you deserve.",
+    "rules": [
+      "Materials come from the dark: Heartless shed common motes wherever the district is young. Dimensional Shamblers carry the rare ores of the worlds they guard.",
+      "Some forges only open once the story has caught up. The stall will not hammer a keyblade it knows is not yours to hold yet - kupo.",
+      "The Ultima Weapon is not found. It is finished. Bring the grin's wax and the bells' metal, and the stall will finish what the cauldron started."
+    ],
+    "departure": "Come back when the dark owes you more, kupo! The stall is always between doors."
+  },
+  "economy": {
+    "currency": "munny",
+    "collection": "7 munny per common motes batch is handsome. The stall pays via the Forge's standing order: every defeated Heartless and Shambler settles its account with you.",
+    "note": "Drops are world- and arc-timed: fight where the story is, collect what that story sheds."
+  }
+}

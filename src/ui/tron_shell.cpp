@@ -43,7 +43,8 @@ bool TronShell::init(const char* title) {
     m_saves.initialize();
     m_saves.load(SaveSystem::default_path());
     m_blades.load("data/combat/keyblades.json");
-    m_enemies.load("data/combat/enemies.json");
+    m_mats.load("data/crafting/material_catalog.json");
+    m_enemies.load("data/combat/enemies.json", m_mats);
     m_last_act = sealed_act();
     m_combat.bind(m_saves, m_blades);
     m_audio.init("assets/audio");

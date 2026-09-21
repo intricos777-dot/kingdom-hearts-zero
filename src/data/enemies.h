@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "crafting/materials.h"
+
 namespace khz {
 
 struct EnemyAttack {
@@ -28,6 +30,8 @@ struct EnemyDef {
     std::string element;
     std::string memory_steal;
     std::vector<EnemyAttack> attacks;
+    std::vector<EnemyDrop> drops;    // world- and arc-timed loot rolls
+    std::vector<std::string> worlds; // heartless: where this enemy is found
     std::string loot_keyblade;
     std::string loot_desc;
     std::string music;   // boss fight track clip id
@@ -42,10 +46,11 @@ struct ActDef {
     std::string summary;
 };
 
-// Enemy/act registry loaded from data/combat/enemies.json.
+// Enemy/act registry loaded from data/combat/enemies.json. Drop material
+// indices are resolved against the material catalog at load time.
 class EnemyDB {
 public:
-    bool load(const std::string& path);
+    bool load(const std::string& path, const MaterialCatalog& mats);
 
     const std::vector<EnemyDef>& heartless() const { return m_heartless; }
     const std::vector<EnemyDef>& shamblers() const { return m_shamblers; }

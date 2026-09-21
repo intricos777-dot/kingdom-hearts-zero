@@ -262,3 +262,24 @@ These are vague, woven through terminals and world flavor text.
 ---
 
 *Last updated: design draft*
+
+## 18. Crafting & the keyblade gate (design notes)
+
+- **Weapon curve.** Twin Red Sabres (act 1, mandate) -> flashback with Sora
+  after the Traverse Door (act 2) -> Twilight Keyblade granted by witnessing ->
+  anything the stall can forge, ending at the Ultima Weapon / Ultima Keyseal.
+  `src/combat/combat.cpp::active_blade` enforces the gate at engine level, so
+  no UI path (terminal or shell) can wield a keyblade early.
+- **Drop economy.** Enemies carry `drops[]` (material, qty range, per-mille
+  chance, min arc). `EnemyDB::load` resolves material ids against
+  `material_catalog.json` at load; `on_victory` rolls against
+  `SaveRecord::story_progress` so world location + story timing shape every
+  reward. Munny scales with EXP (heartless x2, shamblers x4).
+- **The stall.** `MoogleStall` (khz-moogle) checks arc, ownership, munny, and
+  materials before granting; grants are keyblade ownership bits, form bits, or
+  deck-level slots. Save version 3 carries `munny` + `materials[32]`.
+- **Testing.** khz-combat-session verifies the gate (locked at 0/1, open at 2,
+  drops silent while gated, munny+motes after). khz-moogle-stall forges the
+  Ultima Weapon end to end and asserts refusal paths.
+
+*Last updated: design draft (moogle bazaar + Inheritance gate added)*

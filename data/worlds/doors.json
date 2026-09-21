@@ -1,0 +1,176 @@
+{
+  "title": "Doors to Darkness — Kingdom Hearts 0: Door to Darkness",
+  "note": "Each Door exists inside a world and must be sealed. Sealing drives the act-unlock ladder. The final Door is the Archon's throne.",
+  "doors": [
+    {
+      "id": "door_traverse_town",
+      "name": "The District Keyhole",
+      "world": "traverse_town",
+      "act": 1,
+      "shambler_id": "veska_the_erasure",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "The first keyhole. Three districts, one lamp-lit hub."
+    },
+    {
+      "id": "door_destiny_islands",
+      "name": "The Drowned Keyhole",
+      "world": "destiny_islands",
+      "act": 1,
+      "shambler_id": "throx_the_echo",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "The world that fell first. Where Sora drew the Keyblade in the sand."
+    },
+    {
+      "id": "door_wonderland",
+      "name": "The Trial Keyhole",
+      "world": "wonderland",
+      "act": 1,
+      "shambler_id": "qilra_the_trial",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "Memory is a crime here. Zero's own memory is fraying."
+    },
+    {
+      "id": "door_olympus_coliseum",
+      "name": "The Arena Keyhole",
+      "world": "olympus_coliseum",
+      "act": 1,
+      "shambler_id": "herrak_the_phantom",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "Hades whispers the phantom bracket's name."
+    },
+    {
+      "id": "door_deep_jungle",
+      "name": "The Temple Keyhole",
+      "world": "deep_jungle",
+      "act": 1,
+      "shambler_id": "zankor_the_vine",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "The jungle's heart accepts the unknown wielder."
+    },
+    {
+      "id": "door_agrabah",
+      "name": "The Cave Keyhole",
+      "world": "agrabah",
+      "act": 2,
+      "shambler_id": "mallos_the_hoard",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "The lamp chose freedom. Zero leaves a coin."
+    },
+    {
+      "id": "door_monstro",
+      "name": "The Belly Keyhole",
+      "world": "monstro",
+      "act": 2,
+      "shambler_id": "vurok_the_belly",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "The whale sneezes them free. A made heart is still a heart."
+    },
+    {
+      "id": "door_atlantica",
+      "name": "The Sea Keyhole",
+      "world": "atlantica",
+      "act": 2,
+      "shambler_id": "yssora_the_tide",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "Zero surfaces with salt he never knew he could taste."
+    },
+    {
+      "id": "door_halloween_town",
+      "name": "The Grin Keyhole",
+      "world": "halloween_town",
+      "act": 2,
+      "shambler_id": "grinx_the_grin",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "Jack takes his bow. Zero closes the grin before it laughs."
+    },
+    {
+      "id": "door_neverland",
+      "name": "The Tower Keyhole",
+      "world": "neverland",
+      "act": 2,
+      "shambler_id": "nox_the_hook",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "First trace of Sora. The clockwork sea holds the key."
+    },
+    {
+      "id": "door_hundred_acre_wood",
+      "name": "The Page-Eater Keyhole",
+      "world": "hundred_acre_wood",
+      "act": 2,
+      "shambler_id": "poohs_shadow",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "The only world with no Keyhole. The Page-Eater is a smudge, not a door."
+    },
+    {
+      "id": "door_hollow_bastion",
+      "name": "The Bastion Keyhole",
+      "world": "hollow_bastion",
+      "act": 3,
+      "shambler_id": "the_machine_heart",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "Beating the Machine Heart is beating the narrator of your own story."
+    },
+    {
+      "id": "door_pride_lands",
+      "name": "The Hinge Keyhole",
+      "world": "pride_lands",
+      "act": 3,
+      "shambler_id": "the_hinge_that_opens",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "A door with a cloak, or a cloak shaped like a door. It creaks the old name of the door it serves."
+    },
+    {
+      "id": "door_land_of_dragons",
+      "name": "The Eye Keyhole",
+      "world": "land_of_dragons",
+      "act": 4,
+      "shambler_id": "the_organizations_eye",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "It sees everything except the one thing Zero hides."
+    },
+    {
+      "id": "door_disney_castle",
+      "name": "The Clockwork Vault Keyhole",
+      "world": "disney_castle",
+      "act": 4,
+      "shambler_id": "saix_the_berserker",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "The berserk moon is full. The vault holds the final keyblade fragment."
+    },
+    {
+      "id": "door_port_royal",
+      "name": "The Chest Keyhole",
+      "world": "port_royal",
+      "act": 4,
+      "shambler_id": "luxord_the_gambler",
+      "requires_shambler": true,
+      "can_keyseal": true,
+      "flavor": "Luxord deals from Zero's memories. Win, and it owes more than it can steal."
+    },
+    {
+      "id": "door_wnwas",
+      "name": "The Door to Darkness",
+      "world": "wnwas",
+      "act": 5,
+      "shambler_id": "the_archon",
+      "requires_shambler": true,
+      "can_keyseal": false,
+      "flavor": "The final Door. The Archon stole it. Zero is the hinge on the dark side."
+    }
+  ]
+}

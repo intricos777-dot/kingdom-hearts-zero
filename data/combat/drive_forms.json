@@ -1,0 +1,54 @@
+{
+  "title": "Drive Forms — Kingdom Hearts 0: Door to Darkness",
+  "note": "Three drive forms the player can unlock and shift into during combat.",
+  "forms": [
+    {
+      "id": "shadow_overdrive",
+      "name": "Shadow Overdrive",
+      "sigil": "◈",
+      "bit": 1,
+      "color_ansi": "93",
+      "flavor": "The heartless half of the Twilight Keyblade surges. Zero's form darkens — speed and strength spike, defense and magic gutter.",
+      "str_mul": 150,
+      "mag_mul": 70,
+      "def_mul": 80,
+      "spd_add": 3,
+      "crt_add": 2,
+      "mp_drain_per_turn": 4,
+      "specials": ["shadowstep", "dark_assault"],
+      "unlock_story_progress": 2
+    },
+    {
+      "id": "ultima_drive",
+      "name": "Ultima Drive",
+      "sigil": "◇",
+      "bit": 2,
+      "color_ansi": "51",
+      "flavor": "The light half of the Twilight Keyblade surges. Zero splits into a storm of light and dark fragments — high magic, high cost.",
+      "str_mul": 80,
+      "mag_mul": 150,
+      "def_mul": 90,
+      "spd_add": 0,
+      "crt_add": 0,
+      "mp_drain_per_turn": 6,
+      "specials": ["ultima_burst", "storm_shards"],
+      "unlock_story_progress": 4
+    },
+    {
+      "id": "twilight_form",
+      "name": "Twilight Form",
+      "sigil": "✦",
+      "bit": 4,
+      "color_ansi": "141",
+      "flavor": "The Twilight Keyblade balances light and dark. Oblivion and Oathkeeper activate simultaneously — balanced stats, five keyblade echoes.",
+      "str_mul": 120,
+      "mag_mul": 120,
+      "def_mul": 110,
+      "spd_add": 1,
+      "crt_add": 1,
+      "mp_drain_per_turn": 8,
+      "specials": ["twilight_cleave", "door_seal_strike", "dual_overdrive"],
+      "unlock_story_progress": 6
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+ "id": "traverse_door",
+ "name": "The Traverse Door",
+ "map": [
+  "#########",
+  "#S.......#",
+  "#.#####..#",
+  "#.#...#..#",
+  "#.#..K...#",
+  "#.#....#.#",
+  "#..####..#",
+  "#......E.#",
+  "#########"
+ ],
+ "legend": {
+  "S": "start",
+  "E": "the Door",
+  "K": "the Door's keyhole",
+  "#": "wall",
+  ".": "floor"
+ },
+ "beats": [
+  "the door between worlds wobbles, as it only does in the presence of the liminal",
+  "the keyhole of the Traverse Door glows — a door that leads nowhere except onward",
+  "sealing it changes the weather of every door in the district"
+ ]
+}

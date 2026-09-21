@@ -22,6 +22,20 @@ add_library(khz-ui STATIC
 target_include_directories(khz-ui PUBLIC src)
 target_link_libraries(khz-ui PRIVATE te-engine khz-save)
 
+# Crafting materials: the Forge's 32-slot registry (drop + recipe backbone)
+add_library(khz-materials STATIC
+    src/crafting/materials.cpp
+)
+target_include_directories(khz-materials PUBLIC src)
+target_link_libraries(khz-materials PRIVATE nlohmann_json::nlohmann_json)
+
+# Moogle stall: blueprint registry + forge grants (keyblades, forms, decks)
+add_library(khz-moogle STATIC
+    src/crafting/moogle_stall.cpp
+)
+target_include_directories(khz-moogle PUBLIC src)
+target_link_libraries(khz-moogle PRIVATE khz-data khz-save khz-materials nlohmann_json::nlohmann_json)
+
 # Story / Ansem-narrated prologue + scene graph
 add_library(khz-story STATIC
     src/story/scene.cpp
@@ -49,14 +63,24 @@ add_library(khz-data STATIC
     src/data/keyblades.cpp
 )
 target_include_directories(khz-data PUBLIC src)
-target_link_libraries(khz-data PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(khz-data PRIVATE khz-materials nlohmann_json::nlohmann_json)
 
 # Turn-based combat engine over the command deck (terminal + session API)
 add_library(khz-combat STATIC
     src/combat/combat.cpp
+    src/combat/drive_forms.cpp
+    src/combat/door_seal.cpp
 )
 target_include_directories(khz-combat PUBLIC src)
-target_link_libraries(khz-combat PRIVATE khz-data khz-save khz-ui)
+target_link_libraries(khz-combat PRIVATE khz-data khz-save khz-ui khz-materials nlohmann_json::nlohmann_json)
+
+# NPC schedules, world areas
+add_library(khz-world STATIC
+    src/world/npc.cpp
+    src/world/areas.cpp
+)
+target_include_directories(khz-world PUBLIC src)
+target_link_libraries(khz-world PRIVATE nlohmann_json::nlohmann_json)
 
 # Background music player (SDL_mixer) with creator credits manifest
 add_library(khz-audio STATIC
@@ -73,20 +97,33 @@ add_library(khz-render STATIC
 )
 target_include_directories(khz-render PUBLIC src)
 target_link_libraries(khz-render PRIVATE te-engine khz-worlds khz-save khz-audio
-    khz-data khz-combat
+    khz-data khz-combat khz-world khz-materials
     SDL2::SDL2 PkgConfig::SDL2_ttf PkgConfig::GLEW OpenGL::GL)
 
 # Main executable
 enable_testing()
 add_executable(kh-door src/main.cpp)
 target_include_directories(kh-door PRIVATE src)
-target_link_libraries(kh-door PRIVATE te-engine khz-ui khz-story khz-save khz-worlds khz-render khz-audio khz-data khz-combat nlohmann_json::nlohmann_json)
-add_test(NAME khz-core COMMAND bash -c "printf '4\\n' | $<TARGET_FILE:kh-door> --terminal")
+target_link_libraries(kh-door PRIVATE te-engine khz-ui khz-story khz-save khz-worlds khz-render khz-audio khz-data khz-combat khz-world khz-materials khz-moogle nlohmann_json::nlohmann_json)
+add_test(NAME khz-core COMMAND bash -c "printf '6\\n' | $<TARGET_FILE:kh-door> --terminal")
 set_tests_properties(khz-core PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # Headless combat session check (drives the phase machine the shell uses)
 add_executable(khz-combat-test tests/combat_session_test.cpp)
 target_include_directories(khz-combat-test PRIVATE src)
-target_link_libraries(khz-combat-test PRIVATE khz-combat khz-data khz-save khz-ui)
+target_link_libraries(khz-combat-test PRIVATE khz-combat khz-data khz-save khz-ui khz-materials)
 add_test(NAME khz-combat-session COMMAND khz-combat-test)
 set_tests_properties(khz-combat-session PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+# Headless moogle stall check (forges the Ultima Weapon end to end)
+add_executable(khz-moogle-test tests/moogle_stall_test.cpp)
+target_include_directories(khz-moogle-test PRIVATE src)
+target_link_libraries(khz-moogle-test PRIVATE khz-moogle khz-data khz-save khz-materials)
+add_test(NAME khz-moogle-stall COMMAND khz-moogle-test)
+set_tests_properties(khz-moogle-stall PROPERTIES WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+# Alpha content smoke test (NPCs, areas, drive forms, doors).
+add_executable(khz-alpha-test tests/alpha_content_test.cpp)
+target_include_directories(khz-alpha-test PRIVATE src)
+target_link_libraries(khz-alpha-test PRIVATE khz-world khz-combat nlohmann_json::nlohmann_json)
+add_test(NAME khz-alpha-content COMMAND khz-alpha-test)

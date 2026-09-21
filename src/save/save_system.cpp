@@ -15,7 +15,7 @@ std::string SaveSystem::default_path() {
 bool SaveSystem::initialize() {
     std::memset(&m_record, 0, sizeof(m_record));
     std::memset(&m_shadow, 0, sizeof(m_shadow));
-    m_record.version = 2;
+    m_record.version = 3;
     m_record.world[0] = '\0';
     std::strncpy(m_record.world, "traverse_town", sizeof(m_record.world) - 1);
     m_record.act = 1;
@@ -41,6 +41,7 @@ bool SaveSystem::initialize() {
     std::memset(m_record.active_deck, 0, sizeof(m_record.active_deck));
     m_record.active_deck_len = 0;
     m_record.deck_level = 1;
+    m_record.story_progress = 0;   // sabres until the flashback after mission two
     std::printf("\x1b[2m[Save] checksum save engine ready\x1b[0m\n");
     return true;
 }

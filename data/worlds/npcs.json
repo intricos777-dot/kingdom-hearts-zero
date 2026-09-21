@@ -1,0 +1,347 @@
+{
+  "title": "NPC Schedules — Kingdom Hearts 0: Door to Darkness",
+  "note": "All NPCs speak through the terminal. Sora, Donald, Goofy are the party; world NPCs anchor each world's scenes; shop/flavor NPCs give traversal flavor.",
+  "npcs": [
+    {
+      "id": "sora",
+      "name": "Sora",
+      "role": "party",
+      "appearance": "brown spiky hair, yellow shorts, red shirt, oversized keyblade",
+      "affiliation": "destiny_islands",
+      "greetings": {
+        "destiny_islands": "Hey, Zero! Are you a new friend? I drew a keyblade — look!",
+        "traverse_town": "Wow, you're fast! Where'd you learn to swing like that?",
+        "neverland": "I can feel it — there's a light here that's mine.",
+        "wnwas": "I have to go on alone. But I know you're with me."
+      },
+      "schedules": [
+        {
+          "world": "any",
+          "location": "party_camp",
+          "lines": [
+            { "hour": 0, "text": "Sora stares at the stars. 'Do you think my friends are under these same ones?'", "emotion": "sad" },
+            { "hour": 6, "text": "Sora stretches. 'Alright! Let's go! I'm ready!'", "emotion": "happy" },
+            { "hour": 9, "text": "Sora juggles a red apple. 'Dude, you wanna bite?'", "emotion": "happy" },
+            { "hour": 12, "text": "Sora polishes the Kingdom Key. 'I promised Kairi. I promised Riku. I promised myself.'", "emotion": "determined" },
+            { "hour": 15, "text": "Sora races a shadow on the wall, laughing.", "emotion": "happy" },
+            { "hour": 18, "text": "Sora looks toward the horizon. 'Another keyhole. I can feel it.'", "emotion": "determined" },
+            { "hour": 21, "text": "Sora yawns. 'Tomorrow. Tomorrow we close another one.'", "emotion": "neutral" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He doesn't know who he is yet, but he knows what he'll become.",
+        "His laughter is the first sound the Heartless ever learned to fear.",
+        "Zero watches him and wonders what a keyblade that chose its wielder feels like."
+      ]
+    },
+    {
+      "id": "donald",
+      "name": "Donald",
+      "role": "party",
+      "appearance": "blue feathered sorcerer with a white-nib mage hat, red-nibbed staff",
+      "affiliation": "disney",
+      "greetules": {
+        "traverse_town": "Oh, it's you! Don't scare me like that!",
+        "hollow_bastion": "There's so much magic here — some of it's mine, somehow."
+      },
+      "schedules": [
+        {
+          "world": "any",
+          "location": "party_camp",
+          "lines": [
+            { "hour": 0, "text": "Donald is asleep. He snores in three-note melodies.", "emotion": "neutral" },
+            { "hour": 6, "text": "Donald stretches his wings. 'Aaagh! Why do I always wake up before Goofy?'", "emotion": "angry" },
+            { "hour": 9, "text": "Donald practices Firaga on a sandbag. 'Gawrsh, that one felt good!'", "emotion": "happy" },
+            { "hour": 12, "text": "Donald checks his spellbook. 'Thundaga takes less MP if you aim small.'", "emotion": "neutral" },
+            { "hour": 15, "text": "Donald is fuming. 'Where IS that king?!'", "emotion": "angry" },
+            { "hour": 18, "text": "Donald offers Zero a potion. 'For emergencies.'", "emotion": "happy" },
+            { "hour": 21, "text": "Donald counts his MP. 'I'm running low. Save the rest for the boss.'", "emotion": "neutral" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He was court magician before he was a hero. It shows.",
+        "When he's angry, he's the loudest thing in the room. That's useful.",
+        "He treats Zero like a new recruit. Zero does not correct him."
+      ]
+    },
+    {
+      "id": "goofy",
+      "name": "Goofy",
+      "role": "party",
+      "appearance": "tall knight in blue armor, shield in hand, green hat",
+      "affiliation": "disney",
+      "greetings": {
+        "traverse_town": "Well howdy! Ain't you a sight for sore eyes!",
+        "olympus": "Hercules is my hero — I wanna be strong like him!"
+      },
+      "schedules": [
+        {
+          "world": "any",
+          "location": "party_camp",
+          "lines": [
+            { "hour": 0, "text": "Goofy is asleep with his shield over him like a blanket.", "emotion": "neutral" },
+            { "hour": 6, "text": "Goofy stumbles into camp. 'Oh boy, oh boy — what a sunrise!'", "emotion": "happy" },
+            { "hour": 9, "text": "Goofy polishes his shield. 'This old thing's saved me more times than I can count!'", "emotion": "happy" },
+            { "hour": 12, "text": "Goofy offers Zero a Hi-Potion. 'Ya look a little rough, pal.'", "emotion": "neutral" },
+            { "hour": 15, "text": "Goofy practices a shield bash. 'Hi-yah! Did that look okay?'", "emotion": "happy" },
+            { "hour": 18, "text": "Goofy looks at the darkening sky. 'Don't worry — we got this.'", "emotion": "determined" },
+            { "hour": 21, "text": "Goofy yawns. 'Night, Zero. See ya in the mornin'.'", "emotion": "neutral" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He is the least confused person in the party. That is its own kind of power.",
+        "His shield has blocked more darkness than he'll admit.",
+        "He calls Zero 'pal'. Zero has never been called that before."
+      ]
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud",
+      "role": "world_npc",
+      "appearance": "spiky blond hair, dark pants, violet eyes, massive buster sword",
+      "affiliation": "none",
+      "greetings": {
+        "olympus_coliseum": "You're not from around here. But you swing like you know what it costs.",
+        "hollow_bastion": "The darkness in that castle — it knows my name. I don't know why.",
+        "wnwas": "I'm looking for someone. Have you seen a black-haired man with a scar?"
+      },
+      "schedules": [
+        {
+          "world": "olympus_coliseum",
+          "location": "arena_gate",
+          "lines": [
+            { "hour": 8, "text": "Cloud stands in the arena's shadow. He does not look at the crowd.", "emotion": "neutral" },
+            { "hour": 14, "text": "Cloud tests his blade's edge. 'I'm not a hero. I'm just here.'", "emotion": "neutral" },
+            { "hour": 20, "text": "Cloud watches the sunset. 'Tifa... Aerith...'", "emotion": "sad" }
+          ]
+        },
+        {
+          "world": "hollow_bastion",
+          "location": "castle_gate",
+          "lines": [
+            { "hour": 9, "text": "Cloud stares at the castle. 'Sephiroth was here. I know it.'", "emotion": "angry" },
+            { "hour": 16, "text": "Cloud shakes his head. 'This isn't my world. Why am I still here?'", "emotion": "sad" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He fights like a man chasing his own shadow.",
+        "His name is not Sephiroth. He forgets that sometimes."
+      ]
+    },
+    {
+      "id": "auron",
+      "name": "Auron",
+      "role": "world_npc",
+      "appearance": "one-armed black coat, shoulder-length black hair, flask in hand",
+      "affiliation": "none",
+      "greetings": {
+        "olympus": "A black coat and a flask. I've been dead for ten years. It's not as boring as it sounds."
+      },
+      "schedules": [
+        {
+          "world": "olympus",
+          "location": "underworld_gate",
+          "lines": [
+            { "hour": 7, "text": "Auron takes a long drink. 'Hades is cheating again. I've seen this before.'", "emotion": "neutral" },
+            { "hour": 13, "text": "Auron watches the dead march. 'They deserve better than this.'", "emotion": "sad" },
+            { "hour": 19, "text": "Auron nods to Zero. 'You have the same look I had once. Keep moving.'", "emotion": "determined" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He is a ghost who refused to be silent.",
+        "The dead tell him things. He listens."
+      ]
+    },
+    {
+      "id": "axel",
+      "name": "Axel",
+      "role": "world_npc",
+      "appearance": "spiky blond hair, red Nobody coat, chakrams at his hips, lazy grin",
+      "affiliation": "organization",
+      "greetings": {
+        "twilight_town": "Hey, didn't see you there. Name's Axel. Don't ask about the coat.",
+        "wnwas": "If you see Roxas, tell him... never mind."
+      },
+      "schedules": [
+        {
+          "world": "twilight_town",
+          "location": "clock_tower",
+          "lines": [
+            { "hour": 6, "text": "Axel eats ice cream on the roof. 'Best flavor in the universe. Don't argue.'", "emotion": "happy" },
+            { "hour": 12, "text": "Axel stares at the empty street. 'There was someone here. Someone like me.'", "emotion": "sad" },
+            { "hour": 18, "text": "Axel flips a chakram idly. 'The Organization doesn't own the night.'", "emotion": "neutral" },
+            { "hour": 22, "text": "Axel looks at the stars. 'Roxas... Xion... you idiots.'", "emotion": "sad" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He laughs because silence is worse.",
+        "The Organization XIII coat fits him like a wound."
+      ]
+    },
+    {
+      "id": "riku",
+      "name": "Riku",
+      "role": "world_npc",
+      "appearance": "white hair, yellow eyes, dark coat, soul-eater at his hip",
+      "affiliation": "destiny_islands",
+      "greetings": {
+        "destiny_islands": "You know Sora. That makes you... something. Be careful.",
+        "hollow_bastion": "I walked through the door once. I came out different.",
+        "twilight_town": "I'm not the boy who left the islands. I'm not the man who came back either."
+      },
+      "schedules": [
+        {
+          "world": "destiny_islands",
+          "location": "hidden_cave",
+          "lines": [
+            { "hour": 9, "text": "Riku stands where the waves broke. 'This is where it started.'", "emotion": "sad" },
+            { "hour": 15, "text": "Riku draws Soul Eater. 'Darkness isn't evil. It's just... dark.'", "emotion": "neutral" },
+            { "hour": 21, "text": "Riku watches the tide. 'Sora would've closed this by now. I'll do it.'", "emotion": "determined" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He walks the dark road back to the light. Some days it's shorter than others.",
+        "He doesn't trust Zero. That's healthy."
+      ]
+    },
+    {
+      "id": "kairi",
+      "name": "Kairi",
+      "role": "world_npc",
+      "appearance": "red hair, white dress, pink hoodie over it, gentle eyes",
+      "affiliation": "destiny_islands",
+      "greetings": {
+        "destiny_islands": "I drew a keyblade once. Did you know?",
+        "traverse_town": "I can feel the light in every world. Yours is... different.",
+        "hollow_bastion": "The castle is holding something that shouldn't be held."
+      },
+      "schedules": [
+        {
+          "world": "destiny_islands",
+          "location": "paopu_tree",
+          "lines": [
+            { "hour": 8, "text": "Kairi draws in the sand. 'I'm not sure what I'm drawing. But it matters.'", "emotion": "neutral" },
+            { "hour": 14, "text": "Kairi offers Zero a paopu fruit. 'Friends share. That's how it works.'", "emotion": "happy" },
+            { "hour": 20, "text": "Kairi looks at the sea. 'The door remembers me. I don't know why.'", "emotion": "sad" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "She is a princess of heart who chose to be a girl instead.",
+        "She calls Zero by his name. That is rarer than he thinks."
+      ]
+    },
+    {
+      "id": "xemnas",
+      "name": "Xemnas",
+      "role": "boss",
+      "appearance": "white hair, amber eyes, black coat, nothingness at his shoulders",
+      "affiliation": "organization",
+      "greetings": {
+        "wnwas": "Ah, the liminal. I have been watching you. Documenting."
+      },
+      "schedules": [
+        {
+          "world": "wnwas",
+          "location": "throne_room",
+          "lines": [
+            { "hour": 0, "text": "Xemnas stands above the city. 'Nothing is nothing. And we are its architects.'", "emotion": "neutral" },
+            { "hour": 6, "text": "Xemnas watches the sunrise. 'A beautiful lie. I remember them.'", "emotion": "sad" },
+            { "hour": 12, "text": "Xemnas addresses the air. 'The hearts we lost — they were never ours to keep.'", "emotion": "neutral" },
+            { "hour": 18, "text": "Xemnas looks at Zero. 'You are the door that was never opened. And I... I am the one who will close it.'", "emotion": "determined" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He is the Superior of the In-between. He takes the title seriously.",
+        "He never raises his voice. He never needs to."
+      ]
+    },
+    {
+      "id": "tramp_urchin",
+      "name": "The Urchin",
+      "role": "world_npc",
+      "appearance": "barefoot, oversized shirt, red bandana, gap-toothed grin",
+      "affiliation": "traverse_town",
+      "greetings": {
+        "traverse_town": "You're Zero, right? The kids say you eat shadows!"
+      },
+      "schedules": [
+        {
+          "world": "traverse_town",
+          "location": "district_one",
+          "lines": [
+            { "hour": 7, "text": "The urchin squints at Zero. 'You got the same coat as the Nobodies!'", "emotion": "surprised" },
+            { "hour": 12, "text": "The urchin sells a potion. 'For the big scary doors.'", "emotion": "neutral" },
+            { "hour": 18, "text": "The urchin points at the sky. 'There's a new door! I heard it wobble!'", "emotion": "surprised" },
+            { "hour": 22, "text": "The urchin yawns. 'Night, Zero. Don't let the dark bite.'", "emotion": "happy" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "She calls everyone Zero. The real Zero doesn't mind.",
+        "She knows every door in Traverse Town. Every single one."
+      ]
+    },
+    {
+      "id": "yen_sid",
+      "name": "Yen Sid",
+      "role": "guide",
+      "appearance": "long white beard, tall hat, starry robes, steady gaze",
+      "affiliation": "disney",
+      "greetings": {
+        "hub": "Zero. The worlds speak your name, even if they do not know they speak it.",
+        "traverse_town": "The keyholes are echoes. The doors are real. You understand the difference."
+      },
+      "schedules": [
+        {
+          "world": "any",
+          "location": "hub",
+          "lines": [
+            { "hour": 0, "text": "Yen Sid reads an ancient tome. 'The Master of the Last Forge... yes. I remember.'", "emotion": "neutral" },
+            { "hour": 8, "text": "Yen Sid adjusts his spectacles. 'Drive forms are a crutch. Use them anyway.'", "emotion": "neutral" },
+            { "hour": 14, "text": "Yen Sid gestures at the grid. 'Seal the doors. The Archon grows stronger.'", "emotion": "determined" },
+            { "hour": 20, "text": "Yen Sid looks at Zero. 'You are not a Nobody. You are not a Heartless. Do not let the dark tell you otherwise.'", "emotion": "determined" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He is the only one who remembers the Last Forge.",
+        "He treats Zero like a student. Zero pretends to mind."
+      ]
+    },
+    {
+      "id": "merlin",
+      "name": "Merlin",
+      "role": "guide",
+      "appearance": "long blue robe, pointed hat, bushy beard, spectacles on a chain",
+      "affiliation": "disney",
+      "greetings": {
+        "traverse_town": "Ah, a new student! Have you studied the arcane arts?",
+        "hundred_acre_wood": "The book remembers you, you know. From before."
+      },
+      "schedules": [
+        {
+          "world": "traverse_town",
+          "location": "item_shop",
+          "lines": [
+            { "hour": 8, "text": "Merlin sorts potions. 'Cura for the hurt, Elixir for the lost.'", "emotion": "neutral" },
+            { "hour": 14, "text": "Merlin adjusts his hat. 'The Command Deck is magic, you know. Don't let Donald tell you otherwise.'", "emotion": "happy" },
+            { "hour": 20, "text": "Merlin peers at Zero. 'Your keyblade hums in two voices. Keep them both.'", "emotion": "neutral" }
+          ]
+        }
+      ],
+      "general_lines": [
+        "He is the only wizard in three worlds who can fix a broken keyblade.",
+        "He talks too much. His students learn to listen."
+      ]
+    }
+  ]
+}

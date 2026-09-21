@@ -1,0 +1,471 @@
+{
+  "game": "Kingdom Hearts (PS2) — Expanded Areas",
+  "note": "Each world from KH1 with its areas/rooms. Each area has an ASCII map and NPC anchors.",
+  "worlds": [
+    {
+      "id": "traverse_town",
+      "name": "Traverse Town",
+      "areas": [
+        {
+          "id": "traverse_district_one",
+          "name": "District One — The Arrival",
+          "world": "traverse_town",
+          "desc": "Three lamp-lit streets, a bell-hop urchin at the corner, and the smell of old rain. Zero's first foothold.",
+          "map": [
+            "##########",
+            "#S...N...#",
+            "#.##.##..#",
+            "#.#....#.#",
+            "#.##.#...#",
+            "#....#.#K#",
+            "##########"
+          ],
+          "npcs": ["tramp_urchin", "merlin"]
+        },
+        {
+          "id": "traverse_inn",
+          "name": "The Moogle Inn",
+          "world": "traverse_town",
+          "desc": "A warm hearth. The moogles hum in a language that sounds like coins falling.",
+          "map": [
+            "#######",
+            "#S..N.#",
+            "#.....#",
+            "#..C..#",
+            "#....E#",
+            "#######"
+          ],
+          "npcs": ["merlin"]
+        },
+        {
+          "id": "traverse_door_hall",
+          "name": "The Door Sanctum",
+          "world": "traverse_town",
+          "desc": "A single door in a room with no walls. The wobble of the liminal is strongest here.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...D...#",
+            "#.......#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": ["sora", "donald", "goofy"]
+        }
+      ]
+    },
+    {
+      "id": "destiny_islands",
+      "name": "Destiny Islands",
+      "areas": [
+        {
+          "id": "destiny_drowned_shore",
+          "name": "The Drowned Shore",
+          "world": "destiny_islands",
+          "desc": "Waves lick the ruins of a dock. The sky has not been whole since the day the door first opened.",
+          "map": [
+            "###########",
+            "#S........#",
+            "#.........#",
+            "#....K....#",
+            "#.........#",
+            "#........E#",
+            "###########"
+          ],
+          "npcs": ["sora", "kairi", "riku"]
+        },
+        {
+          "id": "destiny_cave",
+          "name": "The Cave of Beginnings",
+          "world": "destiny_islands",
+          "desc": "Children drew their dreams here on the walls. Some of them came true. Some of them did not.",
+          "map": [
+            "#######",
+            "#S..N.#",
+            "#.##..#",
+            "#...K.#",
+            "#....E#",
+            "#######"
+          ],
+          "npcs": ["kairi"]
+        },
+        {
+          "id": "destiny_paopu_tree",
+          "name": "The Paopu Tree",
+          "world": "destiny_islands",
+          "desc": "Two fruits on one branch, drawn together. The tree remembers every wish.",
+          "map": [
+            "#######",
+            "#S....#",
+            "#..N..#",
+            "#..K..#",
+            "#.....#",
+            "#######"
+          ],
+          "npcs": ["kairi", "riku"]
+        }
+      ]
+    },
+    {
+      "id": "wonderland",
+      "name": "Wonderland",
+      "areas": [
+        {
+          "id": "wonder_bizarre_room",
+          "name": "The Bizarre Room",
+          "world": "wonderland",
+          "desc": "A room where memory is a crime. Doors open to minds, not halls.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#..D.D..#",
+            "#.......#",
+            "#..D.D..#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": ["donald"]
+        },
+        {
+          "id": "wonder_court",
+          "name": "The Queen's Court",
+          "world": "wonderland",
+          "desc": "The card soldiers have painted everything red. They are not allowed to use other colors.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "wonder_forest",
+          "name": "The Woods of Forgetting",
+          "world": "wonderland",
+          "desc": "The trees have no names. Neither do the paths. You are lost and you are fine.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.#####.#",
+            "#.#K..#.#",
+            "#.#...#.#",
+            "#.#####.#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "olympus_coliseum",
+      "name": "Olympus Coliseum",
+      "areas": [
+        {
+          "id": "olympus_gate",
+          "name": "The Arena Gate",
+          "world": "olympus_coliseum",
+          "desc": "The ghosts of old fighters still warm up in the crowd. They do not remember dying.",
+          "map": [
+            "##########",
+            "#S.......#",
+            "#........#",
+            "#....K...#",
+            "#........#",
+            "#.......E#",
+            "##########"
+          ],
+          "npcs": ["cloud"]
+        },
+        {
+          "id": "olympus_stands",
+          "name": "The God-Stands",
+          "world": "olympus_coliseum",
+          "desc": "Zeus watches from above. He has seen heroes before. Zero is not one of them — yet.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..N...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": ["goofy"]
+        }
+      ]
+    },
+    {
+      "id": "deep_jungle",
+      "name": "Deep Jungle",
+      "areas": [
+        {
+          "id": "jungle_canopy",
+          "name": "The Canopy Path",
+          "world": "deep_jungle",
+          "desc": "Tarzan's world speaks in vines and distance. Zero listens for the first time without a mask.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#..##...#",
+            "#...#...#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "jungle_temple",
+          "name": "The Temple of the Keyhole",
+          "world": "deep_jungle",
+          "desc": "The Keyhole is carved into the oldest tree. The jungle's heart beats above it.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "agrabah",
+      "name": "Agrabah",
+      "areas": [
+        {
+          "id": "agrabah_bazaar",
+          "name": "The Bazaar",
+          "world": "agrabah",
+          "desc": "The streets are gold-dust and trickery. The cave waits beneath the sand.",
+          "map": [
+            "##########",
+            "#S.......#",
+            "#........#",
+            "#...K....#",
+            "#........#",
+            "#.......E#",
+            "##########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "agrabah_cave",
+          "name": "The Cave of Wonders",
+          "world": "agrabah",
+          "desc": "A Keyhole that eats light. The treasure golems do not ask before they swing.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "monstro",
+      "name": "Monstro",
+      "areas": [
+        {
+          "id": "monstro_ribs",
+          "name": "The Ribs of the Whale",
+          "world": "monstro",
+          "desc": "Inside the belly, memory is acid. Pinocchio's heart is still real, despite being made.",
+          "map": [
+            "##########",
+            "#S.......#",
+            "#........#",
+            "#....K...#",
+            "#........#",
+            "#.......E#",
+            "##########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "atlantica",
+      "name": "Atlantica",
+      "areas": [
+        {
+          "id": "atlantica_coral",
+          "name": "The Coral Halls",
+          "world": "atlantica",
+          "desc": "Ursula's cauldron hums under the sea. A voice has been stolen. Silence has a shape.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "halloween_town",
+      "name": "Halloween Town",
+      "areas": [
+        {
+          "id": "halloween_square",
+          "name": "Halloween Square",
+          "world": "halloween_town",
+          "desc": "The pumpkins are listening. Oogie Boogie's dice are loaded, and the hill is hollow.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        },
+        {
+          "id": "halloween_hill",
+          "name": "Under the Hill",
+          "world": "halloween_town",
+          "desc": "The grin-keyhole is stitched over the town's joy. Zero closes it before it laughs.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "neverland",
+      "name": "Neverland",
+      "areas": [
+        {
+          "id": "neverland_tower",
+          "name": "The Clock Tower",
+          "world": "neverland",
+          "desc": "The clock's hands do not move. A boy passed through here moments ahead of Zero — the first proof Sora is alive.",
+          "map": [
+            "########",
+            "#S.....#",
+            "#......#",
+            "#..K...#",
+            "#.....E#",
+            "########"
+          ],
+          "npcs": ["sora", "donald", "goofy"]
+        },
+        {
+          "id": "neverland_ship",
+          "name": "The Pirate Ship",
+          "world": "neverland",
+          "desc": "Hook's hook is a Shambler now. The Lost Children huddle below deck.",
+          "map": [
+            "#########",
+            "#S......#",
+            "#.......#",
+            "#...K...#",
+            "#......E#",
+            "#########"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "hundred_acre_wood",
+      "name": "100 Acre Wood",
+      "areas": [
+        {
+          "id": "hundred_clearing",
+          "name": "The Storybook Clearing",
+          "world": "hundred_acre_wood",
+          "desc": "A book lies open in the grass. The pages are friends. Zero is, for one chapter, not the unknown.",
+          "map": [
+            "#######",
+            "#S.N..#",
+            "#.....#",
+            "#..K..#",
+            "#....E#",
+            "#######"
+          ],
+          "npcs": ["merlin"]
+        }
+      ]
+    },
+    {
+      "id": "hollow_bastion",
+      "name": "Hollow Bastion",
+      "areas": [
+        {
+          "id": "bastion_machine_heart",
+          "name": "The Machine Heart",
+          "world": "hollow_bastion",
+          "desc": "Ansem's fortress beats like a clockwork chest. The narrator's voice echoes from every gear.",
+          "map": [
+            "##########",
+            "#S.......#",
+            "#........#",
+            "#....K...#",
+            "#........#",
+            "#.......E#",
+            "##########"
+          ],
+          "npcs": ["cloud", "kairi"]
+        },
+        {
+          "id": "bastion_study",
+          "name": "Ansem's Study",
+          "world": "hollow_bastion",
+          "desc": "The reports were written here. The same voice that narrates Zero's journey wrote every line.",
+          "map": [
+            "#######",
+            "#S....#",
+            "#.....#",
+            "#..K..#",
+            "#....E#",
+            "#######"
+          ],
+          "npcs": []
+        }
+      ]
+    },
+    {
+      "id": "end_of_the_world",
+      "name": "End of the World",
+      "areas": [
+        {
+          "id": "end_rubble",
+          "name": "The Rubble of Worlds",
+          "world": "end_of_the_world",
+          "desc": "Fragments of fallen worlds orbit the Door to Darkness. Zero walks them alone.",
+          "map": [
+            "##########",
+            "#S.......#",
+            "#........#",
+            "#....K...#",
+            "#........#",
+            "#.......E#",
+            "##########"
+          ],
+          "npcs": []
+        }
+      ]
+    }
+  ]
+}

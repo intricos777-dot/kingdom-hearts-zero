@@ -6,6 +6,7 @@
 #include "save/save_system.h"
 #include "data/enemies.h"
 #include "data/keyblades.h"
+#include "crafting/materials.h"
 #include "combat/combat.h"
 
 namespace khz {
@@ -24,6 +25,7 @@ private:
     SaveSystem m_saves;
     KeybladeDB m_blades;
     EnemyDB m_enemies;
+    MaterialCatalog m_mats;
     CombatEngine m_combat;
     size_t m_selected = 0;
     float m_yaw = 0.0f;

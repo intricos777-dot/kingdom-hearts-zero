@@ -1,0 +1,31 @@
+{
+  "title": "The Flashback — Inheritance by Witness",
+  "trigger": "after mission two (The Traverse Door) is sealed. story_progress 1 -> 2. The master gate opens: Zero gains the ability to wield keyblades.",
+  "scene": [
+    "The Door seals. And in the closing of it, Zero is somewhere else.",
+    "",
+    "A shore. A scrap of an island before the worlds fell. The waves are clean, and the sky is not falling.",
+    "",
+    "Two boys sit in the mouth of a cave, drawing in the sand with a stick. The smaller one — yellow shorts, brown spikes of hair — scratches a shape over and over: a key.",
+    "This time I'll draw the Keyblade, he says. And the older one laughs, because the key is always crooked.",
+    "",
+    "Zero watches from the wobble of a door that is not there. The Motes rise from the sand like breath. The failed Inheritances of a hundred unfinished forges lean toward the drawing.",
+    "",
+    "The boy finishes. It is crooked. It is enough.",
+    "",
+    "'Little witnesses,' the shadow he wears says, in a voice that is Zero's own. 'He does not know what he has drawn.'",
+    "",
+    "But Zero knows. Every lost Inheritance in the world can feel it: that drawing, in the sand of a drowning island, is the first keyblade that will ever be chosen rather than forged.",
+    "",
+    "The red sabres at Zero's hips flare — once, together, like a held breath letting go. The Inheritance lands. It was never a thing to be given. It was a thing to be seen.",
+    "",
+    "A keyblade answers at his side: Dusk-colored metal, the weight of both halves of something that refused to be cut. The Twilight Keyblade.",
+    ""
+  ],
+  "reward": {
+    "story_progress": 2,
+    "unlocks": "keyblades (master_gate: mission 2)",
+    "first_blade": "twilight_keyblade",
+    "note": "From this moment Zero may wield keyblades in game. The twin red sabres remain in his loadout as the fast, honest steel of his first act."
+  }
+}

@@ -70,3 +70,54 @@ New to this mythos: **the residue of broken Inheritance** — the shape the Forg
 - `data/combat/*.json` — Nobodies, Dimensional Shamblers, the liminal's combat profile.
 - `assets/blender/char_zero.glb` — the forged Nobody-shadow of the spiky-haired archetype (see Seele ledger, `char_zero`).
 - `assets/blender/zones/kh-zero-zones.json` — *Drowned Destiny Shore*, *Traverse Door*, *The Door Sanctum* — the Doors of Act 1.
+## 5. Inheritance by Witness — the keyblade gate
+
+Zero cannot wield a keyblade at all until after the second story mission. He is
+not denied by weakness; he is denied by *unwitnessedness*: the Inheritance is
+given, and he has not yet seen its shape.
+
+When the second door (The Traverse Door) is sealed, the flashback lands —
+`data/dialogue/flashback_sora.json`. On a drowned shore, a boy called Sora draws
+a Keyblade in the sand, crooked and enough. Every failed Inheritance in the
+world leans toward the drawing. It is the first keyblade ever *chosen* rather
+than forged — and Zero *sees* it.
+
+Seeing it is the act. The master gate (`master_gate` in
+`data/combat/keyblades.json`) opens at mission two; the Twilight Keyblade
+answers at his side. Until that moment the engine refuses every keyblade: the
+twin red sabres are the only weapon his hands will close on.
+
+**Rule 6 (new, amending): the Inheritance is a witness, not a gift.** A
+keyblade is not handed down; it is *seen* and answered. Zero's flashback is the
+only Inheritance in the story that happens to a Nobody — which is the point:
+what is seen cannot be erased.
+
+## 6. The Bazaar Between Doors — the moogle stall
+
+A striped tent in Traverse Town that is always exactly where Zero turns around
+(`data/crafting/moogle_stall.json`). The stallkeeper has no name and answers to
+no world; it purchases the motes the dark sheds and forges them.
+
+**The economy of motes.** The dark pays in pieces of itself. Every defeated
+Heartless and every Dimensional Shambler settles its account on death
+(rolled in `CombatEngine::on_victory`, world- and arc-timed):
+
+- **Heartless** shed common motes — `dusk_shard`, `heart_fragment`,
+  `nobody_thread` — wherever their world is young. Rare motes come from the
+  specific worlds they haunt.
+- **Shamblers** carry the rare ores of the worlds they guard: `stolen_song`
+  from Yssora's tide, `first_light` from the Archon alone. Arc gating means a
+  boss you defeat early cannot shower you with endgame ore - the story has to
+  catch up for the drop to open.
+
+**The forge** (`data/crafting/recipes.json`, 24 blueprints). Every keyblade in
+the game can be forged — including the **Ultima Weapon** (arc 3: the grin's wax
+and the bells' metal) and the **Ultima Keyseal** (arc 5: First Light from the
+Archon's own body). Drive forms and command refinements are also sold:
+`shadow_overdrive`, `ultima_drive`, `twilight_form`, and four deck refinements
+that open command slots. The stall refuses blueprints the story has not
+unlocked yet, and refuses to take munny twice for a blade already owned.
+
+**Rule 7 (new, amending): nothing is found, everything is finished.** The
+Ultima Weapon is not a reward hidden in a chest; it is the forge's answer to
+what Zero has seen. "The philosopher's stone is forged one step at a time."

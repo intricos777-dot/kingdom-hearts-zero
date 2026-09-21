@@ -1,8 +1,30 @@
 {
   "title": "Keyblade Registry - Kingdom Hearts 0: Door to Darkness",
   "note": "The Twilight Keyblade is Zero's signature blade: the fusion of Oblivion and Oathkeeper, forged when light and dark chose the same wielder. It is an all-rounder - one of the best blades in the game - outclassed only in narrow niches by the keyblades of the other wielders, each tuned for a different character build. Keyblades are won by leveling and by defeating the 17 Shambler level bosses.",
-  "start_keyblade": "twilight_keyblade",
+  "start_keyblade": "twin_red_sabres",
   "keyblades": [
+    {
+      "id": "twin_red_sabres",
+      "name": "Twin Red Sabres",
+      "kind": "sabre",
+      "wielder": "Zero",
+      "source": "the fighting blades sheathed at his hips",
+      "str": 6,
+      "mag": 2,
+      "def": 3,
+      "spd": 5,
+      "crt": 2,
+      "ap": 6,
+      "element": "none",
+      "unlock_level": 1,
+      "unlock_mission": 0,
+      "unlock_desc": "Zero's own steel since before the Door - fast, honest, unmagical. They do not ask to be held; they were already his.",
+      "abilities": [
+        "Dual Wield",
+        "Fast Hands"
+      ],
+      "desc": "Twin red sabres sheathed at the hips. A liminal's fighting knives - no light, no dark, just the red edge of a man who has not been given a key."
+    },
     {
       "id": "twilight_keyblade",
       "name": "Twilight Keyblade",
@@ -17,8 +39,14 @@
       "element": "twilight",
       "unlock_level": 1,
       "unlock_desc": "Zero's own blade, held from the first keyhole. Light and dark refuse to part, and two halves of the same Keyblade were always one.",
-      "abilities": ["Light & Dark", "Finishing Plus", "Drive Gauge Plus"],
-      "desc": "One blade, two heart-halves. Perfectly balanced strength and magic - the only weapon that can hold a door open from both sides at once."
+      "abilities": [
+        "Light & Dark",
+        "Finishing Plus",
+        "Drive Gauge Plus"
+      ],
+      "desc": "One blade, two heart-halves. Perfectly balanced strength and magic - the only weapon that can hold a door open from both sides at once.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "kingdom_key",
@@ -34,8 +62,13 @@
       "element": "none",
       "unlock_level": 2,
       "unlock_desc": "Defeat Veska, the Erasure in Traverse Town - a splinter of the first Keyblade's light, prized from its cloak.",
-      "abilities": ["Combo Plus", "Air Combo Plus"],
-      "desc": "The classic keyblade. Sora's build: even spread, no weakness, endless heart."
+      "abilities": [
+        "Combo Plus",
+        "Air Combo Plus"
+      ],
+      "desc": "The classic keyblade. Sora's build: even spread, no weakness, endless heart.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "way_to_the_dawn",
@@ -51,8 +84,13 @@
       "element": "dark",
       "unlock_level": 3,
       "unlock_desc": "Defeat Throx, the Echo on the drowned isle - Soul Eater's dark successor, torn from the Echo's memory of Riku.",
-      "abilities": ["Dark Veil", "Damage Drive"],
-      "desc": "Riku's tank-brawler build: crushing strength and armor, magic sacrificed."
+      "abilities": [
+        "Dark Veil",
+        "Damage Drive"
+      ],
+      "desc": "Riku's tank-brawler build: crushing strength and armor, magic sacrificed.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "destinys_embrace",
@@ -68,8 +106,13 @@
       "element": "light",
       "unlock_level": 9,
       "unlock_desc": "Defeat Yssora, the Tide in Atlantica - a princess's gift, thrown into the deep by the one who hates singing.",
-      "abilities": ["Cure Boost", "Second Chance"],
-      "desc": "The support-mage build. Weak strikes, overwhelming healing and light magic."
+      "abilities": [
+        "Cure Boost",
+        "Second Chance"
+      ],
+      "desc": "The support-mage build. Weak strikes, overwhelming healing and light magic.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "kingdom_key_d",
@@ -85,8 +128,13 @@
       "element": "light",
       "unlock_level": 11,
       "unlock_desc": "Defeat Nox, the Hook in Neverland - the King's own blade, fished from the clockwork sea by the Hook's hand.",
-      "abilities": ["Light Speed", "Dodge Slash"],
-      "desc": "The speedster-light build. Quick strikes, fast dodges, clean light."
+      "abilities": [
+        "Light Speed",
+        "Dodge Slash"
+      ],
+      "desc": "The speedster-light build. Quick strikes, fast dodges, clean light.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "earthshaker",
@@ -102,8 +150,13 @@
       "element": "earth",
       "unlock_level": 14,
       "unlock_desc": "Defeat the Hinge That Opens in the Pride Lands - the heaviest blade, wedged in the Hinge's jaws mid-slam.",
-      "abilities": ["Guard Break", "Heavy Guard"],
-      "desc": "The heaviest build in the game: the highest strength and defense, at the cost of speed."
+      "abilities": [
+        "Guard Break",
+        "Heavy Guard"
+      ],
+      "desc": "The heaviest build in the game: the highest strength and defense, at the cost of speed.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "rainfell",
@@ -119,8 +172,13 @@
       "element": "water",
       "unlock_level": 12,
       "unlock_desc": "Defeat the Page-Eater in the Hundred Acre Wood - Aqua's blade, dried ink-stained, recovered from the eaten chapter.",
-      "abilities": ["Spellweaver", "MP Hastega"],
-      "desc": "The pure-caster build. Magic outruns every melee, spells chain into spells."
+      "abilities": [
+        "Spellweaver",
+        "MP Hastega"
+      ],
+      "desc": "The pure-caster build. Magic outruns every melee, spells chain into spells.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "wayward_wind",
@@ -136,8 +194,13 @@
       "element": "wind",
       "unlock_level": 4,
       "unlock_desc": "Defeat Herrak, the Phantom in the Coliseum's phantom bracket - Ventus's blade, torn from the arena's ghost.",
-      "abilities": ["Combo Boost", "Crit Boost"],
-      "desc": "The crit-fisher build. Lowest defenses, highest speed, best critical rate."
+      "abilities": [
+        "Combo Boost",
+        "Crit Boost"
+      ],
+      "desc": "The crit-fisher build. Lowest defenses, highest speed, best critical rate.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "bond_of_flame",
@@ -153,8 +216,13 @@
       "element": "fire",
       "unlock_level": 15,
       "unlock_desc": "Defeat the Organization's Eye in the Land of Dragons - a chakram of fire and fury, plucked from the Eye's stare.",
-      "abilities": ["Fire Boost", "Combo Master"],
-      "desc": "The aggression build. Fire-charged combos that never seem to end."
+      "abilities": [
+        "Fire Boost",
+        "Combo Master"
+      ],
+      "desc": "The aggression build. Fire-charged combos that never seem to end.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "two_become_one",
@@ -170,8 +238,13 @@
       "element": "twilight",
       "unlock_level": 5,
       "unlock_desc": "Defeat Zankor, the Vine in the Deep Jungle - Roxas's blade grown in the canopy, left for the only other unremembered.",
-      "abilities": ["Light & Dark", "Draw"],
-      "desc": "Roxas's blade and Zero's shadow-sibling. The same twilight fusion, an inch behind in every stat."
+      "abilities": [
+        "Light & Dark",
+        "Draw"
+      ],
+      "desc": "Roxas's blade and Zero's shadow-sibling. The same twilight fusion, an inch behind in every stat.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "ultima_weapon",
@@ -187,8 +260,13 @@
       "element": "light",
       "unlock_level": 10,
       "unlock_desc": "Defeat Grinx, the Grin in Halloween Town - the Heartless' own craft, half-forged in the second grin's cauldron.",
-      "abilities": ["Ultima Charge", "MP Hastega"],
-      "desc": "The game's highest magic stat. A blade that is almost not a weapon."
+      "abilities": [
+        "Ultima Charge",
+        "MP Hastega"
+      ],
+      "desc": "The game's highest magic stat. A blade that is almost not a weapon.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "oblivion",
@@ -204,8 +282,12 @@
       "element": "dark",
       "unlock_level": 7,
       "unlock_desc": "Defeat Mallos, the Hoard in the Cave of Wonders - the dark half of the Twilight Keyblade, dragged into the hoard.",
-      "abilities": ["Dark Siphon"],
-      "desc": "A brutal dark-strength blade. Hits harder per swing and drinks enemy buffs to do it."
+      "abilities": [
+        "Dark Siphon"
+      ],
+      "desc": "A brutal dark-strength blade. Hits harder per swing and drinks enemy buffs to do it.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "oathkeeper",
@@ -221,8 +303,12 @@
       "element": "light",
       "unlock_level": 6,
       "unlock_desc": "Defeat Qilra, the Trial in Wonderland - a promise kept on the forgetting-room, the light half of the Twilight Keyblade.",
-      "abilities": ["Light Aura"],
-      "desc": "A radiant magic blade that shields the wielder as it casts."
+      "abilities": [
+        "Light Aura"
+      ],
+      "desc": "A radiant magic blade that shields the wielder as it casts.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "no_name",
@@ -238,8 +324,13 @@
       "element": "dark",
       "unlock_level": 13,
       "unlock_desc": "Defeat the Machine Heart in Hollow Bastion - Xehanort's blade, pulled from the machine's core: an old name, finally given.",
-      "abilities": ["Form Boost", "Endless Darkness"],
-      "desc": "The tactician build: every drive form drains slower, every dark spell hits harder."
+      "abilities": [
+        "Form Boost",
+        "Endless Darkness"
+      ],
+      "desc": "The tactician build: every drive form drains slower, every dark spell hits harder.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "keyblade_of_peoples_hearts",
@@ -255,8 +346,13 @@
       "element": "dark",
       "unlock_level": 7,
       "unlock_desc": "Defeat Vurok, the Belly inside Monstro - a heart-shaped wound coughed up from the whale's memory.",
-      "abilities": ["Berserk Charge", "Drive Steal"],
-      "desc": "A berserker's dark blade. The lower the HP, the more brutal the strikes."
+      "abilities": [
+        "Berserk Charge",
+        "Drive Steal"
+      ],
+      "desc": "A berserker's dark blade. The lower the HP, the more brutal the strikes.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "kingdom_key_xi",
@@ -272,8 +368,12 @@
       "element": "none",
       "unlock_level": 16,
       "unlock_desc": "Defeat Saix, the Berserker rebuilt at Disney Castle - the copy that refused to be erased.",
-      "abilities": ["Memory Siphon"],
-      "desc": "A perfect copy of the Kingdom Key - except it steals your memory-buffs and keeps them."
+      "abilities": [
+        "Memory Siphon"
+      ],
+      "desc": "A perfect copy of the Kingdom Key - except it steals your memory-buffs and keeps them.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     },
     {
       "id": "ultima_keyseal",
@@ -289,8 +389,18 @@
       "element": "light",
       "unlock_level": 17,
       "unlock_desc": "Defeat the Shambler Archon at the World That Never Was - the game's ultimate reward, sealed at the end of the final door.",
-      "abilities": ["Ultimate", "Doorseal"],
-      "desc": "The strongest blade in the game, in every category, everywhere - the reason the final seven levels are worth the walk. There is no build this blade does not make stronger."
+      "abilities": [
+        "Ultimate",
+        "Doorseal"
+      ],
+      "desc": "The strongest blade in the game, in every category, everywhere - the reason the final seven levels are worth the walk. There is no build this blade does not make stronger.",
+      "kind": "keyblade",
+      "unlock_mission": 2
     }
-  ]
+  ],
+  "master_gate": {
+    "unlock_after_mission": 2,
+    "flashback": "flashback_with_sora",
+    "note": "Zero cannot wield a keyblade until after the second story mission. Until the flashback with Sora on the drowned shore, he fights with the twin red sabres. The flashback grants the Inheritance: the ability to wield keyblades."
+  }
 }

@@ -24,14 +24,17 @@ std::string hp_bar(uint32_t cur, uint32_t max, uint32_t width) {
 }
 }
 
-CombatEngine::CombatEngine(SaveSystem& saves, const KeybladeDB& blades)
+CombatEngine::CombatEngine(SaveSystem& saves, const KeybladeDB& blades,
+                           const MaterialCatalog* mats)
     {
-    bind(saves, blades);
+    bind(saves, blades, mats);
 }
 
-void CombatEngine::bind(SaveSystem& saves, const KeybladeDB& blades) {
+void CombatEngine::bind(SaveSystem& saves, const KeybladeDB& blades,
+                        const MaterialCatalog* mats) {
     m_saves = &saves;
     m_blades = &blades;
+    m_mats = mats;
     std::srand((unsigned)std::time(nullptr));
     rebuild_deck();
 }
@@ -54,18 +57,27 @@ void CombatEngine::rebuild_deck() {
 // ---- player stats = save base + active keyblade (+ form bonus) ----
 
 namespace {
+// The weapon the save record points at — but bounded by the story gate:
+// untitled steel (sabres) always applies; keyblades only answer once the
+// flashback with Sora has opened the Inheritance (story_progress >= gate).
 const KeybladeDef* active_blade(const SaveRecord& rec, const KeybladeDB& db) {
-    return db.by_index(rec.active_keyblade);
+    const KeybladeDef* b = db.by_index(rec.active_keyblade);
+    if (!b) b = db.sabres();
+    if (b && b->kind != "keyblade") return b;              // sabres: always yours
+    if (db.keyblades_locked(rec.story_progress)) return db.sabres(); // gate closed
+    return b;
 }
 
 // Twilight form: stats from owned blades (up to `limit` of the best).
 template <typename T>
 uint32_t twilight_sum(const SaveRecord& rec, const KeybladeDB& db, uint32_t limit,
                       T KeybladeDef::*field) {
+    if (db.keyblades_locked(rec.story_progress)) return 0;  // no keyblades yet
     std::vector<const KeybladeDef*> owned;
     for (uint32_t i = 0; i < 32; ++i)
         if (rec.owned_keyblades & (1u << i))
-            if (const KeybladeDef* b = db.by_index(i)) owned.push_back(b);
+            if (const KeybladeDef* b = db.by_index(i))
+                if (b->kind == "keyblade") owned.push_back(b);
     std::sort(owned.begin(), owned.end(),
               [&](const KeybladeDef* a, const KeybladeDef* b) {
                   return (a->*field) > (b->*field);
@@ -77,6 +89,16 @@ uint32_t twilight_sum(const SaveRecord& rec, const KeybladeDB& db, uint32_t limi
     }
     return sum;
 }
+}
+
+bool CombatEngine::keyblades_unlocked() const {
+    return !m_blades || !m_blades->keyblades_locked(m_saves->record().story_progress);
+}
+
+std::string CombatEngine::weapon_name() const {
+    if (const KeybladeDef* b = active_blade(m_saves->record(), *m_blades))
+        return b->name;
+    return "(bare hands)";
 }
 
 uint32_t CombatEngine::player_str(uint32_t idx) {
@@ -326,6 +348,30 @@ void CombatEngine::on_victory(std::vector<std::string>& log) {
                 std::printf("  \x1b[38;5;220m\x1b[1m%s\x1b[0m\n", b);
             }
         }
+    }
+
+    // crafting motes: world- and arc-timed drops. Every defeated Heartless
+    // and Shambler settles its account with the stall.
+    auto& rec = m_saves->record();
+    for (const auto& dr : enemy.drops) {
+        if (dr.arc > rec.story_progress) continue;   // the story has not caught up
+        if ((uint32_t)std::rand() % 1000 >= dr.chance_per_mille) continue;
+        uint32_t qty = roll(dr.qty_min, dr.qty_max);
+        if (qty == 0) continue;
+        rec.materials[dr.material] += qty;
+        m_result.loot.push_back(LootDrop{dr.material, qty});
+        const char* matname = m_mats ? m_mats->name(dr.material).c_str() : "mote";
+        std::snprintf(b, sizeof(b), "[mote] +%u %s", qty, matname);
+        log.push_back(b);
+        std::printf("  \x1b[38;5;34m%s\x1b[0m\n", b);
+    }
+    uint32_t munny = enemy.exp * (boss ? 4 : 2);
+    if (munny > 0) {
+        rec.munny += munny;
+        m_result.munny = munny;
+        std::snprintf(b, sizeof(b), "[munny] +%u the stall remembers your account", munny);
+        log.push_back(b);
+        std::printf("  \x1b[38;5;34m%s\x1b[0m\n", b);
     }
 }
 

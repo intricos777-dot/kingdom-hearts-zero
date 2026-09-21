@@ -1,6 +1,7 @@
 #include "combat/combat.h"
 #include "data/enemies.h"
 #include "data/keyblades.h"
+#include "crafting/materials.h"
 #include "save/save_system.h"
 #include <cassert>
 #include <cstdio>
@@ -19,14 +20,30 @@ int main() {
         std::printf("FAIL: keyblades.json\n");
         return 1;
     }
+    khz::MaterialCatalog mats;
+    if (!mats.load("/home/sin/Projects/games/kingdom-hearts-zero/data/crafting/material_catalog.json")) {
+        std::printf("FAIL: material_catalog.json\n");
+        return 1;
+    }
     khz::EnemyDB enemies;
-    if (!enemies.load("/home/sin/Projects/games/kingdom-hearts-zero/data/combat/enemies.json")) {
+    if (!enemies.load("/home/sin/Projects/games/kingdom-hearts-zero/data/combat/enemies.json", mats)) {
         std::printf("FAIL: enemies.json\n");
         return 1;
     }
 
+    // ---- keyblade master gate ----
+    assert(blades.sabres() != nullptr);
+    assert(blades.keyblades_locked(0) == true);     // before mission two: locked
+    assert(blades.keyblades_locked(1) == true);
+    assert(blades.keyblades_locked(2) == false);    // after the flashback: open
+
     khz::CombatEngine engine;
-    engine.bind(saves, blades);
+    engine.bind(saves, blades, &mats);
+    assert(engine.keyblades_unlocked() == false);   // fresh save, gate closed
+    // while gated, the equipped weapon is always the sabres, never a keyblade
+    assert(engine.weapon_name() == "Twin Red Sabres");
+    saves.record().active_keyblade = 11;            // try to slot Ultima Weapon
+    assert(engine.weapon_name() == "Twin Red Sabres");   // still gated down
 
     // shambler in traverse_town: veska_the_erasure (act 1 boss)
     const khz::EnemyDef* boss = enemies.shambler_for_world("traverse_town");
@@ -37,6 +54,8 @@ int main() {
     std::printf("[cite] boss: %s (music=%s)\n", boss->id.c_str(),
                 boss->music.empty() ? "(none)" : boss->music.c_str());
 
+    // Act one fight: story_progress = 0. The boss's arc-1 drop table does not
+    // open yet (story-arc-timed drops) - but the fight still resolves.
     engine.begin(*boss);
     const khz::BattleView& v = engine.view();
     assert(v.phase == khz::BattlePhase::FormSelect);   // shambler -> form select
@@ -73,6 +92,33 @@ int main() {
         uint32_t lvl_before = saves.record().level;
         engine.reward(r);
         assert(saves.record().level >= lvl_before);
+        // gated fight: no crafting motes yet (arc 1 > story_progress 0)
+        assert(r.loot.empty());
+        assert(r.munny == 0);
+
+        // ---- gate opens; the same boss settles its arc-1 account ----
+        saves.record().story_progress = 2;
+        assert(engine.keyblades_unlocked() == true);
+        assert(engine.weapon_name() == "Twin Red Sabres"); // sabre still equipped
+        saves.record().active_keyblade = 1;                // Twilight Keyblade
+        assert(engine.weapon_name() == "Twilight Keyblade");
+
+        engine.begin(*boss);
+        names = engine.form_names();
+        engine.select_form(0);
+        for (int i = 0; i < 400 && engine.view().phase == khz::BattlePhase::PlayerTurn; ++i) {
+            const auto& deck = engine.view().deck;
+            size_t pick = 0;
+            if (engine.view().mp >= deck[1].cost) pick = 1;
+            engine.act(pick);
+        }
+        const auto& r2 = engine.result();
+        assert(r2.victory);
+        assert(!r2.loot.empty());       // dusk shards flowed (arc 1 <= 2)
+        assert(r2.munny > 0);           // the dark pays
+        uint32_t dusk_before = saves.record().materials[0];
+        engine.reward(r2);
+        assert(saves.record().materials[0] >= dusk_before);
         std::printf("PASS\n");
         return 0;
     }
